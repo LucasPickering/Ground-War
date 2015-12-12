@@ -1,18 +1,39 @@
 package groundwar;
 
-import org.lwjgl.glfw.*;
-import org.lwjgl.opengl.*;
+import org.lwjgl.glfw.GLFWErrorCallback;
+import org.lwjgl.glfw.GLFWVidMode;
+import org.lwjgl.opengl.GL;
 
-import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.system.MemoryUtil.*;
+import groundwar.screen.IngameScreen;
+import groundwar.screen.MainScreen;
+
+import static org.lwjgl.glfw.GLFW.GLFW_FALSE;
+import static org.lwjgl.glfw.GLFW.GLFW_RESIZABLE;
+import static org.lwjgl.glfw.GLFW.GLFW_TRUE;
+import static org.lwjgl.glfw.GLFW.GLFW_VISIBLE;
+import static org.lwjgl.glfw.GLFW.glfwCreateWindow;
+import static org.lwjgl.glfw.GLFW.glfwDestroyWindow;
+import static org.lwjgl.glfw.GLFW.glfwGetPrimaryMonitor;
+import static org.lwjgl.glfw.GLFW.glfwGetVideoMode;
+import static org.lwjgl.glfw.GLFW.glfwInit;
+import static org.lwjgl.glfw.GLFW.glfwMakeContextCurrent;
+import static org.lwjgl.glfw.GLFW.glfwSetErrorCallback;
+import static org.lwjgl.glfw.GLFW.glfwSetKeyCallback;
+import static org.lwjgl.glfw.GLFW.glfwSetWindowPos;
+import static org.lwjgl.glfw.GLFW.glfwShowWindow;
+import static org.lwjgl.glfw.GLFW.glfwSwapInterval;
+import static org.lwjgl.glfw.GLFW.glfwTerminate;
+import static org.lwjgl.glfw.GLFW.glfwWindowHint;
+import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
+import static org.lwjgl.opengl.GL11.glClearColor;
+import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class GroundWar {
 
   private GLFWErrorCallback errorCallback;
   private InputHandler inputHandler = new InputHandler();
-
-  private long window; // Reference to the window
+  private long window;
+  private MainScreen currentScreen;
 
   public void run() {
     try {
@@ -61,6 +82,8 @@ public class GroundWar {
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1); // Enable v-sync
     glfwShowWindow(window); // Make the window visible
+
+    currentScreen = new IngameScreen(); // Initialize the current screen to be drawn
   }
 
   private void gameLoop() {
@@ -69,9 +92,7 @@ public class GroundWar {
 
     // Main game loop
     while (glfwWindowShouldClose(window) == GLFW_FALSE) {
-      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear the framebuffer
-      glfwSwapBuffers(window); // Swap the color buffers
-      glfwPollEvents();// Poll for events (key, mouse, etc.)
+      currentScreen.draw(window);
     }
   }
 
