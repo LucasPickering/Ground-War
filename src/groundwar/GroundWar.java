@@ -10,11 +10,9 @@ import static org.lwjgl.system.MemoryUtil.*;
 public class GroundWar {
 
   private GLFWErrorCallback errorCallback;
-  private GLFWKeyCallback keyCallback;
+  private InputHandler inputHandler = new InputHandler();
 
   private long window; // Reference to the window
-  private float windowScale = Constants.DEFAULT_WINDOW_SCALE;
-  private int width;
 
   public void run() {
     try {
@@ -23,7 +21,7 @@ public class GroundWar {
 
       // Release window and window callbacks
       glfwDestroyWindow(window);
-      keyCallback.release();
+      inputHandler.release();
     } finally {
       // Terminate GLFW and release the GLFWErrorCallback
       glfwTerminate();
@@ -32,8 +30,7 @@ public class GroundWar {
   }
 
   private void initGame() {
-    // Setup an error callback. The default implementation
-    // will print the error message in System.err.
+    // Setup an error callback. The default implementation will print the error message in System.err
     glfwSetErrorCallback(errorCallback = GLFWErrorCallback.createPrint(System.err));
 
     // Initialize GLFW. Most GLFW functions will not work before doing this.
@@ -41,62 +38,40 @@ public class GroundWar {
       throw new IllegalStateException("Unable to initialize GLFW");
     }
 
-    // Configure our window
-    glfwDefaultWindowHints(); // optional, the current window hints are already the default
+    // Configure the window
     glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // the window will stay hidden after creation
     glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
 
-    final int width = (int) (Constants.PREFERRED_WINDOW_SIZE.x * windowScale);
-    final int height = (int) (Constants.PREFERRED_WINDOW_SIZE.y * windowScale);
+    // Set default size to half the monitor
+    GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor()); // Get res of the primary monitor
+    final int width = vidmode.width() / 2;
+    final int height = vidmode.height() / 2;
+
+    // Create the window
     window = glfwCreateWindow(width, height, "Ground War", NULL, NULL);
     if (window == NULL) {
       throw new RuntimeException("Failed to create the GLFW window");
     }
+    glfwSetWindowPos(window,
+                     (vidmode.width() - width) / 2,
+                     (vidmode.height() - height) / 2); // Center the window
 
-    // Setup a key callback. It will be called every time a key is pressed, repeated or released.
-    glfwSetKeyCallback(window, keyCallback = new GLFWKeyCallback() {
-      @Override
-      public void invoke(long window, int key, int scancode, int action, int mods) {
-        if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) {
-          glfwSetWindowShouldClose(window, GLFW_TRUE); // We will detect this in our rendering loop
-        }
-      }
-    });
+    glfwSetKeyCallback(window, inputHandler.getKeyHandler()); // Init key callback
 
-    // Get the resolution of the primary monitor
-    GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-    // Center our window
-    glfwSetWindowPos(
-        window,
-        (vidmode.width() - width) / 2,
-        (vidmode.height() - height) / 2
-    );
-
-    // Make the OpenGL context current
     glfwMakeContextCurrent(window);
-    // Enable v-sync
-    glfwSwapInterval(1);
-
-    // Make the window visible
-    glfwShowWindow(window);
+    glfwSwapInterval(1); // Enable v-sync
+    glfwShowWindow(window); // Make the window visible
   }
 
   private void gameLoop() {
-    GL.createCapabilities();
+    GL.createCapabilities(); // LWJGL needs this
+    glClearColor(1.0f, 0.0f, 1.0f, 0.0f); // Clear the screen
 
-    // Set the clear color
-    glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
-
-    // Run the rendering gameLoop until the user has attempted to close
-    // the window or has pressed the ESCAPE key.
+    // Main game loop
     while (glfwWindowShouldClose(window) == GLFW_FALSE) {
-      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
-
-      glfwSwapBuffers(window); // swap the color buffers
-
-      // Poll for window events. The key callback above will only be
-      // invoked during this call.
-      glfwPollEvents();
+      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear the framebuffer
+      glfwSwapBuffers(window); // Swap the color buffers
+      glfwPollEvents();// Poll for events (key, mouse, etc.)
     }
   }
 
