@@ -18,5 +18,5 @@ public abstract class MainScreen implements ScreenElement {
   }
 
   @Override
-  public void onClicked(int mouseX, int mouseY) {}
+  public void onClicked(int mouseX, int mouseY, int button, int mods) {}
 }

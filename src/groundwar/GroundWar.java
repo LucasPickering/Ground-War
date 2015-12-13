@@ -1,7 +1,10 @@
 package groundwar;
 
 import org.lwjgl.glfw.GLFW;
+import org.lwjgl.glfw.GLFWCursorPosCallback;
 import org.lwjgl.glfw.GLFWErrorCallback;
+import org.lwjgl.glfw.GLFWKeyCallback;
+import org.lwjgl.glfw.GLFWMouseButtonCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
@@ -13,11 +16,15 @@ import groundwar.screen.MainScreen;
 public class GroundWar {
 
   private GLFWErrorCallback errorCallback;
-  private InputHandler inputHandler = new InputHandler();
+  private KeyHandler keyHandler;
+  private CursorPosHandler cursorPosHandler;
+  private MouseButtonHandler mouseButtonHandler;
   private long window;
   private MainScreen currentScreen;
   private int width;
   private int height;
+  private int mouseX;
+  private int mouseY;
 
   public void run() {
     try {
@@ -26,7 +33,8 @@ public class GroundWar {
 
       // Release window and window callbacks
       GLFW.glfwDestroyWindow(window);
-      inputHandler.release();
+      keyHandler.release();
+      mouseButtonHandler.release();
     } finally {
       // Terminate GLFW and release the GLFWErrorCallback
       GLFW.glfwTerminate();
@@ -61,7 +69,10 @@ public class GroundWar {
                           (vidmode.width() - width) / 2,
                           (vidmode.height() - height) / 2); // Center the window
 
-    GLFW.glfwSetKeyCallback(window, inputHandler.getKeyHandler()); // Init key callback
+    // Initialize input handlers
+    GLFW.glfwSetKeyCallback(window, keyHandler = new KeyHandler());
+    GLFW.glfwSetCursorPosCallback(window, cursorPosHandler = new CursorPosHandler());
+    GLFW.glfwSetMouseButtonCallback(window, mouseButtonHandler = new MouseButtonHandler());
 
     GLFW.glfwMakeContextCurrent(window);
     GLFW.glfwSwapInterval(1); // Enable v-sync
@@ -73,10 +84,7 @@ public class GroundWar {
   private void gameLoop() {
     GL.createCapabilities(); // LWJGL needs this
     GL11.glClearColor(1.0f, 1.0f, 1.0f, 0.0f); // Set clear color
-    GL11.glMatrixMode(GL11.GL_PROJECTION);
-    GL11.glLoadIdentity(); // Resets any previous projection matrices
-    GL11.glOrtho(-width / 2, width / 2, -height / 2, height / 2, -1, 1); // Origin is centered
-    GL11.glMatrixMode(GL11.GL_MODELVIEW);
+    GL11.glOrtho(0, width, height, 0, -1, 1); // Origin is top-left
 
     // Main game loop
     while (GLFW.glfwWindowShouldClose(window) == GLFW.GLFW_FALSE) {
@@ -89,5 +97,37 @@ public class GroundWar {
 
   public static void main(String[] args) {
     new GroundWar().run();
+  }
+
+  // Input handlers
+  private class KeyHandler extends GLFWKeyCallback {
+
+    @Override
+    public void invoke(long window, int key, int scancode, int action, int mods) {
+      if (action == GLFW.GLFW_RELEASE && key == GLFW.GLFW_KEY_ESCAPE) {
+        GLFW.glfwSetWindowShouldClose(window, GLFW.GLFW_TRUE);
+      }
+    }
+  }
+
+  private class CursorPosHandler extends GLFWCursorPosCallback {
+
+    @Override
+    public void invoke(long window, double xPos, double yPos) {
+      mouseX = (int) xPos;
+      mouseY = (int) yPos;
+    }
+  }
+
+  private class MouseButtonHandler extends GLFWMouseButtonCallback {
+
+    @Override
+    public void invoke(long window, int button, int action, int mods) {
+      if (action == GLFW.GLFW_RELEASE) {
+        if(currentScreen.insideElement(mouseX, mouseY)) {
+          currentScreen.onClicked(mouseX, mouseY, button, mods);
+        }
+      }
+    }
   }
 }

@@ -27,10 +27,13 @@ public interface ScreenElement {
 
   /**
    * Called when this element is clicked. Specifically, this method is called when a mouse event is
-   * detected inside the window and {@link #insideElement} returns true for the coordinates at
-   * which the click occurred.
+   * detected inside the window and {@link #insideElement} returns true for the coordinates at which
+   * the click occurred.
+   *
    * @param mouseX the x coordinate of the mouse click
    * @param mouseY the y coordinate of the mouse click
+   * @param button the mouse button that was clicked
+   * @param mods   bitfield describing which modifier keys were held down
    */
-  void onClicked(int mouseX, int mouseY);
+  void onClicked(int mouseX, int mouseY, int button, int mods);
 }
