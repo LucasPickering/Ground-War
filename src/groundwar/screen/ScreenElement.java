@@ -1,11 +1,27 @@
 package groundwar.screen;
 
+import groundwar.screen.event.EventHandler;
+import groundwar.screen.event.KeyEvent;
+import groundwar.screen.event.MouseButtonEvent;
+
 /**
  * A {@code ScreenElement} is anything that be drawn into the game window. A {@code ScreenElement} can
  * hold children elements, and is responsible for calling {@link #draw} for those children. How each
  * {@code ScreenElement} contains and handles its children is up to each element.
  */
-public interface ScreenElement {
+public abstract class ScreenElement {
+
+  /**
+   * The {@link EventHandler} that is called when a {@link KeyEvent} occurs while this element is
+   * active.
+   */
+  private EventHandler<KeyEvent> keyHandler = this::onKey;
+
+  /**
+   * The {@link EventHandler} that is called when a {@link MouseButtonEvent} occurs while this element
+   * is active and {@link #contains} returns true for the cursor's current position.
+   */
+  private EventHandler<MouseButtonEvent> mouseButtonHandler = this::onClicked;
 
   /**
    * Draws this screen onto the window.
@@ -14,7 +30,7 @@ public interface ScreenElement {
    * @param mouseX the current x position of the mouse
    * @param mouseY the current y position of the mouse
    */
-  void draw(long window, int mouseX, int mouseY);
+  public abstract void draw(long window, int mouseX, int mouseY);
 
   /**
    * Checks if this element contains the given x and y coordinates. Bounds checking is inclusive on
@@ -24,17 +40,58 @@ public interface ScreenElement {
    * @param y the y coordinate to be checked
    * @return true if (x, y) falls inside this element, false otherwise
    */
-  boolean contains(int x, int y);
+  public abstract boolean contains(int x, int y);
+
+  /**
+   * Sets the {@link EventHandler} that should be used to handle key events.
+   *
+   * @param keyHandler the handler to be used
+   */
+  public final void setKeyHandler(EventHandler<KeyEvent> keyHandler) {
+    this.keyHandler = keyHandler;
+  }
+
+  /**
+   * Called from {@link groundwar.GroundWar GroundWar} when a key event occurs while this element is
+   * active.
+   *
+   * @param event the {@link KeyEvent} that occurred
+   */
+  public final void handleKey(KeyEvent event) {
+    keyHandler.handle(event);
+  }
+
+  public void onKey(KeyEvent event) {
+    // By default, nothing is done on key press
+  }
+
+  /**
+   * Sets the {@link EventHandler} that should be used to handle mouse button events.
+   *
+   * @param mouseButtonHandler the handler to be used
+   */
+  public final void setMouseButtonHandler(EventHandler<MouseButtonEvent> mouseButtonHandler) {
+    this.mouseButtonHandler = mouseButtonHandler;
+  }
+
+  /**
+   * Called from {@link groundwar.GroundWar GroundWar} when a mouse button event occurs. This should
+   * only be called if {@link #contains} returns true for the cursor's current position.
+   *
+   * @param event the event that occurred
+   */
+  public final void handleMouseButton(MouseButtonEvent event) {
+    mouseButtonHandler.handle(event);
+  }
 
   /**
    * Called when this element is clicked. Specifically, this method is called when a mouse event is
-   * detected inside the window and {@link #contains} returns true for the coordinates at which
-   * the click occurred.
+   * detected inside the window and {@link #contains} returns true for the coordinates at which the
+   * click occurred.
    *
-   * @param mouseX the x coordinate of the mouse click
-   * @param mouseY the y coordinate of the mouse click
-   * @param button the mouse button that was clicked
-   * @param mods   bitfield describing which modifier keys were held down
+   * @param event the event that occurred
    */
-  void onClicked(int mouseX, int mouseY, int button, int mods);
+  public void onClicked(MouseButtonEvent event) {
+    // By default, nothing is done on click
+  }
 }

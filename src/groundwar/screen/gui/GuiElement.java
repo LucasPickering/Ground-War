@@ -1,13 +1,16 @@
 package groundwar.screen.gui;
 
 import groundwar.screen.ScreenElement;
+import groundwar.screen.event.EventHandler;
+import groundwar.screen.event.MouseButtonEvent;
 
-public abstract class GuiElement implements ScreenElement {
+public abstract class GuiElement extends ScreenElement {
 
   private int x;
   private int y;
   private int width;
   private int height;
+  private EventHandler<MouseButtonEvent> mouseButtonHandler;
 
   /**
    * Constructs a new {@code GuiElement} with the given coordinates and size.
@@ -64,7 +67,4 @@ public abstract class GuiElement implements ScreenElement {
   public boolean contains(int px, int py) {
     return x <= px && px <= x + width && y <= py && py <= y + height;
   }
-
-  @Override
-  public void onClicked(int mouseX, int mouseY, int button, int mods) {}
 }

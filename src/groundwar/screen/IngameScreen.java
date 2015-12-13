@@ -12,7 +12,4 @@ public class IngameScreen extends MainScreen {
   public void draw(long window, int mouseX, int mouseY) {
     super.draw(window, mouseX, mouseY);
   }
-
-  @Override
-  public void onClicked(int mouseX, int mouseY, int button, int mods) {}
 }

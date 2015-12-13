@@ -12,6 +12,8 @@ import org.lwjgl.system.MemoryUtil;
 
 import groundwar.screen.IngameScreen;
 import groundwar.screen.MainScreen;
+import groundwar.screen.event.KeyEvent;
+import groundwar.screen.event.MouseButtonEvent;
 
 public class GroundWar {
 
@@ -53,8 +55,8 @@ public class GroundWar {
     }
 
     // Configure the window
-    GLFW.glfwWindowHint(GLFW.GLFW_VISIBLE, GLFW.GLFW_FALSE); // the window will stay hidden
-    GLFW.glfwWindowHint(GLFW.GLFW_RESIZABLE, GLFW.GLFW_TRUE); // the window will be resizable
+    GLFW.glfwWindowHint(GLFW.GLFW_VISIBLE, GLFW.GLFW_FALSE);
+    GLFW.glfwWindowHint(GLFW.GLFW_RESIZABLE, GLFW.GLFW_FALSE);
 
     // Set default size to half the monitor
     GLFWVidMode vidmode = GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor()); // Get resolution
@@ -105,8 +107,18 @@ public class GroundWar {
 
     @Override
     public void invoke(long window, int key, int scancode, int action, int mods) {
-      if (action == GLFW.GLFW_RELEASE && key == GLFW.GLFW_KEY_ESCAPE) {
-        GLFW.glfwSetWindowShouldClose(window, GLFW.GLFW_TRUE);
+      if (action == GLFW.GLFW_RELEASE) {
+        currentScreen.handleKey(new KeyEvent(window, key, scancode, mods));
+      }
+    }
+  }
+
+  private class MouseButtonHandler extends GLFWMouseButtonCallback {
+
+    @Override
+    public void invoke(long window, int button, int action, int mods) {
+      if (action == GLFW.GLFW_RELEASE && currentScreen.contains(mouseX, mouseY)) {
+        currentScreen.handleMouseButton(new MouseButtonEvent(window, button, mods, mouseX, mouseY));
       }
     }
   }
@@ -118,17 +130,6 @@ public class GroundWar {
       mouseX = (int) xPos;
       mouseY = (int) yPos;
     }
-  }
 
-  private class MouseButtonHandler extends GLFWMouseButtonCallback {
-
-    @Override
-    public void invoke(long window, int button, int action, int mods) {
-      if (action == GLFW.GLFW_RELEASE) {
-        if(currentScreen.contains(mouseX, mouseY)) {
-          currentScreen.onClicked(mouseX, mouseY, button, mods);
-        }
-      }
-    }
   }
 }
