@@ -17,15 +17,21 @@ import static org.lwjgl.glfw.GLFW.glfwGetPrimaryMonitor;
 import static org.lwjgl.glfw.GLFW.glfwGetVideoMode;
 import static org.lwjgl.glfw.GLFW.glfwInit;
 import static org.lwjgl.glfw.GLFW.glfwMakeContextCurrent;
+import static org.lwjgl.glfw.GLFW.glfwPollEvents;
 import static org.lwjgl.glfw.GLFW.glfwSetErrorCallback;
 import static org.lwjgl.glfw.GLFW.glfwSetKeyCallback;
 import static org.lwjgl.glfw.GLFW.glfwSetWindowPos;
 import static org.lwjgl.glfw.GLFW.glfwShowWindow;
+import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
 import static org.lwjgl.glfw.GLFW.glfwSwapInterval;
 import static org.lwjgl.glfw.GLFW.glfwTerminate;
 import static org.lwjgl.glfw.GLFW.glfwWindowHint;
 import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
+import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.glClear;
 import static org.lwjgl.opengl.GL11.glClearColor;
+import static org.lwjgl.opengl.GL11.glLoadIdentity;
+import static org.lwjgl.opengl.GL11.glOrtho;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class GroundWar {
@@ -34,6 +40,8 @@ public class GroundWar {
   private InputHandler inputHandler = new InputHandler();
   private long window;
   private MainScreen currentScreen;
+  private int width;
+  private int height;
 
   public void run() {
     try {
@@ -65,8 +73,8 @@ public class GroundWar {
 
     // Set default size to half the monitor
     GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor()); // Get res of the primary monitor
-    final int width = vidmode.width() / 2;
-    final int height = vidmode.height() / 2;
+    width = vidmode.width() / 2;
+    height = vidmode.height() / 2;
 
     // Create the window
     window = glfwCreateWindow(width, height, "Ground War", NULL, NULL);
@@ -88,11 +96,16 @@ public class GroundWar {
 
   private void gameLoop() {
     GL.createCapabilities(); // LWJGL needs this
-    glClearColor(1.0f, 0.0f, 1.0f, 0.0f); // Clear the screen
+    glClearColor(1.0f, 1.0f, 1.0f, 0.0f); // Set clear color
 
     // Main game loop
     while (glfwWindowShouldClose(window) == GLFW_FALSE) {
+      glfwPollEvents(); // Poll for events (key, mouse, etc.)
+      glClear(GL_COLOR_BUFFER_BIT); // Clear the framebuffer
+      glLoadIdentity(); // Resets any previous projection matrices
+      glOrtho(0, width, 0, height, 1, -1);
       currentScreen.draw(window);
+      glfwSwapBuffers(window); // Swap the color buffers
     }
   }
 

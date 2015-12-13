@@ -5,12 +5,12 @@ package groundwar.screen;
  * hold children elements, and is responsible for calling {@link #draw} for those children. How each
  * {@code ScreenElement} contains and handles its children is up to each element.
  */
-public interface ScreenElement {
+public abstract class ScreenElement {
 
   /**
    * Draws this screen onto the window.
    *
    * @param window the window to be drawn onto
    */
-  void draw(long window);
+  public abstract void draw(long window);
 }
