@@ -34,6 +34,7 @@ public class GroundWar {
       // Release window and window callbacks
       GLFW.glfwDestroyWindow(window);
       keyHandler.release();
+      cursorPosHandler.release();
       mouseButtonHandler.release();
     } finally {
       // Terminate GLFW and release the GLFWErrorCallback
@@ -90,7 +91,7 @@ public class GroundWar {
     while (GLFW.glfwWindowShouldClose(window) == GLFW.GLFW_FALSE) {
       GLFW.glfwPollEvents(); // Poll for events (key, mouse, etc.)
       GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT); // Clear the framebuffer
-      currentScreen.draw(window, 0, 0);
+      currentScreen.draw(window, mouseX, mouseY);
       GLFW.glfwSwapBuffers(window); // Swap the color buffers
     }
   }
@@ -124,7 +125,7 @@ public class GroundWar {
     @Override
     public void invoke(long window, int button, int action, int mods) {
       if (action == GLFW.GLFW_RELEASE) {
-        if(currentScreen.insideElement(mouseX, mouseY)) {
+        if(currentScreen.contains(mouseX, mouseY)) {
           currentScreen.onClicked(mouseX, mouseY, button, mods);
         }
       }

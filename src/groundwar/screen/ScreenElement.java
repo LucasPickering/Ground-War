@@ -17,17 +17,18 @@ public interface ScreenElement {
   void draw(long window, int mouseX, int mouseY);
 
   /**
-   * Checks if the given x and y coordinates fall inside this element.
+   * Checks if this element contains the given x and y coordinates. Bounds checking is inclusive on
+   * all sides.
    *
    * @param x the x coordinate to be checked
    * @param y the y coordinate to be checked
    * @return true if (x, y) falls inside this element, false otherwise
    */
-  boolean insideElement(int x, int y);
+  boolean contains(int x, int y);
 
   /**
    * Called when this element is clicked. Specifically, this method is called when a mouse event is
-   * detected inside the window and {@link #insideElement} returns true for the coordinates at which
+   * detected inside the window and {@link #contains} returns true for the coordinates at which
    * the click occurred.
    *
    * @param mouseX the x coordinate of the mouse click
