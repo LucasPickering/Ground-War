@@ -2,7 +2,10 @@ package groundwar;
 
 public class Constants {
 
-  // Tile colors
+  // Game constants
+  public static final int START_MONEY = 10;
+
+  // Colors
   public static final int RED_COLOR = 0xff0000;
   public static final int RED2_COLOR = 0x8f7e3b;
   public static final int BLUE_COLOR = 0xff0000;
