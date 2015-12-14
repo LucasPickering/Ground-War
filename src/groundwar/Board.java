@@ -9,4 +9,7 @@ public class Board {
 
   private final Map<HexPoint, Tile> tiles = new HashMap<>();
 
+  public Map<HexPoint, Tile> getTiles() {
+    return tiles;
+  }
 }

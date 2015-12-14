@@ -33,6 +33,8 @@ public class GroundWar {
   private int mouseX;
   private int mouseY;
 
+  private Board board;
+
   public void run() {
     try {
       initGame();
@@ -93,7 +95,8 @@ public class GroundWar {
     GLFW.glfwSetCursorPosCallback(window, cursorPosHandler);
     GLFW.glfwSetWindowSizeCallback(window, windowResizeHandler);
 
-    currentScreen = new BoardScreen(); // Initialize the current screen to be drawn
+    board = new Board();
+    currentScreen = new BoardScreen(board); // Initialize the current screen to be drawn
   }
 
   private void gameLoop() {

@@ -21,6 +21,7 @@ public abstract class MainScreen extends ScreenElement {
 
   @Override
   public void draw(long window, int mouseX, int mouseY) {
+    // Draw all the GUI elements
     guiElements.stream().forEach(guiElement -> guiElement.draw(window, mouseX, mouseY));
   }
 
