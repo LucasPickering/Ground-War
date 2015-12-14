@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import groundwar.screen.event.KeyEvent;
+import groundwar.screen.event.MouseButtonEvent;
 import groundwar.screen.gui.GuiElement;
 
 /**
@@ -20,9 +21,7 @@ public abstract class MainScreen extends ScreenElement {
 
   @Override
   public void draw(long window, int mouseX, int mouseY) {
-    for (GuiElement guiElement : guiElements) {
-      guiElement.draw(window, mouseX, mouseY);
-    }
+    guiElements.stream().forEach(guiElement -> guiElement.draw(window, mouseX, mouseY));
   }
 
   @Override
@@ -35,5 +34,11 @@ public abstract class MainScreen extends ScreenElement {
     if (event.key == GLFW.GLFW_KEY_ESCAPE) {
       GLFW.glfwSetWindowShouldClose(event.window, GLFW.GLFW_TRUE);
     }
+  }
+
+  @Override
+  public void onClick(MouseButtonEvent event) {
+    guiElements.stream().filter(guiElement -> guiElement.contains(event.mouseX, event.mouseY))
+        .forEach(guiElement -> guiElement.onClick(event));
   }
 }

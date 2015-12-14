@@ -8,6 +8,10 @@ import groundwar.screen.event.MouseButtonEvent;
  * A {@code ScreenElement} is anything that be drawn into the game window. A {@code ScreenElement} can
  * hold children elements, and is responsible for calling {@link #draw} for those children. How each
  * {@code ScreenElement} contains and handles its children is up to each element.
+ *
+ * Subclasses can handle events in one of two ways: <ul> <li>Override {@link #onKey}, {@link
+ * #onClick}, etc.</li> <li>Pass in a new handler to {@link #setKeyHandler}, {@link
+ * #setMouseButtonHandler}, etc.</li> </ul>
  */
 public abstract class ScreenElement {
 
@@ -21,7 +25,7 @@ public abstract class ScreenElement {
    * The {@link EventHandler} that is called when a {@link MouseButtonEvent} occurs while this element
    * is active and {@link #contains} returns true for the cursor's current position.
    */
-  private EventHandler<MouseButtonEvent> mouseButtonHandler = this::onClicked;
+  private EventHandler<MouseButtonEvent> mouseButtonHandler = this::onClick;
 
   /**
    * Draws this screen onto the window.
@@ -58,7 +62,9 @@ public abstract class ScreenElement {
    * @param event the {@link KeyEvent} that occurred
    */
   public final void handleKey(KeyEvent event) {
-    keyHandler.handle(event);
+    if (keyHandler != null) {
+      keyHandler.handle(event);
+    }
   }
 
   public void onKey(KeyEvent event) {
@@ -81,7 +87,9 @@ public abstract class ScreenElement {
    * @param event the event that occurred
    */
   public final void handleMouseButton(MouseButtonEvent event) {
-    mouseButtonHandler.handle(event);
+    if (mouseButtonHandler != null) {
+      mouseButtonHandler.handle(event);
+    }
   }
 
   /**
@@ -91,7 +99,8 @@ public abstract class ScreenElement {
    *
    * @param event the event that occurred
    */
-  public void onClicked(MouseButtonEvent event) {
+  public void onClick(MouseButtonEvent event) {
+    System.out.println("Test click");
     // By default, nothing is done on click
   }
 }

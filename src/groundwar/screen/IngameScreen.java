@@ -4,12 +4,10 @@ import groundwar.screen.gui.Button;
 
 public class IngameScreen extends MainScreen {
 
-  public IngameScreen() {
-    guiElements.add(new Button("Hi", 100, 100, 200, 20));
-  }
+  Button testButton;
 
-  @Override
-  public void draw(long window, int mouseX, int mouseY) {
-    super.draw(window, mouseX, mouseY);
+  public IngameScreen() {
+    guiElements.add(testButton = new Button("Hi", 100, 100, 200, 20));
+    testButton.setMouseButtonHandler(this::onClick);
   }
 }
