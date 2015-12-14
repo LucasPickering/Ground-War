@@ -1,5 +1,8 @@
 package groundwar.tile;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import groundwar.Constants;
 import groundwar.HexPoint;
 import groundwar.unit.Unit;
@@ -9,6 +12,7 @@ public class Tile {
   private final HexPoint pos;
   private int backgroundColor;
   private int outlineColor;
+  protected final List<Tile> adjacentTiles = new LinkedList<>();
   private Unit unit;
 
   public Tile(HexPoint pos) {
@@ -19,6 +23,10 @@ public class Tile {
     this.pos = pos;
     this.backgroundColor = backgroundColor;
     this.outlineColor = outlineColor;
+  }
+
+  public void setAdjacentTiles(List<Tile> adjTiles) {
+    adjacentTiles.addAll(adjTiles);
   }
 
   public HexPoint getPos() {
@@ -86,6 +94,6 @@ public class Tile {
   /**
    * Called <i>directly after</i> the unit on this tile changes.
    */
-  private void onUnitChange() {
+  protected void onUnitChange() {
   }
 }

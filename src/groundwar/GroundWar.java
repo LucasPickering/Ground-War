@@ -145,7 +145,7 @@ public class GroundWar {
       public void invoke(long window, int width, int height) {
         windowWidth = width;
         windowHeight = height;
-        GL11.glViewport(0, 0, width, height);
+        GL11.glViewport(0, 0, windowWidth, windowHeight);
       }
     };
   }

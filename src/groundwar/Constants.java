@@ -5,6 +5,11 @@ public class Constants {
   // Game constants
   public static final int START_MONEY = 10;
 
+  // Tile constants
+  public static final int TILE_RADIUS = 100;
+  public static final int TILE_WIDTH = TILE_RADIUS * 2;
+  public static final int TILE_HEIGHT = (int) (TILE_RADIUS * Math.sqrt(3));
+
   // Renderer constants
   /**
    * The width of the window that will be assumed when all textures, words, etc. are drawn to the
