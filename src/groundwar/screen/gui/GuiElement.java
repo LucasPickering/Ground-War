@@ -21,7 +21,8 @@ public abstract class GuiElement extends ScreenElement {
    * @param height the height of the element (positive)
    * @throws IllegalArgumentException if x or y is negative, or width or height is non-positive
    */
-  GuiElement(int x, int y, int width, int height) {
+  protected GuiElement(long window, int x, int y, int width, int height) {
+    super(window);
     if (x < 0 || y < 0 || width <= 0 || height <= 0) {
       throw new IllegalArgumentException("Parameter out of bounds");
     }

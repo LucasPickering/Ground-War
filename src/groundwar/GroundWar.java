@@ -96,14 +96,14 @@ public class GroundWar {
     GLFW.glfwSetWindowSizeCallback(window, windowResizeHandler);
 
     board = new Board();
-    currentScreen = new BoardScreen(board); // Initialize the current screen to be drawn
+    currentScreen = new BoardScreen(window, board); // Initialize the current screen to be drawn
   }
 
   private void gameLoop() {
     while (GLFW.glfwWindowShouldClose(window) == GLFW.GLFW_FALSE) {
       GLFW.glfwPollEvents(); // Poll for events (key, mouse, etc.)
       GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT); // Clear the framebuffer
-      currentScreen.draw(window, mouseX, mouseY);
+      currentScreen.draw(mouseX, mouseY);
       GLFW.glfwSwapBuffers(window); // Swap the color buffers
     }
   }

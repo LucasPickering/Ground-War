@@ -15,6 +15,12 @@ import groundwar.screen.event.MouseButtonEvent;
  */
 public abstract class ScreenElement {
 
+  protected final long window;
+
+  protected ScreenElement(long window) {
+    this.window = window;
+  }
+
   /**
    * The {@link EventHandler} that is called when a {@link KeyEvent} occurs while this element is
    * active.
@@ -30,11 +36,10 @@ public abstract class ScreenElement {
   /**
    * Draws this screen onto the window.
    *
-   * @param window the window to be drawn onto
    * @param mouseX the current x position of the mouse
    * @param mouseY the current y position of the mouse
    */
-  public abstract void draw(long window, int mouseX, int mouseY);
+  public abstract void draw(int mouseX, int mouseY);
 
   /**
    * Checks if this element contains the given x and y coordinates. Bounds checking is inclusive on

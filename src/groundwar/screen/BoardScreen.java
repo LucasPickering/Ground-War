@@ -9,15 +9,16 @@ public class BoardScreen extends MainScreen {
   private final Board board;
   Button testButton;
 
-  public BoardScreen(Board board) {
+  public BoardScreen(long window, Board board) {
+    super(window);
     this.board = board;
-    guiElements.add(testButton = new Button("Hi", 100, 100, 200, 20));
+    guiElements.add(testButton = new Button(window, 100, 100, 200, 20, "Hello World"));
     testButton.setMouseButtonHandler(this::onClick);
   }
 
   @Override
-  public void draw(long window, int mouseX, int mouseY) {
-    super.draw(window, mouseX, mouseY);
+  public void draw(int mouseX, int mouseY) {
+    super.draw(mouseX, mouseY);
     board.getTiles().values().forEach(this::drawTile); // Draw each tile
   }
 

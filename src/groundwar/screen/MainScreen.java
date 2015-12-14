@@ -19,10 +19,14 @@ public abstract class MainScreen extends ScreenElement {
 
   protected List<GuiElement> guiElements = new LinkedList<>();
 
+  protected MainScreen(long window) {
+    super(window);
+  }
+
   @Override
-  public void draw(long window, int mouseX, int mouseY) {
+  public void draw(int mouseX, int mouseY) {
     // Draw all the GUI elements
-    guiElements.stream().forEach(guiElement -> guiElement.draw(window, mouseX, mouseY));
+    guiElements.stream().forEach(guiElement -> guiElement.draw(mouseX, mouseY));
   }
 
   @Override

@@ -6,13 +6,13 @@ public class Button extends GuiElement {
 
   private String text;
 
-  public Button(String text, int x, int y, int width, int height) {
-    super(x, y, width, height);
+  public Button(long window, int x, int y, int width, int height, String text) {
+    super(window, x, y, width, height);
     this.text = text;
   }
 
   @Override
-  public void draw(long window, int mouseX, int mouseY) {
+  public void draw(int mouseX, int mouseY) {
     if (contains(mouseX, mouseY)) {
       GL11.glColor3f(1.0f, 0.0f, 0.0f);
     } else {
