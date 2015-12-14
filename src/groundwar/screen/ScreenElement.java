@@ -100,7 +100,6 @@ public abstract class ScreenElement {
    * @param event the event that occurred
    */
   public void onClick(MouseButtonEvent event) {
-    System.out.println("Test click");
     // By default, nothing is done on click
   }
 }

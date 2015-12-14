@@ -38,6 +38,7 @@ public abstract class MainScreen extends ScreenElement {
 
   @Override
   public void onClick(MouseButtonEvent event) {
+    // Call onClick for all GUI elements that contain the cursor
     guiElements.stream().filter(guiElement -> guiElement.contains(event.mouseX, event.mouseY))
         .forEach(guiElement -> guiElement.onClick(event));
   }
