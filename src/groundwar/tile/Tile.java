@@ -2,12 +2,14 @@ package groundwar.tile;
 
 import groundwar.Constants;
 import groundwar.HexPoint;
+import groundwar.unit.Unit;
 
 public class Tile {
 
   private final HexPoint pos;
   private int backgroundColor;
   private int outlineColor;
+  private Unit unit;
 
   public Tile(HexPoint pos) {
     this(pos, Constants.TILE_BG_COLOR, Constants.TILE_OUTLINE_COLOR);
@@ -39,6 +41,15 @@ public class Tile {
     this.outlineColor = outlineColor;
   }
 
+  public Unit getUnit() {
+    return unit;
+  }
+
+  public void setUnit(Unit unit) {
+    this.unit = unit;
+    onUnitChange();
+  }
+
   /**
    * Gets the distance between this tile and another tile located at the given point.
    *
@@ -57,5 +68,24 @@ public class Tile {
    */
   public int distanceTo(Tile tile) {
     return distanceTo(tile.getPos());
+  }
+
+  /**
+   * Is this tile directly adjacent to the given one? In other words, is the distance between this
+   * tile and the given one strictly equal to 1?
+   *
+   * @param tile the tile to be checked for adjacency
+   * @return {@code distanceTo(tile) == 1}
+   */
+  public boolean isAdjacentTo(Tile tile) {
+    return distanceTo(tile) == 1;
+  }
+
+  // Events
+
+  /**
+   * Called <i>directly after</i> the unit on this tile changes.
+   */
+  private void onUnitChange() {
   }
 }
