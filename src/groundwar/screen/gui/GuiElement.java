@@ -10,7 +10,6 @@ public abstract class GuiElement extends ScreenElement {
   private int y;
   private int width;
   private int height;
-  private EventHandler<MouseButtonEvent> mouseButtonHandler;
 
   /**
    * Constructs a new {@code GuiElement} with the given coordinates and size.
