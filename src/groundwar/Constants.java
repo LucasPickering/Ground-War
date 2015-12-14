@@ -5,6 +5,18 @@ public class Constants {
   // Game constants
   public static final int START_MONEY = 10;
 
+  // Renderer constants
+  /**
+   * The width of the window that will be assumed when all textures, words, etc. are drawn to the
+   * screen. Everything will be rendered to this resolution, then scaled to the actual resolution.
+   */
+  public static final int NATIVE_WINDOW_WIDTH = 1920;
+
+  /**
+   * @see {@link #NATIVE_WINDOW_WIDTH}
+   */
+  public static final int NATIVE_WINDOW_HEIGHT = 1080;
+
   // Colors
   public static final int RED_COLOR = 0xff0000;
   public static final int RED2_COLOR = 0x8f7e3b;

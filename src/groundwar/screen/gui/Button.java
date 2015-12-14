@@ -19,6 +19,7 @@ public class Button extends GuiElement {
       GL11.glColor3f(0.0f, 0.0f, 1.0f);
     }
 
+    GL11.glPushMatrix();
     GL11.glBegin(GL11.GL_QUADS);
     {
       final int x1 = getX();
@@ -30,6 +31,7 @@ public class Button extends GuiElement {
       GL11.glVertex2f(x2, y2);
       GL11.glVertex2f(x1, y2);
     }
+    GL11.glPopMatrix();
     GL11.glEnd();
   }
 }
