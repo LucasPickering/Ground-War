@@ -19,10 +19,13 @@ import groundwar.screen.event.MouseButtonEvent;
 public class GroundWar {
 
   private GLFWErrorCallback errorCallback;
-  private KeyHandler keyHandler;
-  private MouseButtonHandler mouseButtonHandler;
-  private CursorPosHandler cursorPosHandler;
-  private WindowResizeHandler windowResizeHandler;
+
+  // These event handlers are initialized at the bottom
+  private GLFWKeyCallback keyHandler;
+  private GLFWMouseButtonCallback mouseButtonHandler;
+  private GLFWCursorPosCallback cursorPosHandler;
+  private GLFWWindowSizeCallback windowResizeHandler;
+
   private long window;
   private MainScreen currentScreen;
   private int windowWidth;
@@ -85,10 +88,10 @@ public class GroundWar {
     GL11.glOrtho(0, Constants.NATIVE_WINDOW_WIDTH, 0, Constants.NATIVE_WINDOW_HEIGHT, -1, 1);
 
     // Initialize input handlers
-    GLFW.glfwSetKeyCallback(window, keyHandler = new KeyHandler());
-    GLFW.glfwSetMouseButtonCallback(window, mouseButtonHandler = new MouseButtonHandler());
-    GLFW.glfwSetCursorPosCallback(window, cursorPosHandler = new CursorPosHandler());
-    GLFW.glfwSetWindowSizeCallback(window, windowResizeHandler = new WindowResizeHandler());
+    GLFW.glfwSetKeyCallback(window, keyHandler);
+    GLFW.glfwSetMouseButtonCallback(window, mouseButtonHandler);
+    GLFW.glfwSetCursorPosCallback(window, cursorPosHandler);
+    GLFW.glfwSetWindowSizeCallback(window, windowResizeHandler);
 
     currentScreen = new IngameScreen(); // Initialize the current screen to be drawn
   }
@@ -106,43 +109,44 @@ public class GroundWar {
     new GroundWar().run();
   }
 
-  // Input handlers
-  private class KeyHandler extends GLFWKeyCallback {
-
-    @Override
-    public void invoke(long window, int key, int scancode, int action, int mods) {
-      if (action == GLFW.GLFW_RELEASE) {
-        currentScreen.handleKey(new KeyEvent(window, key, scancode, mods));
+  // Event handlers
+  {
+    keyHandler = new GLFWKeyCallback() {
+      @Override
+      public void invoke(long window, int key, int scancode, int action, int mods) {
+        if (action == GLFW.GLFW_RELEASE) {
+          currentScreen.handleKey(new KeyEvent(window, key, scancode, mods));
+        }
       }
-    }
-  }
+    };
 
-  private class MouseButtonHandler extends GLFWMouseButtonCallback {
-
-    @Override
-    public void invoke(long window, int button, int action, int mods) {
-      if (action == GLFW.GLFW_RELEASE && currentScreen.contains(mouseX, mouseY)) {
-        currentScreen.handleMouseButton(new MouseButtonEvent(window, button, mods, mouseX, mouseY));
+    mouseButtonHandler = new GLFWMouseButtonCallback() {
+      @Override
+      public void invoke(long window, int button, int action, int mods) {
+        if (action == GLFW.GLFW_RELEASE && currentScreen.contains(mouseX, mouseY)) {
+          currentScreen.handleMouseButton(new MouseButtonEvent(window, button, mods, mouseX, mouseY));
+        }
       }
-    }
-  }
+    };
 
-  private class CursorPosHandler extends GLFWCursorPosCallback {
+    cursorPosHandler = new GLFWCursorPosCallback() {
+      @Override
+      public void invoke(long window, double xPos, double yPos) {
+        // Scale the cursor coordinates to fit the coords that everything is drawn at. The cursor
+        // coordinates also use the top-left as the origin and everything is drawn with the
+        // bottom-left as the origin, so convert to those coordinates.
+        mouseX = (int) (xPos * Constants.NATIVE_WINDOW_WIDTH / windowWidth);
+        mouseY = (int) ((windowHeight - yPos) * Constants.NATIVE_WINDOW_HEIGHT / windowHeight);
+      }
+    };
 
-    @Override
-    public void invoke(long window, double xPos, double yPos) {
-      mouseX = (int) xPos;
-      mouseY = (int) yPos;
-    }
-  }
-
-  private class WindowResizeHandler extends GLFWWindowSizeCallback {
-
-    @Override
-    public void invoke(long window, int width, int height) {
-      windowWidth = width;
-      windowHeight = height;
-      GL11.glViewport(0, 0, width, height);
-    }
+    windowResizeHandler = new GLFWWindowSizeCallback() {
+      @Override
+      public void invoke(long window, int width, int height) {
+        windowWidth = width;
+        windowHeight = height;
+        GL11.glViewport(0, 0, width, height);
+      }
+    };
   }
 }
