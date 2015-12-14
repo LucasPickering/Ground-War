@@ -11,7 +11,7 @@ import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.system.MemoryUtil;
 
-import groundwar.screen.IngameScreen;
+import groundwar.screen.BoardScreen;
 import groundwar.screen.MainScreen;
 import groundwar.screen.event.KeyEvent;
 import groundwar.screen.event.MouseButtonEvent;
@@ -93,7 +93,7 @@ public class GroundWar {
     GLFW.glfwSetCursorPosCallback(window, cursorPosHandler);
     GLFW.glfwSetWindowSizeCallback(window, windowResizeHandler);
 
-    currentScreen = new IngameScreen(); // Initialize the current screen to be drawn
+    currentScreen = new BoardScreen(); // Initialize the current screen to be drawn
   }
 
   private void gameLoop() {

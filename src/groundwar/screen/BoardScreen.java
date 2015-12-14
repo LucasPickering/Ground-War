@@ -2,11 +2,11 @@ package groundwar.screen;
 
 import groundwar.screen.gui.Button;
 
-public class IngameScreen extends MainScreen {
+public class BoardScreen extends MainScreen {
 
   Button testButton;
 
-  public IngameScreen() {
+  public BoardScreen() {
     guiElements.add(testButton = new Button("Hi", 100, 100, 200, 20));
     testButton.setMouseButtonHandler(this::onClick);
   }
