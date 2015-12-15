@@ -1,5 +1,6 @@
 package groundwar.screen;
 
+import groundwar.Point;
 import groundwar.screen.event.EventHandler;
 import groundwar.screen.event.KeyEvent;
 import groundwar.screen.event.MouseButtonEvent;
@@ -36,20 +37,17 @@ public abstract class ScreenElement {
   /**
    * Draws this screen onto the window.
    *
-   * @param mouseX the current x position of the mouse
-   * @param mouseY the current y position of the mouse
+   * @param mousePos the current position of the mouse cursor
    */
-  public abstract void draw(int mouseX, int mouseY);
+  public abstract void draw(Point mousePos);
 
   /**
-   * Checks if this element contains the given x and y coordinates. Bounds checking is inclusive on
-   * all sides.
+   * Checks if this element contains the given point. Bounds checking is inclusive on all sides.
    *
-   * @param x the x coordinate to be checked
-   * @param y the y coordinate to be checked
-   * @return true if (x, y) falls inside this element, false otherwise
+   * @param p the point to be checked
+   * @return true if p falls inside this element, false otherwise
    */
-  public abstract boolean contains(int x, int y);
+  public abstract boolean contains(Point p);
 
   /**
    * Sets the {@link EventHandler} that should be used to handle key events.

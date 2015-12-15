@@ -25,12 +25,12 @@ public class BoardScreen extends MainScreen {
   }
 
   @Override
-  public void draw(int mouseX, int mouseY) {
-    super.draw(mouseX, mouseY);
+  public void draw(Point mousePos) {
+    super.draw(mousePos);
 
     // Draw each tile
     for (Tile tile : board.getTiles().values()) {
-      drawTile(tile, tile.contains(new Point(mouseX, mouseY)) ?
+      drawTile(tile, tile.contains(mousePos) ?
                      TileEffect.MOUSE_OVER : TileEffect.DEFAULT);
     }
   }

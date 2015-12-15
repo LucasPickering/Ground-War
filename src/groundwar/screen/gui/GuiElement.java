@@ -1,8 +1,7 @@
 package groundwar.screen.gui;
 
+import groundwar.Point;
 import groundwar.screen.ScreenElement;
-import groundwar.screen.event.EventHandler;
-import groundwar.screen.event.MouseButtonEvent;
 
 public abstract class GuiElement extends ScreenElement {
 
@@ -64,7 +63,7 @@ public abstract class GuiElement extends ScreenElement {
   }
 
   @Override
-  public boolean contains(int px, int py) {
-    return x <= px && px <= x + width && y <= py && py <= y + height;
+  public boolean contains(Point p) {
+    return x <= p.getX() && p.getX() <= x + width && y <= p.getY() && p.getY() <= y + height;
   }
 }

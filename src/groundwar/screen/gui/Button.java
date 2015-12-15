@@ -2,6 +2,7 @@ package groundwar.screen.gui;
 
 import org.lwjgl.opengl.GL11;
 
+import groundwar.Point;
 import groundwar.screen.Texture;
 import groundwar.screen.TextureHandler;
 
@@ -17,7 +18,6 @@ public class Button extends GuiElement {
   }
 
   @Override
-  public void draw(int mouseX, int mouseY) {
-    GL11.glColor3f(1.0f, 1.0f, 0.0f);
+  public void draw(Point mousePos) {
   }
 }

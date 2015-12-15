@@ -5,6 +5,7 @@ import org.lwjgl.glfw.GLFW;
 import java.util.LinkedList;
 import java.util.List;
 
+import groundwar.Point;
 import groundwar.screen.event.KeyEvent;
 import groundwar.screen.event.MouseButtonEvent;
 import groundwar.screen.gui.GuiElement;
@@ -24,13 +25,13 @@ public abstract class MainScreen extends ScreenElement {
   }
 
   @Override
-  public void draw(int mouseX, int mouseY) {
+  public void draw(Point mousePos) {
     // Draw all the GUI elements
-    guiElements.stream().forEach(guiElement -> guiElement.draw(mouseX, mouseY));
+    guiElements.stream().forEach(guiElement -> guiElement.draw(mousePos));
   }
 
   @Override
-  public boolean contains(int x, int y) {
+  public boolean contains(Point p) {
     return true;
   }
 
@@ -44,7 +45,7 @@ public abstract class MainScreen extends ScreenElement {
   @Override
   public void onClick(MouseButtonEvent event) {
     // Call onClick for all GUI elements that contain the cursor
-    guiElements.stream().filter(guiElement -> guiElement.contains(event.mouseX, event.mouseY))
+    guiElements.stream().filter(guiElement -> guiElement.contains(event.mousePos))
         .forEach(guiElement -> guiElement.onClick(event));
   }
 }

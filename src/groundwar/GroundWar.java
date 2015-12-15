@@ -30,8 +30,7 @@ public class GroundWar {
   private MainScreen currentScreen;
   private int windowWidth;
   private int windowHeight;
-  private int mouseX;
-  private int mouseY;
+  private Point mousePos = new Point();
 
   private Board board;
 
@@ -102,7 +101,7 @@ public class GroundWar {
     while (GLFW.glfwWindowShouldClose(window) == GLFW.GLFW_FALSE) {
       GLFW.glfwPollEvents(); // Poll for events (key, mouse, etc.)
       GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT); // Clear the framebuffer
-      currentScreen.draw(mouseX, mouseY);
+      currentScreen.draw(mousePos.copy());
       GLFW.glfwSwapBuffers(window); // Swap the color buffers
     }
   }
@@ -125,8 +124,8 @@ public class GroundWar {
     mouseButtonHandler = new GLFWMouseButtonCallback() {
       @Override
       public void invoke(long window, int button, int action, int mods) {
-        if (action == GLFW.GLFW_RELEASE && currentScreen.contains(mouseX, mouseY)) {
-          currentScreen.handleMouseButton(new MouseButtonEvent(window, button, mods, mouseX, mouseY));
+        if (action == GLFW.GLFW_RELEASE && currentScreen.contains(mousePos)) {
+          currentScreen.handleMouseButton(new MouseButtonEvent(window, button, mods, mousePos));
         }
       }
     };
@@ -135,8 +134,8 @@ public class GroundWar {
       @Override
       public void invoke(long window, double xPos, double yPos) {
         // Scale the cursor coordinates to fit the coords that everything is drawn at.
-        mouseX = (int) (xPos * Constants.NATIVE_WINDOW_WIDTH / windowWidth);
-        mouseY = (int) (yPos * Constants.NATIVE_WINDOW_HEIGHT / windowHeight);
+        mousePos.setX((int) (xPos * Constants.NATIVE_WINDOW_WIDTH / windowWidth));
+        mousePos.setY((int) (yPos * Constants.NATIVE_WINDOW_HEIGHT / windowHeight));
       }
     };
 

@@ -11,6 +11,13 @@ public class Point {
   private int y;
 
   /**
+   * Constructs a new {@code Point} with an x and y of 0.
+   */
+  public Point() {
+    this(0, 0);
+  }
+
+  /**
    * Constructs a new {@code Point} with the given x and y.
    *
    * @param x the x-value
@@ -82,5 +89,14 @@ public class Point {
     final int xDiff = x - p.x;
     final int yDiff = y - p.y;
     return Math.sqrt(xDiff * xDiff + yDiff * yDiff);
+  }
+
+  /**
+   * Creates a copy of this point.
+   *
+   * @return a copy of this point, with the same x and y values
+   */
+  public Point copy() {
+    return new Point(x, y);
   }
 }
