@@ -15,6 +15,7 @@ import groundwar.GroundWar;
 public class Texture {
 
   private static final int BYTES_PER_PIXEL = 4; // RGBA
+  private static boolean drawingTextures;
 
   public static Texture loadTexture(String file) {
     try {
@@ -68,6 +69,33 @@ public class Texture {
     return textureID;
   }
 
+  /**
+   * Enables texture-drawing for all textures. This can optionally be used before drawing a lot of
+   * textures to save time on the setup and cleanup.
+   */
+  public static void startDrawingTextures() {
+    if (drawingTextures) {
+      throw new IllegalStateException("Textures are already being drawn!");
+    }
+    GL11.glEnable(GL11.GL_BLEND);
+    GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+    GL11.glEnable(GL11.GL_TEXTURE_2D);
+    drawingTextures = true;
+  }
+
+  /**
+   * Disables texture-drawing for all textures. This MUST be used after drawing textures IF {@link
+   * #startDrawingTextures} was used.
+   */
+  public static void stopDrawingTextures() {
+    if (!drawingTextures) {
+      throw new IllegalStateException("Textures aren't being drawn!");
+    }
+    GL11.glDisable(GL11.GL_TEXTURE_2D);
+    GL11.glDisable(GL11.GL_BLEND);
+    drawingTextures = false;
+  }
+
   private final int textureID;
 
   private Texture(int textureID) throws IOException {
@@ -76,5 +104,45 @@ public class Texture {
 
   public int getTextureID() {
     return textureID;
+  }
+
+  /**
+   * Draws this texture at the given location and size. If texture-drawing has been started with
+   * {@link #startDrawingTextures}, this skips the setup and the cleanup before/after the texture
+   * drawing.
+   *
+   * @param x      the x-location of the top-left of the texture
+   * @param y      the y-location of the top-left of the texture
+   * @param width  the width of the texture
+   * @param height the height of the texture
+   */
+  public void draw(int x, int y, int width, int height) {
+    if (!drawingTextures) {
+      GL11.glEnable(GL11.GL_BLEND);
+      GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+      GL11.glEnable(GL11.GL_TEXTURE_2D);
+    }
+
+    GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureID);
+    GL11.glBegin(GL11.GL_QUADS);
+    {
+      GL11.glTexCoord2f(0, 0);
+      GL11.glVertex2f(x, y);
+
+      GL11.glTexCoord2f(1, 0);
+      GL11.glVertex2f(x + width, y);
+
+      GL11.glTexCoord2f(1, 1);
+      GL11.glVertex2f(x + width, y + height);
+
+      GL11.glTexCoord2f(0, 1);
+      GL11.glVertex2f(x, y + height);
+    }
+    GL11.glEnd();
+
+    if (!drawingTextures) {
+      GL11.glDisable(GL11.GL_TEXTURE_2D);
+      GL11.glDisable(GL11.GL_BLEND);
+    }
   }
 }

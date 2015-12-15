@@ -12,7 +12,7 @@ public class BoardScreen extends MainScreen {
   public BoardScreen(long window, Board board) {
     super(window);
     this.board = board;
-    guiElements.add(testButton = new Button(window, 100, 100, 100, 100, "Hello World"));
+    guiElements.add(testButton = new Button(window, 100, 100, 512, 512, "Hello World"));
     testButton.setMouseButtonHandler(this::onClick);
   }
 
