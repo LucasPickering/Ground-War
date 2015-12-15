@@ -27,17 +27,23 @@ public class BoardScreen extends MainScreen {
   @Override
   public void draw(int mouseX, int mouseY) {
     super.draw(mouseX, mouseY);
-    board.getTiles().values().forEach(tile -> drawTile(tile, mouseX, mouseY)); // Draw each tile
+
+    // Draw each tile
+    for (Tile tile : board.getTiles().values()) {
+      drawTile(tile, tile.contains(new Point(mouseX, mouseY)) ?
+                     TileEffect.MOUSE_OVER : TileEffect.DEFAULT);
+    }
   }
 
-  private void drawTile(Tile tile, int mouseX, int mouseY) {
-    int color = tile.contains(new Point(mouseX, mouseY)) ? 0xff0000 : 0x00ff00;
+  private void drawTile(Tile tile, TileEffect effect) {
     // Draw the background
     tileBgTex.draw(tile.getScreenPos().getX(), tile.getScreenPos().getY(),
-                   Constants.TILE_WIDTH, Constants.TILE_HEIGHT, color);
+                   Constants.TILE_WIDTH, Constants.TILE_HEIGHT,
+                   effect.getBackgroundColor(tile.getBackgroundColor()));
 
     // Draw the outline
     tileOutlineTex.draw(tile.getScreenPos().getX(), tile.getScreenPos().getY(),
-                        Constants.TILE_WIDTH, Constants.TILE_HEIGHT, tile.getOutlineColor());
+                        Constants.TILE_WIDTH, Constants.TILE_HEIGHT,
+                        effect.getOutlineColor(tile.getOutlineColor()));
   }
 }
