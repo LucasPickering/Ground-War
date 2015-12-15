@@ -30,9 +30,9 @@ public class Tile {
 
   public Tile(HexPoint pos, int backgroundColor, int outlineColor) {
     this.pos = pos;
-    this.screenPos = new Point(
-        Constants.BOARD_CENTER_X + (int) (Constants.TILE_WIDTH * pos.getX() * 0.75f),
-        Constants.BOARD_CENTER_Y + (int) (-Constants.TILE_HEIGHT * (pos.getX() / 2.0f + pos.getY())));
+    this.screenPos = Constants.BOARD_CENTER.plus(
+        (int) (Constants.TILE_WIDTH * pos.getX() * 0.75f),
+        (int) (-Constants.TILE_HEIGHT * (pos.getX() / 2.0f + pos.getY())));
     this.backgroundColor = backgroundColor;
     this.outlineColor = outlineColor;
   }

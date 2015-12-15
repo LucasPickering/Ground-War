@@ -22,8 +22,8 @@ public class Constants {
   public static final int NATIVE_WINDOW_HEIGHT = 1080;
 
   // Board constants
-  public static final int BOARD_CENTER_X = (NATIVE_WINDOW_WIDTH - TILE_WIDTH) / 2;
-  public static final int BOARD_CENTER_Y = (NATIVE_WINDOW_HEIGHT - TILE_HEIGHT) / 2;
+  public static final Point BOARD_CENTER = new Point((NATIVE_WINDOW_WIDTH - TILE_WIDTH) / 2,
+                                                     (NATIVE_WINDOW_HEIGHT - TILE_HEIGHT) / 2);
   public static final String BOARD_FILE = "/boards/board.csv";
 
   // Colors
