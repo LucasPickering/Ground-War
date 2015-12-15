@@ -3,6 +3,7 @@ package groundwar.screen.gui;
 import org.lwjgl.opengl.GL11;
 
 import groundwar.screen.Texture;
+import groundwar.screen.TextureHandler;
 
 public class Button extends GuiElement {
 
@@ -12,7 +13,7 @@ public class Button extends GuiElement {
   public Button(long window, int x, int y, int width, int height, String text) {
     super(window, x, y, width, height);
     this.text = text;
-    texture = Texture.loadTexture("/textures/tile_background.png");
+    texture = TextureHandler.loadTexture("/textures/tile_background.png");
   }
 
   @Override

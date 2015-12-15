@@ -20,8 +20,8 @@ public class BoardScreen extends MainScreen {
     guiElements.add(testButton = new Button(window, 100, 100, 512, 512, "Hello World"));
     testButton.setMouseButtonHandler(this::onClick);
 
-    tileBgTex = Texture.loadTexture("/textures/tile_background.png");
-    tileOutlineTex = Texture.loadTexture("/textures/tile_outline.png");
+    tileBgTex = TextureHandler.loadTexture("/textures/tile_background.png");
+    tileOutlineTex = TextureHandler.loadTexture("/textures/tile_outline.png");
   }
 
   @Override
