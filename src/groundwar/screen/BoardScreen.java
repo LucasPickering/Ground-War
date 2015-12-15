@@ -2,7 +2,7 @@ package groundwar.screen;
 
 import groundwar.Board;
 import groundwar.Constants;
-import groundwar.HexPoint;
+import groundwar.Point;
 import groundwar.screen.gui.Button;
 import groundwar.tile.Tile;
 
@@ -27,17 +27,17 @@ public class BoardScreen extends MainScreen {
   @Override
   public void draw(int mouseX, int mouseY) {
     super.draw(mouseX, mouseY);
-    board.getTiles().values().forEach(this::drawTile); // Draw each tile
+    board.getTiles().values().forEach(tile -> drawTile(tile, mouseX, mouseY)); // Draw each tile
   }
 
-  private void drawTile(Tile tile) {
-    final HexPoint pos = tile.getPos();
-    final int x = Constants.BOARD_CENTER_X +
-                  (int) (Constants.TILE_WIDTH * pos.getX() * 0.75f);
-    final int y = Constants.BOARD_CENTER_Y +
-                  (int) (-Constants.TILE_HEIGHT * (pos.getX() / 2.0f + pos.getY()));
+  private void drawTile(Tile tile, int mouseX, int mouseY) {
+    int color = tile.contains(new Point(mouseX, mouseY)) ? 0xff0000 : 0x00ff00;
+    // Draw the background
+    tileBgTex.draw(tile.getScreenPos().getX(), tile.getScreenPos().getY(),
+                   Constants.TILE_WIDTH, Constants.TILE_HEIGHT, color);
 
-    tileBgTex.draw(x, y, Constants.TILE_WIDTH, Constants.TILE_HEIGHT, tile.getBackgroundColor());
-    tileOutlineTex.draw(x, y, Constants.TILE_WIDTH, Constants.TILE_HEIGHT, tile.getOutlineColor());
+    // Draw the outline
+    tileOutlineTex.draw(tile.getScreenPos().getX(), tile.getScreenPos().getY(),
+                        Constants.TILE_WIDTH, Constants.TILE_HEIGHT, tile.getOutlineColor());
   }
 }

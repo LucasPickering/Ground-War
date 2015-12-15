@@ -3,15 +3,16 @@ package groundwar;
 import java.util.Objects;
 
 /**
- * A class representing immutable 2-dimensional integer points. Used mostly for points on-screen.
+ * A class representing a 2-dimensional integer point. Used mostly for points on-screen.
  */
 public class Point {
 
-  public final int x;
-  public final int y;
+  private int x;
+  private int y;
 
   /**
    * Constructs a new {@code Point} with the given x and y.
+   *
    * @param x the x-value
    * @param y the y-value
    */
@@ -22,6 +23,7 @@ public class Point {
 
   /**
    * Constructs a new {@code Point} with the same x and y values as the given {@code Point}.
+   *
    * @param p the {@code Point} to be copied (non-null)
    */
   public Point(Point p) {
@@ -30,8 +32,48 @@ public class Point {
     this.y = p.y;
   }
 
+  public int getX() {
+    return x;
+  }
+
+  public void setX(int x) {
+    this.x = x;
+  }
+
+  public int getY() {
+    return y;
+  }
+
+  public void setY(int y) {
+    this.y = y;
+  }
+
+  /**
+   * Creates a new point whose coordinates are the sum of this point's and the given point's. In other
+   * words, this creates a {@code new Point(this.x + p.x, this.y + p.y)}.
+   *
+   * @param p the point to be added with this one
+   * @return the new {@code Point}
+   */
+  public Point plus(Point p) {
+    return plus(p.getX(), p.getY());
+  }
+
+  /**
+   * Creates a new point whose coordinates are the sum of this point's and x and y. In other words,
+   * this creates a {@code new Point(this.x + x, this.y + y)}.
+   *
+   * @param x the x to be added
+   * @param y the y to be added
+   * @return the new {@code Point}
+   */
+  public Point plus(int x, int y) {
+    return new Point(this.x + x, this.y + y);
+  }
+
   /**
    * Gets the Euclidean distance between this point and another point.
+   *
    * @param p the other point (non-null)
    * @return the Euclidean distance between the two points
    */

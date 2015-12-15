@@ -5,11 +5,20 @@ import java.util.List;
 
 import groundwar.Constants;
 import groundwar.HexPoint;
+import groundwar.Point;
 import groundwar.unit.Unit;
 
 public class Tile {
 
+  /**
+   * The position of this tile within the board.
+   */
   private final HexPoint pos;
+
+  /**
+   * The position of the top-left corner of the texture of this tile on the screen.
+   */
+  private final Point screenPos;
   private int backgroundColor;
   private int outlineColor;
   private final List<Tile> adjacentTiles = new LinkedList<>();
@@ -21,6 +30,9 @@ public class Tile {
 
   public Tile(HexPoint pos, int backgroundColor, int outlineColor) {
     this.pos = pos;
+    this.screenPos = new Point(
+        Constants.BOARD_CENTER_X + (int) (Constants.TILE_WIDTH * pos.getX() * 0.75f),
+        Constants.BOARD_CENTER_Y + (int) (-Constants.TILE_HEIGHT * (pos.getX() / 2.0f + pos.getY())));
     this.backgroundColor = backgroundColor;
     this.outlineColor = outlineColor;
   }
@@ -37,6 +49,10 @@ public class Tile {
 
   public final HexPoint getPos() {
     return pos;
+  }
+
+  public final Point getScreenPos() {
+    return screenPos;
   }
 
   public final int getBackgroundColor() {
@@ -103,6 +119,18 @@ public class Tile {
    */
   public final boolean isAdjacentTo(Tile tile) {
     return isAdjacentTo(tile.getPos());
+  }
+
+  /**
+   * Does this tile contain the {@link Point} p? p is a point in screen-space, not in tile-space. This
+   * is essentially used to check if the mouse is over this tile.
+   *
+   * @param p the point
+   * @return true if this tile contains p, false otherwise
+   */
+  public final boolean contains(Point p) {
+    return screenPos.plus(Constants.TILE_WIDTH / 2, Constants.TILE_HEIGHT / 2).distanceTo(p)
+           <= Constants.TILE_RADIUS;
   }
 
   // Events
