@@ -30,8 +30,13 @@ public class BoardScreen extends MainScreen {
 
     // Draw each tile
     for (Tile tile : board.getTiles().values()) {
-      drawTile(tile, tile.contains(mousePos) ?
-                     TileEffect.MOUSE_OVER : TileEffect.DEFAULT);
+      TileEffect effect;
+      if (tile.contains(mousePos)) {
+        effect = TileEffect.MOUSE_OVER;
+      } else {
+        effect = TileEffect.DEFAULT;
+      }
+      drawTile(tile, effect);
     }
   }
 
