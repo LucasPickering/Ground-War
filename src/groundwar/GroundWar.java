@@ -72,9 +72,8 @@ public class GroundWar {
     windowHeight = vidmode.height() / 2;
 
     // Create the window
-    window =
-        GLFW.glfwCreateWindow(windowWidth, windowHeight, "Ground War", MemoryUtil.NULL,
-                              MemoryUtil.NULL);
+    window = GLFW.glfwCreateWindow(windowWidth, windowHeight, "Ground War", MemoryUtil.NULL,
+                                   MemoryUtil.NULL);
     if (window == MemoryUtil.NULL) {
       throw new RuntimeException("Failed to create the GLFW window");
     }

@@ -20,7 +20,7 @@ public class TextureHandler {
   public static Texture loadTexture(String file) {
     try {
       BufferedImage image = ImageIO.read(GroundWar.class.getResource(file));
-      return new Texture(loadTexture(image));
+      return new Texture(loadTextureFromImage(image));
     } catch (IOException e) {
       System.err.println("Error loading texture: " + file);
       e.printStackTrace();
@@ -28,7 +28,10 @@ public class TextureHandler {
     }
   }
 
-  private static int loadTexture(BufferedImage image) {
+  /**
+   * Written by Krythic (http://stackoverflow.com/users/3214889/krythic)
+   */
+  private static int loadTextureFromImage(BufferedImage image) {
     int[] pixels = new int[image.getWidth() * image.getHeight()];
     image.getRGB(0, 0, image.getWidth(), image.getHeight(), pixels, 0, image.getWidth());
     ByteBuffer buffer =
@@ -77,9 +80,7 @@ public class TextureHandler {
     if (drawingTextures) {
       throw new IllegalStateException("Textures are already being drawn!");
     }
-    GL11.glEnable(GL11.GL_BLEND);
-    GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-    GL11.glEnable(GL11.GL_TEXTURE_2D);
+    textureSetup();
     drawingTextures = true;
   }
 
@@ -91,9 +92,19 @@ public class TextureHandler {
     if (!drawingTextures) {
       throw new IllegalStateException("Textures aren't being drawn!");
     }
+    textureTearDown();
+    drawingTextures = false;
+  }
+
+  private static void textureSetup() {
+    GL11.glEnable(GL11.GL_BLEND);
+    GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+    GL11.glEnable(GL11.GL_TEXTURE_2D);
+  }
+
+  private static void textureTearDown(){
     GL11.glDisable(GL11.GL_TEXTURE_2D);
     GL11.glDisable(GL11.GL_BLEND);
-    drawingTextures = false;
   }
 
   /**
@@ -125,9 +136,7 @@ public class TextureHandler {
    */
   public static void draw(Texture texture, int x, int y, int width, int height, int color) {
     if (!drawingTextures) {
-      GL11.glEnable(GL11.GL_BLEND);
-      GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-      GL11.glEnable(GL11.GL_TEXTURE_2D);
+      textureSetup();
     }
 
     GL11.glColor3f(((color >> 16) & 0xff) / 255.0f,
@@ -151,8 +160,7 @@ public class TextureHandler {
     GL11.glEnd();
 
     if (!drawingTextures) {
-      GL11.glDisable(GL11.GL_TEXTURE_2D);
-      GL11.glDisable(GL11.GL_BLEND);
+      textureTearDown();
     }
   }
 }
