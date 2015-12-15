@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import groundwar.tile.FortTile;
@@ -17,16 +19,18 @@ public class Board {
   private final Map<HexPoint, Tile> tiles = new HashMap<>();
 
   public Board() {
-    final String boardName = "/boards/board.csv";
     try {
-      loadTiles(boardName);
+      loadTilesFromFile(Constants.BOARD_FILE);
     } catch (IOException e) {
-      System.err.printf("Error loading board \"%s\"\n", boardName);
+      System.err.printf("Error loading board \"%s\"\n", Constants.BOARD_FILE);
       e.printStackTrace();
     }
+
+    // For each tile, tell it which tiles are adjacent to it. Yes, this is O(n^2) time.
+    tiles.values().forEach(tile -> tile.setAdjacentTiles(getAdjacentTiles(tile)));
   }
 
-  private void loadTiles(String fileName) throws IOException {
+  private void loadTilesFromFile(String fileName) throws IOException {
     BufferedReader reader = null;
     String line;
     try {
@@ -74,6 +78,26 @@ public class Board {
 
   private void putTile(Tile tile) {
     tiles.put(tile.getPos(), tile);
+  }
+
+  /**
+   * Gets a list of tiles adjcaent to the given tile.
+   *
+   * @param tile the given tile
+   * @return all tiles adjacent to {@param tile}
+   */
+  private List<Tile> getAdjacentTiles(Tile tile) {
+    final HexPoint p = tile.getPos();
+    final List<Tile> adjTiles = new LinkedList<>();
+    for (int x = -1; x <= 1; x++) {
+      for (int y = -1; y <= 1; y++) {
+        HexPoint adjPoint = new HexPoint(p.getX() + x, p.getY() + y);
+        if (tiles.containsKey(adjPoint) && tile.isAdjacentTo(adjPoint)) {
+          adjTiles.add(tiles.get(adjPoint));
+        }
+      }
+    }
+    return adjTiles;
   }
 
   public Map<HexPoint, Tile> getTiles() {

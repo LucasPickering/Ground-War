@@ -10,7 +10,16 @@ public class ForwardFortTile extends Tile {
   }
 
   @Override
+  public void onSetAdjacents() {
+    setColors();
+  }
+
+  @Override
   public void onUnitChange() {
+    setColors();
+  }
+
+  private void setColors() {
     int newBgColor;
     int newOutlineColor;
 
@@ -28,6 +37,6 @@ public class ForwardFortTile extends Tile {
     setOutlineColor(newOutlineColor);
 
     // Set the outline color for adjacent tiles
-    adjacentTiles.forEach(tile -> tile.setOutlineColor(newOutlineColor));
+    getAdjacentTiles().forEach(tile -> tile.setOutlineColor(newOutlineColor));
   }
 }

@@ -11,7 +11,6 @@ public class Constants {
   public static final int TILE_HEIGHT = (int) (TILE_RADIUS * Math.sqrt(3));
 
   // Renderer constants
-
   /**
    * The width of the window that will be assumed when all textures, words, etc. are drawn to the
    * screen. Everything will be rendered to this resolution, then scaled to the actual resolution.
@@ -25,6 +24,7 @@ public class Constants {
   // Board constants
   public static final int BOARD_CENTER_X = (NATIVE_WINDOW_WIDTH - TILE_WIDTH) / 2;
   public static final int BOARD_CENTER_Y = (NATIVE_WINDOW_HEIGHT - TILE_HEIGHT) / 2;
+  public static final String BOARD_FILE = "/boards/board.csv";
 
   // Colors
   public static final int RED_COLOR = 0xff0000;

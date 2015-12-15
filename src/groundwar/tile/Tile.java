@@ -12,7 +12,7 @@ public class Tile {
   private final HexPoint pos;
   private int backgroundColor;
   private int outlineColor;
-  protected final List<Tile> adjacentTiles = new LinkedList<>();
+  private final List<Tile> adjacentTiles = new LinkedList<>();
   private Unit unit;
 
   public Tile(HexPoint pos) {
@@ -25,35 +25,41 @@ public class Tile {
     this.outlineColor = outlineColor;
   }
 
-  public void setAdjacentTiles(List<Tile> adjTiles) {
-    adjacentTiles.addAll(adjTiles);
+  public final List<Tile> getAdjacentTiles() {
+    return adjacentTiles;
   }
 
-  public HexPoint getPos() {
+  public final void setAdjacentTiles(List<Tile> adjTiles) {
+    adjacentTiles.clear();
+    adjacentTiles.addAll(adjTiles);
+    onSetAdjacents();
+  }
+
+  public final HexPoint getPos() {
     return pos;
   }
 
-  public int getBackgroundColor() {
+  public final int getBackgroundColor() {
     return backgroundColor;
   }
 
-  public void setBackgroundColor(int backgroundColor) {
+  public final void setBackgroundColor(int backgroundColor) {
     this.backgroundColor = backgroundColor;
   }
 
-  public int getOutlineColor() {
+  public final int getOutlineColor() {
     return outlineColor;
   }
 
-  public void setOutlineColor(int outlineColor) {
+  public final void setOutlineColor(int outlineColor) {
     this.outlineColor = outlineColor;
   }
 
-  public Unit getUnit() {
+  public final Unit getUnit() {
     return unit;
   }
 
-  public void setUnit(Unit unit) {
+  public final void setUnit(Unit unit) {
     this.unit = unit;
     onUnitChange();
   }
@@ -64,32 +70,48 @@ public class Tile {
    * @param p the other point
    * @return the distance between this tile and {@param p}
    */
-  public int distanceTo(HexPoint p) {
+  public final int distanceTo(HexPoint p) {
     return pos.distanceTo(p);
   }
 
   /**
-   * Gets the distance between this tile and another tile.
+   * Convenice method for {@link #distanceTo(HexPoint)}.
    *
    * @param tile the other tile
-   * @return the distance between this tile and {@param tile}
+   * @return {@code distanceTo(tile.getPos()}
    */
-  public int distanceTo(Tile tile) {
+  public final int distanceTo(Tile tile) {
     return distanceTo(tile.getPos());
   }
 
   /**
-   * Is this tile directly adjacent to the given one? In other words, is the distance between this
-   * tile and the given one strictly equal to 1?
+   * Is this tile directly adjacent to the tile at the given position? In other words, is the distance
+   * between this tile and the given point strictly equal to 1?
+   *
+   * @param p the point to be checked for adjacency
+   * @return {@code distanceTo(p) == 1}
+   */
+  public final boolean isAdjacentTo(HexPoint p) {
+    return distanceTo(p) == 1;
+  }
+
+  /**
+   * Convenience method for {@link #isAdjacentTo(HexPoint)}.
    *
    * @param tile the tile to be checked for adjacency
-   * @return {@code distanceTo(tile) == 1}
+   * @return {@code isAdjacentTo(tile.getPos())}
    */
-  public boolean isAdjacentTo(Tile tile) {
-    return distanceTo(tile) == 1;
+  public final boolean isAdjacentTo(Tile tile) {
+    return isAdjacentTo(tile.getPos());
   }
 
   // Events
+
+  /**
+   * Called <i>directly after</i> {@link #adjacentTiles} is populated.
+   */
+  protected void onSetAdjacents() {
+  }
 
   /**
    * Called <i>directly after</i> the unit on this tile changes.
