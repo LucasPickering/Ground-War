@@ -33,7 +33,8 @@ public class BoardScreen extends MainScreen {
   private void drawTile(Tile tile) {
     final HexPoint pos = tile.getPos();
     final int x = Constants.BOARD_CENTER_X + (int) (Constants.TILE_WIDTH * pos.getX() * 0.75f);
-    final int y = Constants.BOARD_CENTER_Y + -Constants.TILE_HEIGHT * (pos.getX() / 2 + pos.getY());
+    final int y = Constants.BOARD_CENTER_Y + (int) (-Constants.TILE_HEIGHT * (pos.getX() / 2.0f + pos
+        .getY()));
     tileBgTex.draw(x, y, Constants.TILE_WIDTH, Constants.TILE_HEIGHT, tile.getBackgroundColor());
     tileOutlineTex.draw(x, y, Constants.TILE_WIDTH, Constants.TILE_HEIGHT, tile.getOutlineColor());
   }

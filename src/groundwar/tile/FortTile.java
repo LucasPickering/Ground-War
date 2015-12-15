@@ -8,7 +8,7 @@ public class FortTile extends Tile {
   private final Player owner;
 
   public FortTile(HexPoint pos, Player owner) {
-    super(pos, owner.primaryColor, owner.secondaryColor);
+    super(pos, owner.secondaryColor, owner.primaryColor);
     this.owner = owner;
   }
 }

@@ -86,7 +86,7 @@ public class GroundWar {
     GLFW.glfwSwapInterval(1); // Enable v-sync
     GLFW.glfwShowWindow(window); // Make the window visible
     GL.createCapabilities(); // LWJGL needs this
-    GL11.glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // Set clear color
+    GL11.glClearColor(0.0f, 1.0f, 1.0f, 1.0f); // Set clear color
     GL11.glOrtho(0, Constants.NATIVE_WINDOW_WIDTH, Constants.NATIVE_WINDOW_HEIGHT, 0, -1, 1);
 
     // Initialize input handlers

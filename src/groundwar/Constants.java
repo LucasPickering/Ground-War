@@ -6,7 +6,7 @@ public class Constants {
   public static final int START_MONEY = 10;
 
   // Tile constants
-  public static final int TILE_RADIUS = 100;
+  public static final int TILE_RADIUS = 62;
   public static final int TILE_WIDTH = TILE_RADIUS * 2;
   public static final int TILE_HEIGHT = (int) (TILE_RADIUS * Math.sqrt(3));
 
@@ -29,7 +29,7 @@ public class Constants {
   // Colors
   public static final int RED_COLOR = 0xff0000;
   public static final int RED2_COLOR = 0x8f7e3b;
-  public static final int BLUE_COLOR = 0xff0000;
+  public static final int BLUE_COLOR = 0x0000ff;
   public static final int BLUE2_COLOR = 0x477e7b;
   public static final int TILE_BG_COLOR = 0x6aa84f;
   public static final int TILE_OUTLINE_COLOR = 0x434343;
