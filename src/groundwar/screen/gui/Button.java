@@ -18,6 +18,5 @@ public class Button extends GuiElement {
   @Override
   public void draw(int mouseX, int mouseY) {
     GL11.glColor3f(1.0f, 1.0f, 0.0f);
-    texture.draw(getX(), getY(), getWidth(), getHeight());
   }
 }

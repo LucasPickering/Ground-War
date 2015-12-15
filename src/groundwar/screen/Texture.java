@@ -117,12 +117,30 @@ public class Texture {
    * @param height the height of the texture
    */
   public void draw(int x, int y, int width, int height) {
+    draw(x, y, width, height, 0xffffff);
+  }
+
+  /**
+   * Draws this texture at the given location and size. If texture-drawing has been started with
+   * {@link #startDrawingTextures}, this skips the setup and the cleanup before/after the texture
+   * drawing.
+   *
+   * @param x      the x-location of the top-left of the texture
+   * @param y      the y-location of the top-left of the texture
+   * @param width  the width of the texture
+   * @param height the height of the texture
+   * @param color  the color of the texture
+   */
+  public void draw(int x, int y, int width, int height, int color) {
     if (!drawingTextures) {
       GL11.glEnable(GL11.GL_BLEND);
       GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
       GL11.glEnable(GL11.GL_TEXTURE_2D);
     }
 
+    GL11.glColor3f(((color >> 16) & 0xff) / 255.0f,
+                   ((color >> 8) & 0xff) / 255.0f,
+                   (color & 0xff) / 255f);
     GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureID);
     GL11.glBegin(GL11.GL_QUADS);
     {
