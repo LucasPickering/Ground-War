@@ -87,7 +87,7 @@ public class GroundWar {
     GLFW.glfwShowWindow(window); // Make the window visible
     GL.createCapabilities(); // LWJGL needs this
     GL11.glClearColor(1.0f, 1.0f, 1.0f, 0.0f); // Set clear color
-    GL11.glOrtho(0, Constants.NATIVE_WINDOW_WIDTH, 0, Constants.NATIVE_WINDOW_HEIGHT, -1, 1);
+    GL11.glOrtho(0, Constants.NATIVE_WINDOW_WIDTH, Constants.NATIVE_WINDOW_HEIGHT, 0, -1, 1);
 
     // Initialize input handlers
     GLFW.glfwSetKeyCallback(window, keyHandler);
@@ -135,11 +135,9 @@ public class GroundWar {
     cursorPosHandler = new GLFWCursorPosCallback() {
       @Override
       public void invoke(long window, double xPos, double yPos) {
-        // Scale the cursor coordinates to fit the coords that everything is drawn at. The cursor
-        // coordinates also use the top-left as the origin and everything is drawn with the
-        // bottom-left as the origin, so convert to those coordinates.
+        // Scale the cursor coordinates to fit the coords that everything is drawn at.
         mouseX = (int) (xPos * Constants.NATIVE_WINDOW_WIDTH / windowWidth);
-        mouseY = (int) ((windowHeight - yPos) * Constants.NATIVE_WINDOW_HEIGHT / windowHeight);
+        mouseY = (int) (yPos * Constants.NATIVE_WINDOW_HEIGHT / windowHeight);
       }
     };
 

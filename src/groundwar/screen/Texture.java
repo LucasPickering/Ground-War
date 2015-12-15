@@ -5,22 +5,29 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 
 import javax.imageio.ImageIO;
 
 import groundwar.GroundWar;
 
-/**
- * A class to load textures into a format that OpenGL understands.
- *
- * @author Krythic http://stackoverflow.com/users/3214889/krythic
- */
-public class TextureLoader {
+public class Texture {
 
   private static final int BYTES_PER_PIXEL = 4; // RGBA
 
-  public static int loadTexture(BufferedImage image) {
+  public static Texture loadTexture(String file) {
+    try {
+      BufferedImage image = ImageIO.read(GroundWar.class.getResource(file));
+      return new Texture(loadTexture(image));
+    } catch (IOException e) {
+      System.err.println("Error loading texture: " + file);
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  private static int loadTexture(BufferedImage image) {
     int[] pixels = new int[image.getWidth() * image.getHeight()];
     image.getRGB(0, 0, image.getWidth(), image.getHeight(), pixels, 0, image.getWidth());
     ByteBuffer buffer =
@@ -61,21 +68,13 @@ public class TextureLoader {
     return textureID;
   }
 
-  public static BufferedImage loadImage(String file) {
-    try {
-      return ImageIO.read(GroundWar.class.getResource(file));
-    } catch (Exception e) {
-      System.err.println("Error loading texture: " + file);
-      e.printStackTrace();
-      return null;
-    }
+  private final int textureID;
+
+  private Texture(int textureID) throws IOException {
+    this.textureID = textureID;
   }
 
-  public static int loadTextureFromImage(String file) {
-    final BufferedImage image = loadImage(file);
-    if (image != null) {
-      return loadTexture(image);
-    }
-    return 0;
+  public int getTextureID() {
+    return textureID;
   }
 }

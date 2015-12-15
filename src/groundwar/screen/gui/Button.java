@@ -2,17 +2,17 @@ package groundwar.screen.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import groundwar.screen.TextureLoader;
+import groundwar.screen.Texture;
 
 public class Button extends GuiElement {
 
   private String text;
-  private final int textureID;
+  private final Texture texture;
 
   public Button(long window, int x, int y, int width, int height, String text) {
     super(window, x, y, width, height);
     this.text = text;
-    textureID = TextureLoader.loadTextureFromImage("/textures/tile_background.png");
+    texture = Texture.loadTexture("/textures/tile_background.png");
   }
 
   @Override
@@ -26,20 +26,23 @@ public class Button extends GuiElement {
     */
 
     GL11.glEnable(GL11.GL_TEXTURE_2D);
-    GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureID);
+    GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getTextureID());
     GL11.glBegin(GL11.GL_QUADS);
     {
       final int x1 = getX();
       final int y1 = getY();
       final int x2 = getX() + getWidth();
       final int y2 = getY() + getHeight();
-      GL11.glTexCoord2f(0.0f, 0.0f);
+      GL11.glTexCoord2f(0, 0);
       GL11.glVertex2f(x1, y1);
-      GL11.glTexCoord2f(1.0f, 0.0f);
+
+      GL11.glTexCoord2f(1, 0);
       GL11.glVertex2f(x2, y1);
-      GL11.glTexCoord2f(1.0f, 1.0f);
+
+      GL11.glTexCoord2f(1, 1);
       GL11.glVertex2f(x2, y2);
-      GL11.glTexCoord2f(0.0f, 1.0f);
+
+      GL11.glTexCoord2f(0, 1);
       GL11.glVertex2f(x1, y2);
     }
     GL11.glEnd();
