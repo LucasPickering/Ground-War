@@ -13,12 +13,15 @@ import groundwar.tile.ForwardFortTile;
 import groundwar.tile.GoldTile;
 import groundwar.tile.MountainTile;
 import groundwar.tile.Tile;
+import groundwar.unit.Unit;
+import groundwar.unit.UnitType;
 
 public class Board {
 
   private Player currentPlayer = Player.RED;
   private final Map<HexPoint, Tile> tiles = new HashMap<>();
   private Tile selectedTile;
+  private Unit spawningUnit;
 
   public Board() {
     try {
@@ -116,10 +119,36 @@ public class Board {
    * @param tile the tile clicked
    */
   public void onTileClicked(Tile tile) {
+    if (selectedTile == null && spawningUnit != null) {
+      spawnUnit(tile);
+    }
     if (selectedTile != tile && tile.isSelectable(currentPlayer)) {
       selectedTile = tile;
     } else {
       selectedTile = null;
+    }
+  }
+
+  /**
+   * Prepare to spawn a unit of the given type, if allowed.
+   *
+   * @param unitType the type of unit to spawn
+   */
+  public void prepareToSpawn(UnitType unitType) {
+    if (unitType.cost <= currentPlayer.getMoney()) {
+      selectedTile = null;
+      spawningUnit = unitType.createUnit(currentPlayer);
+    }
+  }
+
+  /**
+   * Attempt to spawn {@link #spawningUnit} on the given tile
+   *
+   * @param tile the tile to be spawned on
+   */
+  private void spawnUnit(Tile tile) {
+    if (tile.isSpawnable(spawningUnit)) {
+      tile.spawnUnit(spawningUnit);
     }
   }
 }

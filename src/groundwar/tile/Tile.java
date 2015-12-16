@@ -80,8 +80,13 @@ public class Tile {
     return unit;
   }
 
-  public final void setUnit(Unit unit) {
+  public final void spawnUnit(Unit unit) {
     this.unit = unit;
+    onUnitChange();
+  }
+
+  public final void killUnit() {
+    unit = null;
     onUnitChange();
   }
 
@@ -145,6 +150,15 @@ public class Tile {
    */
   public boolean isSelectable(Player currentPlayer) {
     return unit != null && unit.getOwner() == currentPlayer;
+  }
+
+  /**
+   * Can the given unit be spawned on this tile?
+   * @param unit the unit to be spawned
+   * @return true if the unit can be spawned here, false otherwise
+   */
+  public boolean isSpawnable(Unit unit) {
+    return false;
   }
 
   // Events

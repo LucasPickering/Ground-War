@@ -1,10 +1,14 @@
 package groundwar.screen;
 
+import org.lwjgl.glfw.GLFW;
+
 import groundwar.Board;
 import groundwar.Constants;
 import groundwar.Point;
+import groundwar.screen.event.KeyEvent;
 import groundwar.screen.event.MouseButtonEvent;
 import groundwar.tile.Tile;
+import groundwar.unit.UnitType;
 
 public class BoardScreen extends MainScreen {
 
@@ -56,6 +60,19 @@ public class BoardScreen extends MainScreen {
     }
 
     TextureHandler.stopDrawingTextures(); // Tear down all the texture-drawing setup
+  }
+
+  @Override
+  public void onKey(KeyEvent event) {
+    super.onKey(event);
+    switch(event.key) {
+      case GLFW.GLFW_KEY_M:
+        board.prepareToSpawn(UnitType.MARINES);
+      case GLFW.GLFW_KEY_A:
+        board.prepareToSpawn(UnitType.ANTITANK);
+      case GLFW.GLFW_KEY_T:
+        board.prepareToSpawn(UnitType.TANK);
+    }
   }
 
   @Override
