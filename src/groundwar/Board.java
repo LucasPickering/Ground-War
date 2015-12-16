@@ -17,6 +17,7 @@ import groundwar.tile.Tile;
 public class Board {
 
   private final Map<HexPoint, Tile> tiles = new HashMap<>();
+  private Tile selectedTile;
 
   public Board() {
     try {
@@ -102,5 +103,22 @@ public class Board {
 
   public Map<HexPoint, Tile> getTiles() {
     return tiles;
+  }
+
+  public Tile getSelectedTile() {
+    return selectedTile;
+  }
+
+  /**
+   * Called when a specific tile is clicked. Selecte tile is changed appropriately.
+   *
+   * @param tile the tile clicked
+   */
+  public void onTileClicked(Tile tile) {
+    if (selectedTile == tile) {
+      selectedTile = null;
+    } else {
+      selectedTile = tile;
+    }
   }
 }

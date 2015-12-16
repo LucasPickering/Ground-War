@@ -3,6 +3,7 @@ package groundwar.screen;
 import groundwar.Board;
 import groundwar.Constants;
 import groundwar.Point;
+import groundwar.screen.event.MouseButtonEvent;
 import groundwar.screen.gui.Button;
 import groundwar.tile.Tile;
 
@@ -31,7 +32,9 @@ public class BoardScreen extends MainScreen {
     // Draw each tile
     for (Tile tile : board.getTiles().values()) {
       TileEffect effect = null;
-      if (tile.contains(mousePos)) {
+      if (tile == board.getSelectedTile()) {
+        effect = TileEffect.SELECTED;
+      } else if (tile.contains(mousePos)) {
         effect = TileEffect.MOUSE_OVER;
       }
       drawTile(tile, effect);
@@ -57,5 +60,16 @@ public class BoardScreen extends MainScreen {
     }
 
     TextureHandler.stopDrawingTextures(); // Tear down all the texture-drawing setup
+  }
+
+  @Override
+  public void onClick(MouseButtonEvent event) {
+    super.onClick(event);
+    for (Tile tile : board.getTiles().values()) {
+      if (tile.contains(event.mousePos)) {
+        board.onTileClicked(tile);
+        break;
+      }
+    }
   }
 }
