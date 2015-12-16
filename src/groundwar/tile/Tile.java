@@ -5,6 +5,7 @@ import java.util.List;
 
 import groundwar.Constants;
 import groundwar.HexPoint;
+import groundwar.Player;
 import groundwar.Point;
 import groundwar.unit.Unit;
 
@@ -134,6 +135,16 @@ public class Tile {
    */
   public final boolean contains(Point p) {
     return getCenterPos().distanceTo(p) <= Constants.TILE_RADIUS;
+  }
+
+  /**
+   * Can this tile be selected by the current player?
+   *
+   * @param currentPlayer the player whose turn it currently is
+   * @return true if this tile can be selected, false otherwise
+   */
+  public boolean isSelectable(Player currentPlayer) {
+    return unit != null && unit.getOwner() == currentPlayer;
   }
 
   // Events

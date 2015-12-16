@@ -16,6 +16,7 @@ import groundwar.tile.Tile;
 
 public class Board {
 
+  private Player currentPlayer = Player.RED;
   private final Map<HexPoint, Tile> tiles = new HashMap<>();
   private Tile selectedTile;
 
@@ -115,10 +116,10 @@ public class Board {
    * @param tile the tile clicked
    */
   public void onTileClicked(Tile tile) {
-    if (selectedTile == tile) {
-      selectedTile = null;
-    } else {
+    if (selectedTile != tile && tile.isSelectable(currentPlayer)) {
       selectedTile = tile;
+    } else {
+      selectedTile = null;
     }
   }
 }
