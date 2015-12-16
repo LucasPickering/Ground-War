@@ -55,6 +55,10 @@ public class Tile {
     return screenPos;
   }
 
+  public final Point getCenterPos() {
+    return screenPos.plus(Constants.TILE_WIDTH / 2, Constants.TILE_HEIGHT / 2);
+  }
+
   public final int getBackgroundColor() {
     return backgroundColor;
   }
@@ -129,8 +133,7 @@ public class Tile {
    * @return true if this tile contains p, false otherwise
    */
   public final boolean contains(Point p) {
-    return screenPos.plus(Constants.TILE_WIDTH / 2, Constants.TILE_HEIGHT / 2).distanceTo(p)
-           <= Constants.TILE_RADIUS;
+    return getCenterPos().distanceTo(p) <= Constants.TILE_RADIUS;
   }
 
   // Events

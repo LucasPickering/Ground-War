@@ -6,9 +6,13 @@ public class Constants {
   public static final int START_MONEY = 10;
 
   // Tile constants
-  public static final int TILE_RADIUS = 62;
-  public static final int TILE_WIDTH = TILE_RADIUS * 2;
-  public static final int TILE_HEIGHT = (int) (TILE_RADIUS * Math.sqrt(3));
+  /**
+   * The distance between the center point of the hexagon and the center-point of one side of the
+   * hexagon.
+   */
+  public static final int TILE_RADIUS = 54;
+  public static final int TILE_WIDTH = (int) (TILE_RADIUS * 4 / Math.sqrt(3));
+  public static final int TILE_HEIGHT = TILE_RADIUS * 2;
 
   // Renderer constants
   /**

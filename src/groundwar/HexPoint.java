@@ -70,6 +70,11 @@ public class HexPoint implements Comparable<HexPoint> {
   }
 
   @Override
+  public String toString() {
+    return String.format("(%d, %d, %d)", x, y, getZ());
+  }
+
+  @Override
   public int compareTo(HexPoint p2) {
     Objects.requireNonNull(p2);
     final int comp = Integer.compare(x, p2.x);
