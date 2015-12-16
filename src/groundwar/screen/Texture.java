@@ -23,7 +23,7 @@ public class Texture {
    * @param height the height of the texture
    */
   public void draw(int x, int y, int width, int height) {
-    draw(x, y, width, height, 0xffffff);
+    draw(x, y, width, height, 0xffffffff);
   }
 
   /**

@@ -102,7 +102,7 @@ public class TextureHandler {
     GL11.glEnable(GL11.GL_TEXTURE_2D);
   }
 
-  private static void textureTearDown(){
+  private static void textureTearDown() {
     GL11.glDisable(GL11.GL_TEXTURE_2D);
     GL11.glDisable(GL11.GL_BLEND);
   }
@@ -139,9 +139,10 @@ public class TextureHandler {
       textureSetup();
     }
 
-    GL11.glColor3f(((color >> 16) & 0xff) / 255.0f,
+    GL11.glColor4f(((color >> 16) & 0xff) / 255.0f,
                    ((color >> 8) & 0xff) / 255.0f,
-                   (color & 0xff) / 255f);
+                   (color & 0xff) / 255.0f,
+                   ((color >> 24) & 0xff) / 255.0f);
     GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getTextureID());
     GL11.glBegin(GL11.GL_QUADS);
     {

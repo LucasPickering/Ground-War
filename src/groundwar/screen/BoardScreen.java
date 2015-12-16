@@ -30,25 +30,32 @@ public class BoardScreen extends MainScreen {
 
     // Draw each tile
     for (Tile tile : board.getTiles().values()) {
-      TileEffect effect;
+      TileEffect effect = null;
       if (tile.contains(mousePos)) {
         effect = TileEffect.MOUSE_OVER;
-      } else {
-        effect = TileEffect.DEFAULT;
       }
       drawTile(tile, effect);
     }
   }
 
   private void drawTile(Tile tile, TileEffect effect) {
+    final int x = tile.getScreenPos().getX();
+    final int y = tile.getScreenPos().getY();
+
+    TextureHandler.startDrawingTextures(); // Set up the environment for drawing texture
+
     // Draw the background
-    tileBgTex.draw(tile.getScreenPos().getX(), tile.getScreenPos().getY(),
-                   Constants.TILE_WIDTH, Constants.TILE_HEIGHT,
-                   effect.getBackgroundColor(tile.getBackgroundColor()));
+    tileBgTex.draw(x, y, Constants.TILE_WIDTH, Constants.TILE_HEIGHT, tile.getBackgroundColor());
+    if (effect != null) {
+      tileBgTex.draw(x, y, Constants.TILE_WIDTH, Constants.TILE_HEIGHT, effect.backgroundColor);
+    }
 
     // Draw the outline
-    tileOutlineTex.draw(tile.getScreenPos().getX(), tile.getScreenPos().getY(),
-                        Constants.TILE_WIDTH, Constants.TILE_HEIGHT,
-                        effect.getOutlineColor(tile.getOutlineColor()));
+    tileOutlineTex.draw(x, y, Constants.TILE_WIDTH, Constants.TILE_HEIGHT, tile.getOutlineColor());
+    if (effect != null) {
+      tileOutlineTex.draw(x, y, Constants.TILE_WIDTH, Constants.TILE_HEIGHT, effect.outlineColor);
+    }
+
+    TextureHandler.stopDrawingTextures(); // Tear down all the texture-drawing setup
   }
 }
