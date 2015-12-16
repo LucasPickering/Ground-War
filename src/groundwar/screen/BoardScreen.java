@@ -4,13 +4,11 @@ import groundwar.Board;
 import groundwar.Constants;
 import groundwar.Point;
 import groundwar.screen.event.MouseButtonEvent;
-import groundwar.screen.gui.Button;
 import groundwar.tile.Tile;
 
 public class BoardScreen extends MainScreen {
 
   private final Board board;
-  Button testButton;
 
   private final Texture tileBgTex;
   private final Texture tileOutlineTex;
@@ -18,8 +16,6 @@ public class BoardScreen extends MainScreen {
   public BoardScreen(long window, Board board) {
     super(window);
     this.board = board;
-    guiElements.add(testButton = new Button(window, 100, 100, 512, 512, "Hello World"));
-    testButton.setMouseButtonHandler(this::onClick);
 
     tileBgTex = TextureHandler.loadTexture("/textures/tile_background.png");
     tileOutlineTex = TextureHandler.loadTexture("/textures/tile_outline.png");
