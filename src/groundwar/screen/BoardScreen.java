@@ -36,9 +36,12 @@ public class BoardScreen extends MainScreen {
     // Draw each tile
     for (Tile tile : board.getTiles().values()) {
       List<TileOverlay> effects = new LinkedList<>();
+
+      // If the tile is selected, add the selected overlay
       if (tile == board.getSelectedTile()) {
         effects.add(TileOverlay.selected);
       }
+
       if (tile.contains(mousePos)) {
         Unit spawningUnit = board.getSpawningUnit();
         if (spawningUnit != null) {
@@ -51,7 +54,7 @@ public class BoardScreen extends MainScreen {
     }
   }
 
-  private void drawTile(Tile tile, List<TileOverlay> effects) {
+  private void drawTile(Tile tile, List<TileOverlay> overlays) {
     final int x = tile.getScreenPos().getX();
     final int y = tile.getScreenPos().getY();
     final int width = Constants.TILE_WIDTH;
@@ -71,14 +74,14 @@ public class BoardScreen extends MainScreen {
       TextureHandler.draw(unit.getName(), x, y, width, height, unit.getOwner().primaryColor);
     }
 
-    // Draw tile effects
-    drawEffects(effects, x, y, width, height);
+    // Draw tile overlays
+    drawEffects(overlays, x, y, width, height);
 
     TextureHandler.stopDrawingTextures(); // Tear down all the texture-drawing setup
   }
 
-  private void drawEffects(List<TileOverlay> effects, int x, int y, int width, int height) {
-    effects.stream().forEach(effect -> effect.draw(x, y, width, height));
+  private void drawEffects(List<TileOverlay> overlays, int x, int y, int width, int height) {
+    overlays.stream().forEach(overlay -> overlay.draw(x, y, width, height));
   }
 
   @Override

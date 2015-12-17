@@ -18,7 +18,7 @@ public class TileOverlay {
     }
   }
 
-  public static TileOverlay mouseOver = new TileOverlay(Constants.TILE_BG_NAME, 0xaabbbbbb);
+  public static TileOverlay mouseOver = new TileOverlay(Constants.TILE_BG_NAME, 0x80bbbbbb);
   public static TileOverlay selected = new TileOverlay(Constants.TILE_OUTLINE_NAME, 0xff00ff00);
 
   private final ColorTexture[] textures;
