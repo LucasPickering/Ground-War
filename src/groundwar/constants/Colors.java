@@ -3,7 +3,7 @@ package groundwar.constants;
 public class Colors {
 
   // Team colors
-  public static final int ORANGE = 0xffff0000;
+  public static final int ORANGE = 0xffff7f00;
   public static final int ORANGE2 = 0xff8f7e3b;
   public static final int BLUE = 0xff0000ff;
   public static final int BLUE2 = 0xff477e7b;
@@ -18,7 +18,7 @@ public class Colors {
   public static final int FORT_OUTLINE = 0xffff00ff;
 
   // Tile overlay colors
-  public static final int MOUSE_OVER = 0x80bbbbbb;
+  public static final int MOUSE_OVER = 0x60999999;
   public static final int TILE_SELECTED = 0xff00ff00;
   public static final int UNIT_SPAWNING = 0xffcccccc;
   public static final int UNIT_SPAWNING_VALID = 0x4400ff00;
