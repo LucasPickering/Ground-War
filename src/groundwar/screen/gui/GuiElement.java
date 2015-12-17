@@ -2,7 +2,6 @@ package groundwar.screen.gui;
 
 import groundwar.Point;
 import groundwar.screen.ScreenElement;
-import groundwar.screen.TextureHandler;
 
 public abstract class GuiElement extends ScreenElement {
 
@@ -20,9 +19,8 @@ public abstract class GuiElement extends ScreenElement {
    * @param height the height of the element (positive)
    * @throws IllegalArgumentException if x or y is negative, or width or height is non-positive
    */
-  protected GuiElement(long window, TextureHandler textureHandler, int x, int y,
-                       int width, int height) {
-    super(window, textureHandler);
+  protected GuiElement(long window, int x, int y, int width, int height) {
+    super(window);
     if (x < 0 || y < 0 || width <= 0 || height <= 0) {
       throw new IllegalArgumentException("Parameter out of bounds");
     }

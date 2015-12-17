@@ -18,13 +18,12 @@ public class BoardScreen extends MainScreen {
 
   private final Board board;
 
-  public BoardScreen(long window, TextureHandler textureHandler, Board board) {
-    super(window, textureHandler);
+  public BoardScreen(long window, Board board) {
+    super(window);
     this.board = board;
 
-    textureHandler.loadTexture(TILE_BG_NAME);
-    textureHandler.loadTexture(TILE_OUTLINE_NAME);
-    textureHandler.loadTexture("Tank");
+    TextureHandler.loadTexture(TILE_BG_NAME);
+    TextureHandler.loadTexture(TILE_OUTLINE_NAME);
   }
 
   @Override
@@ -47,32 +46,32 @@ public class BoardScreen extends MainScreen {
     final int x = tile.getScreenPos().getX();
     final int y = tile.getScreenPos().getY();
 
-    textureHandler.startDrawingTextures(); // Set up the environment for drawing texture
+    TextureHandler.startDrawingTextures(); // Set up the environment for drawing texture
 
     // Draw the background
-    textureHandler.draw(TILE_BG_NAME, x, y, Constants.TILE_WIDTH, Constants.TILE_HEIGHT,
+    TextureHandler.draw(TILE_BG_NAME, x, y, Constants.TILE_WIDTH, Constants.TILE_HEIGHT,
                         tile.getBackgroundColor());
     if (effect != null) {
-      textureHandler.draw(TILE_BG_NAME, x, y, Constants.TILE_WIDTH, Constants.TILE_HEIGHT,
+      TextureHandler.draw(TILE_BG_NAME, x, y, Constants.TILE_WIDTH, Constants.TILE_HEIGHT,
                           effect.backgroundColor);
     }
 
     // Draw the outline
-    textureHandler.draw(TILE_OUTLINE_NAME, x, y, Constants.TILE_WIDTH, Constants.TILE_HEIGHT,
+    TextureHandler.draw(TILE_OUTLINE_NAME, x, y, Constants.TILE_WIDTH, Constants.TILE_HEIGHT,
                         tile.getOutlineColor());
     if (effect != null) {
-      textureHandler.draw(TILE_OUTLINE_NAME, x, y, Constants.TILE_WIDTH, Constants.TILE_HEIGHT,
+      TextureHandler.draw(TILE_OUTLINE_NAME, x, y, Constants.TILE_WIDTH, Constants.TILE_HEIGHT,
                           effect.outlineColor);
     }
 
     // Draw the unit on top
     Unit unit;
     if ((unit = tile.getUnit()) != null) {
-      textureHandler.draw(unit.getName(), x, y, Constants.TILE_WIDTH, Constants.TILE_HEIGHT,
+      TextureHandler.draw(unit.getName(), x, y, Constants.TILE_WIDTH, Constants.TILE_HEIGHT,
                           unit.getOwner().primaryColor);
     }
 
-    textureHandler.stopDrawingTextures(); // Tear down all the texture-drawing setup
+    TextureHandler.stopDrawingTextures(); // Tear down all the texture-drawing setup
   }
 
   @Override

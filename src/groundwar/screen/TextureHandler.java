@@ -17,9 +17,9 @@ import groundwar.GroundWar;
 
 public class TextureHandler {
 
-  private final int BYTES_PER_PIXEL = 4; // RGBA
-  private boolean drawingTextures;
-  private Map<String, Texture> textureMap = new HashMap<>();
+  private static final int BYTES_PER_PIXEL = 4; // RGBA
+  private static boolean drawingTextures;
+  private static Map<String, Texture> textureMap = new HashMap<>();
 
   /**
    * Loads the texture from the file with the given name and places it into the texture map.
@@ -27,7 +27,7 @@ public class TextureHandler {
    * @param name the name of the file, which will be formatted into {@link Constants#TEXTURE_PATH} to
    *             create the file path
    */
-  public void loadTexture(String name) {
+  public static void loadTexture(String name) {
     try {
       BufferedImage image =
           ImageIO.read(GroundWar.class.getResource(String.format(Constants.TEXTURE_PATH, name)));
@@ -41,7 +41,7 @@ public class TextureHandler {
   /**
    * Written by Krythic (http://stackoverflow.com/users/3214889/krythic)
    */
-  private int loadTextureFromImage(BufferedImage image) {
+  private static int loadTextureFromImage(BufferedImage image) {
     int[] pixels = new int[image.getWidth() * image.getHeight()];
     image.getRGB(0, 0, image.getWidth(), image.getHeight(), pixels, 0, image.getWidth());
     ByteBuffer buffer =
@@ -86,7 +86,7 @@ public class TextureHandler {
    * Enables texture-drawing for all textures. This can optionally be used before drawing a lot of
    * textures to save time on the setup and cleanup.
    */
-  public void startDrawingTextures() {
+  public static void startDrawingTextures() {
     if (drawingTextures) {
       throw new IllegalStateException("Textures are already being drawn!");
     }
@@ -98,7 +98,7 @@ public class TextureHandler {
    * Disables texture-drawing for all textures. This MUST be used after drawing textures IF {@link
    * #startDrawingTextures} was used.
    */
-  public void stopDrawingTextures() {
+  public static void stopDrawingTextures() {
     if (!drawingTextures) {
       throw new IllegalStateException("Textures aren't being drawn!");
     }
@@ -106,13 +106,13 @@ public class TextureHandler {
     drawingTextures = false;
   }
 
-  private void textureSetup() {
+  private static void textureSetup() {
     GL11.glEnable(GL11.GL_BLEND);
     GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
     GL11.glEnable(GL11.GL_TEXTURE_2D);
   }
 
-  private void textureTearDown() {
+  private static void textureTearDown() {
     GL11.glDisable(GL11.GL_TEXTURE_2D);
     GL11.glDisable(GL11.GL_BLEND);
   }
@@ -130,7 +130,7 @@ public class TextureHandler {
    * @throws IllegalArgumentException if there is no texture with the given name in the texture map
    * @see #draw(String, int, int, int, int, int)
    */
-  public void draw(String name, int x, int y, int width, int height) {
+  public static void draw(String name, int x, int y, int width, int height) {
     draw(name, x, y, width, height, 0xffffff);
   }
 
@@ -147,7 +147,7 @@ public class TextureHandler {
    * @param color  the color of the texture
    * @throws IllegalArgumentException if there is no texture with the given name in the texture map
    */
-  public void draw(String name, int x, int y, int width, int height, int color) {
+  public static void draw(String name, int x, int y, int width, int height, int color) {
     // Load the texture from the texture map
     Texture texture = textureMap.get(name);
     if (texture == null) {

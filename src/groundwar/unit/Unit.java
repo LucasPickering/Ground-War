@@ -1,6 +1,7 @@
 package groundwar.unit;
 
 import groundwar.Player;
+import groundwar.screen.TextureHandler;
 
 public class Unit {
 
@@ -10,6 +11,7 @@ public class Unit {
   public Unit(UnitType type, Player owner) {
     this.type = type;
     this.owner = owner;
+    TextureHandler.loadTexture(type.name);
   }
 
   public UnitType getType() {
