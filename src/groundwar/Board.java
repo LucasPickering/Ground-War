@@ -119,12 +119,11 @@ public class Board {
    * @param tile the tile clicked
    */
   public void onTileClicked(Tile tile) {
-    if (selectedTile == null && spawningUnit != null) {
+    if (selectedTile == null && spawningUnit != null) { // Spawn a unit
       spawnUnit(tile);
-    }
-    if (selectedTile != tile && tile.isSelectable(currentPlayer)) {
+    } else if (selectedTile != tile && tile.isSelectable(currentPlayer)) { // Select the tile
       selectedTile = tile;
-    } else {
+    } else { // De-select the tile
       selectedTile = null;
     }
   }
@@ -149,6 +148,14 @@ public class Board {
   private void spawnUnit(Tile tile) {
     if (tile.isSpawnable(spawningUnit)) {
       tile.spawnUnit(spawningUnit);
+      spawningUnit = null;
     }
+  }
+
+  /**
+   * Move to the next player's turn.
+   */
+  public void nextTurn() {
+    currentPlayer = currentPlayer.other();
   }
 }

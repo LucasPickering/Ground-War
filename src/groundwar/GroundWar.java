@@ -13,7 +13,6 @@ import org.lwjgl.system.MemoryUtil;
 
 import groundwar.screen.BoardScreen;
 import groundwar.screen.MainScreen;
-import groundwar.screen.TextureHandler;
 import groundwar.screen.event.KeyEvent;
 import groundwar.screen.event.MouseButtonEvent;
 

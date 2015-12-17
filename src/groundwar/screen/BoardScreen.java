@@ -80,10 +80,16 @@ public class BoardScreen extends MainScreen {
     switch (event.key) {
       case GLFW.GLFW_KEY_M:
         board.prepareToSpawn(UnitType.MARINES);
+        break;
       case GLFW.GLFW_KEY_A:
         board.prepareToSpawn(UnitType.ANTITANK);
+        break;
       case GLFW.GLFW_KEY_T:
         board.prepareToSpawn(UnitType.TANK);
+        break;
+      case GLFW.GLFW_KEY_SPACE:
+        board.nextTurn();
+        break;
     }
   }
 

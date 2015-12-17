@@ -46,4 +46,13 @@ public enum Player {
     }
     money -= amt;
   }
+
+  /**
+   * Gets the other player.
+   *
+   * @return if this is RED, return BLUE, if this is BLUE, return RED
+   */
+  public Player other() {
+    return values()[1 - ordinal()];
+  }
 }
