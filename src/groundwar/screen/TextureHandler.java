@@ -7,31 +7,41 @@ import org.lwjgl.opengl.GL12;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 
+import groundwar.Constants;
 import groundwar.GroundWar;
 
 public class TextureHandler {
 
-  private static final int BYTES_PER_PIXEL = 4; // RGBA
-  private static boolean drawingTextures;
+  private final int BYTES_PER_PIXEL = 4; // RGBA
+  private boolean drawingTextures;
+  private Map<String, Texture> textureMap = new HashMap<>();
 
-  public static Texture loadTexture(String file) {
+  /**
+   * Loads the texture from the file with the given name and places it into the texture map.
+   *
+   * @param name the name of the file, which will be formatted into {@link Constants#TEXTURE_PATH} to
+   *             create the file path
+   */
+  public void loadTexture(String name) {
     try {
-      BufferedImage image = ImageIO.read(GroundWar.class.getResource(file));
-      return new Texture(loadTextureFromImage(image));
+      BufferedImage image =
+          ImageIO.read(GroundWar.class.getResource(String.format(Constants.TEXTURE_PATH, name)));
+      textureMap.put(name, new Texture(loadTextureFromImage(image)));
     } catch (IOException e) {
-      System.err.println("Error loading texture: " + file);
+      System.err.println("Error loading texture: " + name);
       e.printStackTrace();
-      return null;
     }
   }
 
   /**
    * Written by Krythic (http://stackoverflow.com/users/3214889/krythic)
    */
-  private static int loadTextureFromImage(BufferedImage image) {
+  private int loadTextureFromImage(BufferedImage image) {
     int[] pixels = new int[image.getWidth() * image.getHeight()];
     image.getRGB(0, 0, image.getWidth(), image.getHeight(), pixels, 0, image.getWidth());
     ByteBuffer buffer =
@@ -76,7 +86,7 @@ public class TextureHandler {
    * Enables texture-drawing for all textures. This can optionally be used before drawing a lot of
    * textures to save time on the setup and cleanup.
    */
-  public static void startDrawingTextures() {
+  public void startDrawingTextures() {
     if (drawingTextures) {
       throw new IllegalStateException("Textures are already being drawn!");
     }
@@ -88,7 +98,7 @@ public class TextureHandler {
    * Disables texture-drawing for all textures. This MUST be used after drawing textures IF {@link
    * #startDrawingTextures} was used.
    */
-  public static void stopDrawingTextures() {
+  public void stopDrawingTextures() {
     if (!drawingTextures) {
       throw new IllegalStateException("Textures aren't being drawn!");
     }
@@ -96,54 +106,66 @@ public class TextureHandler {
     drawingTextures = false;
   }
 
-  private static void textureSetup() {
+  private void textureSetup() {
     GL11.glEnable(GL11.GL_BLEND);
     GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
     GL11.glEnable(GL11.GL_TEXTURE_2D);
   }
 
-  private static void textureTearDown() {
+  private void textureTearDown() {
     GL11.glDisable(GL11.GL_TEXTURE_2D);
     GL11.glDisable(GL11.GL_BLEND);
   }
 
   /**
-   * Draws the given texture at the given location and size. If texture-drawing has been started with
-   * {@link #startDrawingTextures}, this skips the setup and the cleanup before/after the texture
-   * drawing.
+   * Draws the texture with the given name at the given location and size. If texture-drawing has been
+   * started with {@link #startDrawingTextures}, this skips the setup and the cleanup before/after the
+   * texture drawing.
    *
-   * @param texture the texture to be drawn
-   * @param x       the x-location of the top-left of the texture
-   * @param y       the y-location of the top-left of the texture
-   * @param width   the width of the texture
-   * @param height  the height of the texture
+   * @param name   the name of the texture to be drawn
+   * @param x      the x-location of the top-left of the texture
+   * @param y      the y-location of the top-left of the texture
+   * @param width  the width of the texture
+   * @param height the height of the texture
+   * @throws IllegalArgumentException if there is no texture with the given name in the texture map
+   * @see #draw(String, int, int, int, int, int)
    */
-  public static void draw(Texture texture, int x, int y, int width, int height) {
-    draw(texture, x, y, width, height, 0xffffff);
+  public void draw(String name, int x, int y, int width, int height) {
+    draw(name, x, y, width, height, 0xffffff);
   }
 
   /**
-   * Draws the given texture at the given location and size, with the given color. If texture-drawing
-   * has been started with {@link #startDrawingTextures}, this skips the setup and the cleanup
-   * before/after the texture drawing.
+   * Draws the texture with the given name at the given location and size, with the given color. If
+   * texture-drawing has been started with {@link #startDrawingTextures}, this skips the setup and the
+   * cleanup before/after the texture drawing.
    *
-   * @param texture the texture to be drawn
-   * @param x       the x-location of the top-left of the texture
-   * @param y       the y-location of the top-left of the texture
-   * @param width   the width of the texture
-   * @param height  the height of the texture
-   * @param color   the color of the texture
+   * @param name   the name of the texture to be drawn
+   * @param x      the x-location of the top-left of the texture
+   * @param y      the y-location of the top-left of the texture
+   * @param width  the width of the texture
+   * @param height the height of the texture
+   * @param color  the color of the texture
+   * @throws IllegalArgumentException if there is no texture with the given name in the texture map
    */
-  public static void draw(Texture texture, int x, int y, int width, int height, int color) {
+  public void draw(String name, int x, int y, int width, int height, int color) {
+    // Load the texture from the texture map
+    Texture texture = textureMap.get(name);
+    if (texture == null) {
+      throw new IllegalArgumentException("No texture by the name \"" + name + "\"!");
+    }
+
     if (!drawingTextures) {
       textureSetup();
     }
 
+    // Set the color (aren't bitshifts cool?)
     GL11.glColor4f(((color >> 16) & 0xff) / 255.0f,
                    ((color >> 8) & 0xff) / 255.0f,
                    (color & 0xff) / 255.0f,
                    ((color >> 24) & 0xff) / 255.0f);
-    GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getTextureID());
+    GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getTextureID()); // Bind the texture
+
+    // Draw a rectangle
     GL11.glBegin(GL11.GL_QUADS);
     {
       GL11.glTexCoord2f(0, 0);

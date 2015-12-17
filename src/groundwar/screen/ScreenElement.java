@@ -17,9 +17,11 @@ import groundwar.screen.event.MouseButtonEvent;
 public abstract class ScreenElement {
 
   protected final long window;
+  protected final TextureHandler textureHandler;
 
-  protected ScreenElement(long window) {
+  protected ScreenElement(long window, TextureHandler textureHandler) {
     this.window = window;
+    this.textureHandler = textureHandler;
   }
 
   /**

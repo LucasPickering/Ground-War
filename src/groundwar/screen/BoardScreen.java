@@ -8,21 +8,23 @@ import groundwar.Point;
 import groundwar.screen.event.KeyEvent;
 import groundwar.screen.event.MouseButtonEvent;
 import groundwar.tile.Tile;
+import groundwar.unit.Unit;
 import groundwar.unit.UnitType;
 
 public class BoardScreen extends MainScreen {
 
+  private static final String TILE_BG_NAME = "tile_background";
+  private static final String TILE_OUTLINE_NAME = "tile_outline";
+
   private final Board board;
 
-  private final Texture tileBgTex;
-  private final Texture tileOutlineTex;
-
-  public BoardScreen(long window, Board board) {
-    super(window);
+  public BoardScreen(long window, TextureHandler textureHandler, Board board) {
+    super(window, textureHandler);
     this.board = board;
 
-    tileBgTex = TextureHandler.loadTexture("/textures/tile_background.png");
-    tileOutlineTex = TextureHandler.loadTexture("/textures/tile_outline.png");
+    textureHandler.loadTexture(TILE_BG_NAME);
+    textureHandler.loadTexture(TILE_OUTLINE_NAME);
+    textureHandler.loadTexture("Tank");
   }
 
   @Override
@@ -45,27 +47,38 @@ public class BoardScreen extends MainScreen {
     final int x = tile.getScreenPos().getX();
     final int y = tile.getScreenPos().getY();
 
-    TextureHandler.startDrawingTextures(); // Set up the environment for drawing texture
+    textureHandler.startDrawingTextures(); // Set up the environment for drawing texture
 
     // Draw the background
-    tileBgTex.draw(x, y, Constants.TILE_WIDTH, Constants.TILE_HEIGHT, tile.getBackgroundColor());
+    textureHandler.draw(TILE_BG_NAME, x, y, Constants.TILE_WIDTH, Constants.TILE_HEIGHT,
+                        tile.getBackgroundColor());
     if (effect != null) {
-      tileBgTex.draw(x, y, Constants.TILE_WIDTH, Constants.TILE_HEIGHT, effect.backgroundColor);
+      textureHandler.draw(TILE_BG_NAME, x, y, Constants.TILE_WIDTH, Constants.TILE_HEIGHT,
+                          effect.backgroundColor);
     }
 
     // Draw the outline
-    tileOutlineTex.draw(x, y, Constants.TILE_WIDTH, Constants.TILE_HEIGHT, tile.getOutlineColor());
+    textureHandler.draw(TILE_OUTLINE_NAME, x, y, Constants.TILE_WIDTH, Constants.TILE_HEIGHT,
+                        tile.getOutlineColor());
     if (effect != null) {
-      tileOutlineTex.draw(x, y, Constants.TILE_WIDTH, Constants.TILE_HEIGHT, effect.outlineColor);
+      textureHandler.draw(TILE_OUTLINE_NAME, x, y, Constants.TILE_WIDTH, Constants.TILE_HEIGHT,
+                          effect.outlineColor);
     }
 
-    TextureHandler.stopDrawingTextures(); // Tear down all the texture-drawing setup
+    // Draw the unit on top
+    Unit unit;
+    if ((unit = tile.getUnit()) != null) {
+      textureHandler.draw(unit.getName(), x, y, Constants.TILE_WIDTH, Constants.TILE_HEIGHT,
+                          unit.getOwner().primaryColor);
+    }
+
+    textureHandler.stopDrawingTextures(); // Tear down all the texture-drawing setup
   }
 
   @Override
   public void onKey(KeyEvent event) {
     super.onKey(event);
-    switch(event.key) {
+    switch (event.key) {
       case GLFW.GLFW_KEY_M:
         board.prepareToSpawn(UnitType.MARINES);
       case GLFW.GLFW_KEY_A:

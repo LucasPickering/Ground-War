@@ -24,6 +24,7 @@ public class Constants {
    * @see {@link #NATIVE_WINDOW_WIDTH}
    */
   public static final int NATIVE_WINDOW_HEIGHT = 1080;
+  public static final String TEXTURE_PATH = "/textures/%s.png";
 
   // Board constants
   public static final Point BOARD_CENTER = new Point((NATIVE_WINDOW_WIDTH - TILE_WIDTH) / 2,

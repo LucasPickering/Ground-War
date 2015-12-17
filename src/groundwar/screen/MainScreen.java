@@ -20,8 +20,8 @@ public abstract class MainScreen extends ScreenElement {
 
   protected List<GuiElement> guiElements = new LinkedList<>();
 
-  protected MainScreen(long window) {
-    super(window);
+  protected MainScreen(long window, TextureHandler textureHandler) {
+    super(window, textureHandler);
   }
 
   @Override
