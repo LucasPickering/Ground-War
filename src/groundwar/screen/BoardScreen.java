@@ -1,13 +1,14 @@
 package groundwar.screen;
 
 import org.lwjgl.glfw.GLFW;
+import org.lwjgl.opengl.GL11;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import groundwar.Board;
-import groundwar.constants.Constants;
 import groundwar.Point;
+import groundwar.constants.Constants;
 import groundwar.screen.event.KeyEvent;
 import groundwar.screen.event.MouseButtonEvent;
 import groundwar.screen.tileoverlay.SpawningUnitTileOverlay;
@@ -32,6 +33,9 @@ public class BoardScreen extends MainScreen {
   @Override
   public void draw(Point mousePos) {
     super.draw(mousePos);
+    final int color = board.getCurrentPlayer().primaryColor & 0xcccccc;
+    GL11.glClearColor((color >> 16 & 0xff) / 255.0f, (color >> 8 & 0xff) / 255.0f,
+                      (color & 0xff) / 255.0f, 1.0f);
 
     // Draw each tile
     for (Tile tile : board.getTiles().values()) {

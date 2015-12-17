@@ -107,6 +107,10 @@ public class Board {
     return adjTiles;
   }
 
+  public Player getCurrentPlayer() {
+    return currentPlayer;
+  }
+
   public Map<HexPoint, Tile> getTiles() {
     return tiles;
   }
