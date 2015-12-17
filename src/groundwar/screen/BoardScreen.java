@@ -11,7 +11,7 @@ import groundwar.Point;
 import groundwar.screen.event.KeyEvent;
 import groundwar.screen.event.MouseButtonEvent;
 import groundwar.screen.tileeffect.SpawningUnitTileEffect;
-import groundwar.screen.tileeffect.TileEffect;
+import groundwar.screen.tileeffect.TileOverlay;
 import groundwar.tile.Tile;
 import groundwar.unit.Unit;
 import groundwar.unit.UnitType;
@@ -35,22 +35,23 @@ public class BoardScreen extends MainScreen {
 
     // Draw each tile
     for (Tile tile : board.getTiles().values()) {
-      List<TileEffect> effects = new LinkedList<>();
+      List<TileOverlay> effects = new LinkedList<>();
       if (tile == board.getSelectedTile()) {
-        effects.add(TileEffect.selected);
+        effects.add(TileOverlay.selected);
       }
       if (tile.contains(mousePos)) {
         Unit spawningUnit = board.getSpawningUnit();
         if (spawningUnit != null) {
           effects.add(new SpawningUnitTileEffect(spawningUnit, tile.isSpawnable(spawningUnit)));
+        } else {
+          effects.add(TileOverlay.mouseOver);
         }
-        effects.add(TileEffect.mouseOver);
       }
       drawTile(tile, effects);
     }
   }
 
-  private void drawTile(Tile tile, List<TileEffect> effects) {
+  private void drawTile(Tile tile, List<TileOverlay> effects) {
     final int x = tile.getScreenPos().getX();
     final int y = tile.getScreenPos().getY();
     final int width = Constants.TILE_WIDTH;
@@ -61,14 +62,8 @@ public class BoardScreen extends MainScreen {
     // Draw the regular background
     TextureHandler.draw(Constants.TILE_BG_NAME, x, y, width, height, tile.getBackgroundColor());
 
-    // Draw background layer effects
-    drawEffects(effects, TileEffect.Layer.BG, x, y, width, height);
-
     // Draw the regular foreground
     TextureHandler.draw(Constants.TILE_OUTLINE_NAME, x, y, width, height, tile.getOutlineColor());
-
-    // Draw foreground layer effects
-    drawEffects(effects, TileEffect.Layer.FG, x, y, width, height);
 
     // Draw the unit on top
     Unit unit = tile.getUnit();
@@ -76,16 +71,14 @@ public class BoardScreen extends MainScreen {
       TextureHandler.draw(unit.getName(), x, y, width, height, unit.getOwner().primaryColor);
     }
 
-    // Draw unit layer effects
-    drawEffects(effects, TileEffect.Layer.UNIT, x, y, width, height);
+    // Draw tile effects
+    drawEffects(effects, x, y, width, height);
 
     TextureHandler.stopDrawingTextures(); // Tear down all the texture-drawing setup
   }
 
-  private void drawEffects(List<TileEffect> effects, TileEffect.Layer layer,
-                           int x, int y, int width, int height) {
-    effects.stream().filter(effect -> effect.getLayer() == layer)
-        .forEach(effect -> effect.draw(x, y, width, height));
+  private void drawEffects(List<TileOverlay> effects, int x, int y, int width, int height) {
+    effects.stream().forEach(effect -> effect.draw(x, y, width, height));
   }
 
   @Override
