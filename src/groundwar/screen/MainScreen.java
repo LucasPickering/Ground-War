@@ -1,12 +1,9 @@
 package groundwar.screen;
 
-import org.lwjgl.glfw.GLFW;
-
 import java.util.LinkedList;
 import java.util.List;
 
 import groundwar.Point;
-import groundwar.screen.event.KeyEvent;
 import groundwar.screen.event.MouseButtonEvent;
 import groundwar.screen.gui.GuiElement;
 
@@ -33,13 +30,6 @@ public abstract class MainScreen extends ScreenElement {
   @Override
   public boolean contains(Point p) {
     return true;
-  }
-
-  @Override
-  public void onKey(KeyEvent event) {
-    if (event.key == GLFW.GLFW_KEY_ESCAPE) {
-      GLFW.glfwSetWindowShouldClose(event.window, GLFW.GLFW_TRUE);
-    }
   }
 
   @Override

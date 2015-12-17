@@ -80,13 +80,8 @@ public class Tile {
     return unit;
   }
 
-  public final void spawnUnit(Unit unit) {
+  public final void setUnit(Unit unit) {
     this.unit = unit;
-    onUnitChange();
-  }
-
-  public final void killUnit() {
-    unit = null;
     onUnitChange();
   }
 
@@ -154,11 +149,22 @@ public class Tile {
 
   /**
    * Can the given unit be spawned on this tile?
+   *
    * @param unit the unit to be spawned
    * @return true if the unit can be spawned here, false otherwise
    */
   public boolean isSpawnable(Unit unit) {
     return false;
+  }
+
+  /**
+   * Can the given unit move to this tile?
+   *
+   * @param unit the unit to be moved
+   * @return true if the unit can move here, false otherwise
+   */
+  public boolean canBeMovedTo(Unit unit) {
+    return unit != null && this.unit == null;
   }
 
   // Events

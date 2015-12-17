@@ -114,16 +114,20 @@ public class Board {
   }
 
   /**
-   * Called when a specific tile is clicked. Selecte tile is changed appropriately.
+   * Called when a specific tile is clicked.
    *
    * @param tile the tile clicked
    */
   public void onTileClicked(Tile tile) {
-    if (selectedTile == null && spawningUnit != null) { // Spawn a unit
+    if (selectedTile == null && spawningUnit != null) { // Spawn the unit
       spawnUnit(tile);
-    } else if (selectedTile != tile && tile.isSelectable(currentPlayer)) { // Select the tile
+      selectedTile = null;
+    } else if (selectedTile != null && selectedTile != tile) { // Move the unit
+      moveSelectedUnit(tile);
+      selectedTile = null;
+    } else if (selectedTile != tile && tile.isSelectable(currentPlayer)) {
       selectedTile = tile;
-    } else { // De-select the tile
+    } else {
       selectedTile = null;
     }
   }
@@ -134,7 +138,9 @@ public class Board {
    * @param unitType the type of unit to spawn
    */
   public void prepareToSpawn(UnitType unitType) {
-    if (unitType.cost <= currentPlayer.getMoney()) {
+    if (unitType == null) {
+      spawningUnit = null;
+    } else if (unitType.cost <= currentPlayer.getMoney()) {
       selectedTile = null;
       spawningUnit = unitType.createUnit(currentPlayer);
     }
@@ -147,8 +153,20 @@ public class Board {
    */
   private void spawnUnit(Tile tile) {
     if (tile.isSpawnable(spawningUnit)) {
-      tile.spawnUnit(spawningUnit);
+      tile.setUnit(spawningUnit);
       spawningUnit = null;
+    }
+  }
+
+  /**
+   * Moves the unit on {@link #selectedTile} to {@code destination}.
+   *
+   * @param destination the tile to be moved to, if valid
+   */
+  private void moveSelectedUnit(Tile destination) {
+    if (selectedTile != null && destination.canBeMovedTo(selectedTile.getUnit())) {
+      destination.setUnit(selectedTile.getUnit());
+      selectedTile.setUnit(null);
     }
   }
 

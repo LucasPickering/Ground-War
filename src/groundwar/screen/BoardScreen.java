@@ -76,7 +76,6 @@ public class BoardScreen extends MainScreen {
 
   @Override
   public void onKey(KeyEvent event) {
-    super.onKey(event);
     switch (event.key) {
       case GLFW.GLFW_KEY_M:
         board.prepareToSpawn(UnitType.MARINES);
@@ -86,6 +85,9 @@ public class BoardScreen extends MainScreen {
         break;
       case GLFW.GLFW_KEY_T:
         board.prepareToSpawn(UnitType.TANK);
+        break;
+      case GLFW.GLFW_KEY_ESCAPE:
+        board.prepareToSpawn(null);
         break;
       case GLFW.GLFW_KEY_SPACE:
         board.nextTurn();
