@@ -44,4 +44,8 @@ public class Constants {
   public static final int FORT_BG_COLOR = 0xffa26991;
   public static final int FORT_OUTLINE_COLOR = 0xffff00ff;
 
+  // Texture names
+  public static final String TILE_BG_NAME = "tile_background";
+  public static final String TILE_OUTLINE_NAME = "tile_outline";
+
 }

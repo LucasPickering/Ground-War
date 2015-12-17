@@ -2,19 +2,22 @@ package groundwar.screen;
 
 import org.lwjgl.glfw.GLFW;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import groundwar.Board;
 import groundwar.Constants;
 import groundwar.Point;
 import groundwar.screen.event.KeyEvent;
 import groundwar.screen.event.MouseButtonEvent;
+import groundwar.screen.tileeffect.SpawningUnitTileEffect;
+import groundwar.screen.tileeffect.TileEffect;
 import groundwar.tile.Tile;
 import groundwar.unit.Unit;
 import groundwar.unit.UnitType;
 
 public class BoardScreen extends MainScreen {
 
-  private static final String TILE_BG_NAME = "tile_background";
-  private static final String TILE_OUTLINE_NAME = "tile_outline";
 
   private final Board board;
 
@@ -22,8 +25,8 @@ public class BoardScreen extends MainScreen {
     super(window);
     this.board = board;
 
-    TextureHandler.loadTexture(TILE_BG_NAME);
-    TextureHandler.loadTexture(TILE_OUTLINE_NAME);
+    TextureHandler.loadTexture(Constants.TILE_BG_NAME);
+    TextureHandler.loadTexture(Constants.TILE_OUTLINE_NAME);
   }
 
   @Override
@@ -32,46 +35,57 @@ public class BoardScreen extends MainScreen {
 
     // Draw each tile
     for (Tile tile : board.getTiles().values()) {
-      TileEffect effect = null;
+      List<TileEffect> effects = new LinkedList<>();
       if (tile == board.getSelectedTile()) {
-        effect = TileEffect.SELECTED;
-      } else if (tile.contains(mousePos)) {
-        effect = TileEffect.MOUSE_OVER;
+        effects.add(TileEffect.selected);
       }
-      drawTile(tile, effect);
+      if (tile.contains(mousePos)) {
+        Unit spawningUnit = board.getSpawningUnit();
+        if (spawningUnit != null) {
+          effects.add(new SpawningUnitTileEffect(spawningUnit, tile.isSpawnable(spawningUnit)));
+        }
+        effects.add(TileEffect.mouseOver);
+      }
+      drawTile(tile, effects);
     }
   }
 
-  private void drawTile(Tile tile, TileEffect effect) {
+  private void drawTile(Tile tile, List<TileEffect> effects) {
     final int x = tile.getScreenPos().getX();
     final int y = tile.getScreenPos().getY();
+    final int width = Constants.TILE_WIDTH;
+    final int height = Constants.TILE_HEIGHT;
 
     TextureHandler.startDrawingTextures(); // Set up the environment for drawing texture
 
-    // Draw the background
-    TextureHandler.draw(TILE_BG_NAME, x, y, Constants.TILE_WIDTH, Constants.TILE_HEIGHT,
-                        tile.getBackgroundColor());
-    if (effect != null) {
-      TextureHandler.draw(TILE_BG_NAME, x, y, Constants.TILE_WIDTH, Constants.TILE_HEIGHT,
-                          effect.backgroundColor);
-    }
+    // Draw the regular background
+    TextureHandler.draw(Constants.TILE_BG_NAME, x, y, width, height, tile.getBackgroundColor());
 
-    // Draw the outline
-    TextureHandler.draw(TILE_OUTLINE_NAME, x, y, Constants.TILE_WIDTH, Constants.TILE_HEIGHT,
-                        tile.getOutlineColor());
-    if (effect != null) {
-      TextureHandler.draw(TILE_OUTLINE_NAME, x, y, Constants.TILE_WIDTH, Constants.TILE_HEIGHT,
-                          effect.outlineColor);
-    }
+    // Draw background layer effects
+    drawEffects(effects, TileEffect.Layer.BG, x, y, width, height);
+
+    // Draw the regular foreground
+    TextureHandler.draw(Constants.TILE_OUTLINE_NAME, x, y, width, height, tile.getOutlineColor());
+
+    // Draw foreground layer effects
+    drawEffects(effects, TileEffect.Layer.FG, x, y, width, height);
 
     // Draw the unit on top
-    Unit unit;
-    if ((unit = tile.getUnit()) != null) {
-      TextureHandler.draw(unit.getName(), x, y, Constants.TILE_WIDTH, Constants.TILE_HEIGHT,
-                          unit.getOwner().primaryColor);
+    Unit unit = tile.getUnit();
+    if (unit != null) {
+      TextureHandler.draw(unit.getName(), x, y, width, height, unit.getOwner().primaryColor);
     }
 
+    // Draw unit layer effects
+    drawEffects(effects, TileEffect.Layer.UNIT, x, y, width, height);
+
     TextureHandler.stopDrawingTextures(); // Tear down all the texture-drawing setup
+  }
+
+  private void drawEffects(List<TileEffect> effects, TileEffect.Layer layer,
+                           int x, int y, int width, int height) {
+    effects.stream().filter(effect -> effect.getLayer() == layer)
+        .forEach(effect -> effect.draw(x, y, width, height));
   }
 
   @Override

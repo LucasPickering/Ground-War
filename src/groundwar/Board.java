@@ -113,6 +113,10 @@ public class Board {
     return selectedTile;
   }
 
+  public Unit getSpawningUnit() {
+    return spawningUnit;
+  }
+
   /**
    * Called when a specific tile is clicked.
    *
