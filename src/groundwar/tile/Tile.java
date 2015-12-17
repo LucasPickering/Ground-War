@@ -2,6 +2,7 @@ package groundwar.tile;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 import groundwar.constants.Constants;
 import groundwar.HexPoint;
@@ -161,11 +162,12 @@ public class Tile {
   /**
    * Can the given unit move to this tile?
    *
-   * @param unit the unit to be moved
+   * @param unit the unit to be moved (non-null)
    * @return true if the unit can move here, false otherwise
    */
-  public boolean canBeMovedTo(Unit unit) {
-    return unit != null && this.unit == null;
+  public boolean openForMovement(Unit unit) {
+    Objects.requireNonNull(unit);
+    return this.unit == null;
   }
 
   // Events

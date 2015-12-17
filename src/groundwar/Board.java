@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import groundwar.constants.Constants;
 import groundwar.tile.FortTile;
@@ -164,12 +165,30 @@ public class Board {
   }
 
   /**
+   * Can the unit on {@code from} be moved to {@code to}?
+   *
+   * @param from the tile to be moved from (non-null)
+   * @param to   the tile to be moved to (non-null)
+   * @return true if the unit can be moved, false otherwise
+   */
+  public boolean canMoveTo(Tile from, Tile to) {
+    Objects.requireNonNull(from);
+    Objects.requireNonNull(to);
+    Unit unit = from.getUnit();
+    int distance = from.distanceTo(to);
+    return unit != null && to.openForMovement(unit) && from.distanceTo(to) <= unit
+        .getMovementPoints();
+  }
+
+  /**
    * Moves the unit on {@link #selectedTile} to {@code destination}.
    *
-   * @param destination the tile to be moved to, if valid
+   * @param destination the tile to be moved to, if valid (non-null)
    */
   private void moveSelectedUnit(Tile destination) {
-    if (selectedTile != null && destination.canBeMovedTo(selectedTile.getUnit())) {
+    Objects.requireNonNull(destination);
+    if (canMoveTo(selectedTile, destination)) {
+      selectedTile.getUnit().move(selectedTile.distanceTo(destination));
       destination.setUnit(selectedTile.getUnit());
       selectedTile.setUnit(null);
     }
@@ -179,6 +198,10 @@ public class Board {
    * Move to the next player's turn.
    */
   public void nextTurn() {
-    currentPlayer = currentPlayer.other();
+    // Reset movement points for each unit
+    tiles.values().stream().filter(tile -> tile.getUnit() != null)
+        .forEach(tile -> tile.getUnit().resetMovementPoints());
+
+    currentPlayer = currentPlayer.other(); // Switch players
   }
 }

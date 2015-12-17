@@ -11,7 +11,7 @@ public class MountainTile extends Tile {
   }
 
   @Override
-  public boolean canBeMovedTo(Unit unit) {
+  public boolean openForMovement(Unit unit) {
     return false;
   }
 }

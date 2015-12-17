@@ -35,15 +35,18 @@ public class BoardScreen extends MainScreen {
 
     // Draw each tile
     for (Tile tile : board.getTiles().values()) {
-      List<TileOverlay> overlays = new LinkedList<>();
+      final List<TileOverlay> overlays = new LinkedList<>();
 
       // If the tile is selected, add the selected overlay
-      if (tile == board.getSelectedTile()) {
+      final Tile selectedTile = board.getSelectedTile();
+      if (tile == selectedTile) {
         overlays.add(TileOverlay.selected);
+      } else if (selectedTile != null && board.canMoveTo(selectedTile, tile)) {
+        overlays.add(TileOverlay.movable);
       }
 
       if (tile.contains(mousePos)) {
-        Unit spawningUnit = board.getSpawningUnit();
+        final Unit spawningUnit = board.getSpawningUnit();
         if (spawningUnit != null) {
           overlays.add(new SpawningUnitTileOverlay(spawningUnit, tile.isSpawnable(spawningUnit)));
         } else {
@@ -60,7 +63,7 @@ public class BoardScreen extends MainScreen {
     final int width = Constants.TILE_WIDTH;
     final int height = Constants.TILE_HEIGHT;
 
-    TextureHandler.startDrawingTextures(); // Set up the environment for drawing texture
+    TextureHandler.startDrawingTextures(); // Set up the texture-drawing environment
 
     // Draw the regular background
     TextureHandler.draw(Constants.TILE_BG_NAME, x, y, width, height, tile.getBackgroundColor());
@@ -77,7 +80,7 @@ public class BoardScreen extends MainScreen {
     // Draw tile overlays
     drawOverlays(overlays, x, y, width, height);
 
-    TextureHandler.stopDrawingTextures(); // Tear down all the texture-drawing setup
+    TextureHandler.stopDrawingTextures(); // Tear down the texture-drawing environment
   }
 
   private void drawOverlays(List<TileOverlay> overlays, int x, int y, int width, int height) {
