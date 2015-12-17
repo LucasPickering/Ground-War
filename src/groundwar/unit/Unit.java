@@ -38,6 +38,13 @@ public class Unit {
     return movementPoints;
   }
 
+  /**
+   * Can this unit move the given distance? In other words, does this unit have enough movement points
+   * remaining to move the given distance?
+   *
+   * @param distance the distance to move, in tiles (positive)
+   * @return true if this unit has enough movement points remaining, false otherwise
+   */
   public boolean canMove(int distance) {
     if (distance <= 0) {
       throw new IllegalArgumentException("distance must be positive");
@@ -45,10 +52,18 @@ public class Unit {
     return distance <= movementPoints;
   }
 
+  /**
+   * Resets {@link #movementPoints} to {@link #movementPointsPerTurn}. Should be called at the end of
+   * each turn.
+   */
   public void resetMovementPoints() {
     movementPoints = movementPointsPerTurn;
   }
 
+  /**
+   * Move this unit the given distance. This doesn't <i>actually</i> move the unit, instead it just
+   * subtracts {@code distance} from {@link #movementPoints}.
+   */
   public void move(int distance) {
     if (!canMove(distance)) {
       throw new IllegalStateException("Not enough movement points to move!");
