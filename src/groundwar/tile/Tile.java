@@ -3,10 +3,11 @@ package groundwar.tile;
 import java.util.LinkedList;
 import java.util.List;
 
-import groundwar.Constants;
+import groundwar.constants.Constants;
 import groundwar.HexPoint;
 import groundwar.Player;
 import groundwar.Point;
+import groundwar.constants.Colors;
 import groundwar.unit.Unit;
 
 public class Tile {
@@ -26,7 +27,7 @@ public class Tile {
   private Unit unit;
 
   public Tile(HexPoint pos) {
-    this(pos, Constants.TILE_BG_COLOR, Constants.TILE_OUTLINE_COLOR);
+    this(pos, Colors.TILE_BG, Colors.TILE_OUTLINE);
   }
 
   public Tile(HexPoint pos, int backgroundColor, int outlineColor) {

@@ -11,6 +11,7 @@ import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.system.MemoryUtil;
 
+import groundwar.constants.Constants;
 import groundwar.screen.BoardScreen;
 import groundwar.screen.MainScreen;
 import groundwar.screen.event.KeyEvent;

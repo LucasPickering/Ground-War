@@ -1,11 +1,11 @@
 package groundwar.tile;
 
-import groundwar.Constants;
 import groundwar.HexPoint;
+import groundwar.constants.Colors;
 
 public class GoldTile extends Tile {
 
   public GoldTile(HexPoint pos) {
-    super(pos, Constants.GOLD_BG_COLOR, Constants.GOLD_OUTLINE_COLOR);
+    super(pos, Colors.GOLD_BG, Colors.GOLD_OUTLINE);
   }
 }

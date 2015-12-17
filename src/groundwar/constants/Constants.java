@@ -1,4 +1,6 @@
-package groundwar;
+package groundwar.constants;
+
+import groundwar.Point;
 
 public class Constants {
 
@@ -30,19 +32,6 @@ public class Constants {
   public static final Point BOARD_CENTER = new Point((NATIVE_WINDOW_WIDTH - TILE_WIDTH) / 2,
                                                      (NATIVE_WINDOW_HEIGHT - TILE_HEIGHT) / 2);
   public static final String BOARD_FILE = "/boards/board.csv";
-
-  // Colors
-  public static final int RED_COLOR = 0xffff0000;
-  public static final int RED2_COLOR = 0xff8f7e3b;
-  public static final int BLUE_COLOR = 0xff0000ff;
-  public static final int BLUE2_COLOR = 0xff477e7b;
-  public static final int TILE_BG_COLOR = 0xff6aa84f;
-  public static final int TILE_OUTLINE_COLOR = 0xff434343;
-  public static final int MOUNTAIN_BG_COLOR = 0xff666666;
-  public static final int GOLD_BG_COLOR = 0xffaeb540;
-  public static final int GOLD_OUTLINE_COLOR = 0xfff1c232;
-  public static final int FORT_BG_COLOR = 0xffa26991;
-  public static final int FORT_OUTLINE_COLOR = 0xffff00ff;
 
   // Texture names
   public static final String TILE_BG_NAME = "tile_background";

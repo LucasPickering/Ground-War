@@ -1,12 +1,12 @@
 package groundwar.tile;
 
-import groundwar.Constants;
 import groundwar.HexPoint;
+import groundwar.constants.Colors;
 
 public class ForwardFortTile extends Tile {
 
   public ForwardFortTile(HexPoint pos) {
-    super(pos, Constants.FORT_BG_COLOR, Constants.FORT_OUTLINE_COLOR);
+    super(pos, Colors.FORT_BG, Colors.FORT_OUTLINE);
   }
 
   @Override
@@ -28,8 +28,8 @@ public class ForwardFortTile extends Tile {
       newBgColor = getUnit().getOwner().secondaryColor;
       newOutlineColor = getUnit().getOwner().primaryColor;
     } else { // There's no unit, set colors to default
-      newBgColor = Constants.FORT_BG_COLOR;
-      newOutlineColor = Constants.FORT_OUTLINE_COLOR;
+      newBgColor = Colors.FORT_BG;
+      newOutlineColor = Colors.FORT_OUTLINE;
     }
 
     // Set both colors of this tile

@@ -1,8 +1,9 @@
-package groundwar.screen.tileeffect;
+package groundwar.screen.tileoverlay;
 
 import java.util.Arrays;
 
-import groundwar.Constants;
+import groundwar.constants.Colors;
+import groundwar.constants.Constants;
 import groundwar.screen.TextureHandler;
 
 public class TileOverlay {
@@ -18,8 +19,9 @@ public class TileOverlay {
     }
   }
 
-  public static TileOverlay mouseOver = new TileOverlay(Constants.TILE_BG_NAME, 0x80bbbbbb);
-  public static TileOverlay selected = new TileOverlay(Constants.TILE_OUTLINE_NAME, 0xff00ff00);
+  public static TileOverlay mouseOver = new TileOverlay(Constants.TILE_BG_NAME, Colors.MOUSE_OVER);
+  public static TileOverlay selected = new TileOverlay(Constants.TILE_OUTLINE_NAME,
+                                                       Colors.TILE_SELECTED);
 
   private final ColorTexture[] textures;
 

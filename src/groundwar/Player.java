@@ -1,8 +1,11 @@
 package groundwar;
 
+import groundwar.constants.Colors;
+import groundwar.constants.Constants;
+
 public enum Player {
 
-  RED(Constants.RED_COLOR, Constants.RED2_COLOR), BLUE(Constants.BLUE_COLOR, Constants.BLUE2_COLOR);
+  ORANGE(Colors.ORANGE, Colors.ORANGE2), BLUE(Colors.BLUE, Colors.BLUE2);
 
   public final int primaryColor;
   public final int secondaryColor;
@@ -50,7 +53,7 @@ public enum Player {
   /**
    * Gets the other player.
    *
-   * @return if this is RED, return BLUE, if this is BLUE, return RED
+   * @return if this is ORANGE, return BLUE, if this is BLUE, return ORANGE
    */
   public Player other() {
     return values()[1 - ordinal()];

@@ -6,12 +6,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 import groundwar.Board;
-import groundwar.Constants;
+import groundwar.constants.Constants;
 import groundwar.Point;
 import groundwar.screen.event.KeyEvent;
 import groundwar.screen.event.MouseButtonEvent;
-import groundwar.screen.tileeffect.SpawningUnitTileEffect;
-import groundwar.screen.tileeffect.TileOverlay;
+import groundwar.screen.tileoverlay.SpawningUnitTileOverlay;
+import groundwar.screen.tileoverlay.TileOverlay;
 import groundwar.tile.Tile;
 import groundwar.unit.Unit;
 import groundwar.unit.UnitType;
@@ -35,22 +35,22 @@ public class BoardScreen extends MainScreen {
 
     // Draw each tile
     for (Tile tile : board.getTiles().values()) {
-      List<TileOverlay> effects = new LinkedList<>();
+      List<TileOverlay> overlays = new LinkedList<>();
 
       // If the tile is selected, add the selected overlay
       if (tile == board.getSelectedTile()) {
-        effects.add(TileOverlay.selected);
+        overlays.add(TileOverlay.selected);
       }
 
       if (tile.contains(mousePos)) {
         Unit spawningUnit = board.getSpawningUnit();
         if (spawningUnit != null) {
-          effects.add(new SpawningUnitTileEffect(spawningUnit, tile.isSpawnable(spawningUnit)));
+          overlays.add(new SpawningUnitTileOverlay(spawningUnit, tile.isSpawnable(spawningUnit)));
         } else {
-          effects.add(TileOverlay.mouseOver);
+          overlays.add(TileOverlay.mouseOver);
         }
       }
-      drawTile(tile, effects);
+      drawTile(tile, overlays);
     }
   }
 
@@ -75,12 +75,12 @@ public class BoardScreen extends MainScreen {
     }
 
     // Draw tile overlays
-    drawEffects(overlays, x, y, width, height);
+    drawOverlays(overlays, x, y, width, height);
 
     TextureHandler.stopDrawingTextures(); // Tear down all the texture-drawing setup
   }
 
-  private void drawEffects(List<TileOverlay> overlays, int x, int y, int width, int height) {
+  private void drawOverlays(List<TileOverlay> overlays, int x, int y, int width, int height) {
     overlays.stream().forEach(overlay -> overlay.draw(x, y, width, height));
   }
 

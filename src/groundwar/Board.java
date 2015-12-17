@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import groundwar.constants.Constants;
 import groundwar.tile.FortTile;
 import groundwar.tile.ForwardFortTile;
 import groundwar.tile.GoldTile;
@@ -18,7 +19,7 @@ import groundwar.unit.UnitType;
 
 public class Board {
 
-  private Player currentPlayer = Player.RED;
+  private Player currentPlayer = Player.ORANGE;
   private final Map<HexPoint, Tile> tiles = new HashMap<>();
   private Tile selectedTile;
   private Unit spawningUnit;
@@ -69,7 +70,7 @@ public class Board {
         case "M":
           return new MountainTile(p);
         case "R":
-          return new FortTile(p, Player.RED);
+          return new FortTile(p, Player.ORANGE);
         case "B":
           return new FortTile(p, Player.BLUE);
         case "G":
