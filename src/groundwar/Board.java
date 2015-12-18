@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Objects;
 
 import groundwar.constants.Constants;
-import groundwar.tile.FortTile;
 import groundwar.tile.ForwardFortTile;
 import groundwar.tile.GoldTile;
 import groundwar.tile.MountainTile;
@@ -69,9 +68,9 @@ public class Board {
         case "M":
           return new MountainTile(p);
         case "R":
-          return new FortTile(p, Player.ORANGE);
+          return new Tile(p, Player.ORANGE);
         case "B":
-          return new FortTile(p, Player.BLUE);
+          return new Tile(p, Player.BLUE);
         case "G":
           return new GoldTile(p);
         case "F":

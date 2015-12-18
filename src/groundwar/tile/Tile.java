@@ -20,6 +20,11 @@ public class Tile {
   private final HexPoint pos;
 
   /**
+   * The player who owns this tile. In most cases, the tile is unowned and this is {@code null}.
+   */
+  private Player owner;
+
+  /**
    * The position of the top-left corner of the texture of this tile on the screen.
    */
   private final Point screenPos;
@@ -33,7 +38,16 @@ public class Tile {
   }
 
   public Tile(HexPoint pos, int backgroundColor, int outlineColor) {
+    this(pos, null, backgroundColor, outlineColor);
+  }
+
+  public Tile(HexPoint pos, Player owner) {
+    this(pos, owner, owner.secondaryColor, owner.primaryColor);
+  }
+
+  public Tile(HexPoint pos, Player owner, int backgroundColor, int outlineColor) {
     this.pos = pos;
+    this.owner = owner;
     this.screenPos = Constants.BOARD_CENTER.plus(
         (int) (Constants.TILE_WIDTH * pos.getX() * 0.75f),
         (int) (-Constants.TILE_HEIGHT * (pos.getX() / 2.0f + pos.getY())));
@@ -63,6 +77,14 @@ public class Tile {
 
   public final Point getCenterPos() {
     return screenPos.plus(Constants.TILE_WIDTH / 2, Constants.TILE_HEIGHT / 2);
+  }
+
+  public Player getOwner() {
+    return owner;
+  }
+
+  public void setOwner(Player owner) {
+    this.owner = owner;
   }
 
   public final int getBackgroundColor() {
@@ -191,7 +213,7 @@ public class Tile {
    * @return true if the unit can be spawned here, false otherwise
    */
   public boolean isSpawnable(Unit unit) {
-    return false;
+    return getUnit() == null && unit.getOwner() == owner;
   }
 
   /**
