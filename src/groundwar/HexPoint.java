@@ -51,6 +51,10 @@ public class HexPoint implements Comparable<HexPoint> {
             Math.abs(getZ() - p2.getZ())) / 2;
   }
 
+  public HexPoint plus(HexPoint p) {
+    return new HexPoint(x + p.x, y + p.y);
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

@@ -4,8 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -33,7 +31,7 @@ public class Board {
       e.printStackTrace();
     }
 
-    // For each tile, tell it which tiles are adjacent to it. Yes, this is O(n^2) time.
+    // For each tile, tell it which tiles are adjacent to it
     tiles.values().forEach(tile -> tile.setAdjacentTiles(getAdjacentTiles(tile)));
   }
 
@@ -88,20 +86,18 @@ public class Board {
   }
 
   /**
-   * Gets a list of tiles adjcaent to the given tile.
+   * Gets an array of tiles adjcaent to the given tile.
    *
    * @param tile the given tile
    * @return all tiles adjacent to {@param tile}
    */
-  private List<Tile> getAdjacentTiles(Tile tile) {
+  private Tile[] getAdjacentTiles(Tile tile) {
     final HexPoint p = tile.getPos();
-    final List<Tile> adjTiles = new LinkedList<>();
-    for (int x = -1; x <= 1; x++) {
-      for (int y = -1; y <= 1; y++) {
-        HexPoint adjPoint = new HexPoint(p.getX() + x, p.getY() + y);
-        if (tiles.containsKey(adjPoint) && tile.isAdjacentTo(adjPoint)) {
-          adjTiles.add(tiles.get(adjPoint));
-        }
+    final Tile[] adjTiles = new Tile[Constants.NUM_SIDES];
+    for (Direction dir : Direction.values()) {
+      HexPoint adjPoint = p.plus(dir.delta);
+      if (tiles.containsKey(adjPoint)) {
+        adjTiles[dir.ordinal()] = tiles.get(adjPoint);
       }
     }
     return adjTiles;
