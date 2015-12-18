@@ -15,7 +15,7 @@ import groundwar.unit.Unit;
 public class Tile {
 
   /**
-   * The position of this tile within the board.
+   * The position of this tile within the board. Non-null.
    */
   private final HexPoint pos;
 
@@ -46,6 +46,7 @@ public class Tile {
   }
 
   public Tile(HexPoint pos, Player owner, int backgroundColor, int outlineColor) {
+    Objects.nonNull(pos);
     this.pos = pos;
     this.owner = owner;
     this.screenPos = Constants.BOARD_CENTER.plus(
@@ -239,5 +240,23 @@ public class Tile {
    * Called <i>directly after</i> the unit on this tile changes.
    */
   protected void onUnitChange() {
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || !(o instanceof Tile)) {
+      return false;
+    }
+
+    Tile tile = (Tile) o;
+    return pos.equals(tile.pos);
+  }
+
+  @Override
+  public int hashCode() {
+    return pos.hashCode();
   }
 }

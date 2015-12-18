@@ -128,9 +128,10 @@ public class Board {
       spawnUnit(tile);
       selectedTile = null;
     } else if (selectedTile != null && selectedTile != tile) { // Move the unit
-      moveSelectedUnit(tile);
-      selectedTile = null;
-    } else if (selectedTile != tile && tile.isSelectable(currentPlayer)) {
+      if (moveSelectedUnit(tile)) {
+        selectedTile = null;
+      }
+    } else if (selectedTile != tile && tile.isSelectable(currentPlayer)) { // Select the tile
       selectedTile = tile;
     } else {
       selectedTile = null;
@@ -181,14 +182,17 @@ public class Board {
    * Moves the unit on {@link #selectedTile} to {@code destination}.
    *
    * @param destination the tile to be moved to, if valid (non-null)
+   * @return true if the unit was moved, false otherwise
    */
-  private void moveSelectedUnit(Tile destination) {
+  private boolean moveSelectedUnit(Tile destination) {
     Objects.requireNonNull(destination);
     if (canMoveTo(selectedTile, destination)) {
       selectedTile.getUnit().move(selectedTile.distanceTo(destination));
       destination.setUnit(selectedTile.getUnit());
       selectedTile.setUnit(null);
+      return true;
     }
+    return false;
   }
 
   /**
