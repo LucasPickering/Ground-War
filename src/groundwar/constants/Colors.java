@@ -22,6 +22,6 @@ public class Colors {
   public static final int SELECTED = 0xff00ff00;
   public static final int MOVEABLE = 0xffffffff;
   public static final int UNIT_SPAWNING = 0xffcccccc;
-  public static final int UNIT_SPAWNING_VALID = 0x4400ff00;
-  public static final int UNIT_SPAWNING_INVALID = 0x44ff0000;
+  public static final int UNIT_SPAWNING_VALID = 0xbb00bb00;
+  public static final int UNIT_SPAWNING_INVALID = 0xbbbb0000;
 }
