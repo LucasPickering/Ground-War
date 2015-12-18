@@ -131,15 +131,7 @@ public class Tile {
     return isAdjacentTo(tile.getPos());
   }
 
-  /**
-   * Gets a {@link Set} (a list of unique elements) of all tiles within the given range. Tiles
-   * directly adjacent to this one are range 1, tiles adjacent to those are range 2, and so on. A tile
-   * is considered to be within range of itself for any valid (non-negative) range.
-   *
-   * @param range the range to search (non-negative)
-   * @return the {@link Set} of tiles within {@code range} steps of this one
-   */
-  public Set<Tile> getTilesWithinRange(int range) {
+  private Set<Tile> getMoveableTilesInRange(Unit unit, int range) {
     if (range < 0) {
       throw new IllegalArgumentException("range must be non-negative!");
     }
@@ -148,10 +140,27 @@ public class Tile {
     tiles.add(this);
     if (range > 0) {
       for (Direction dir : Direction.values()) {
-        tiles.addAll(adjacentTiles[dir.ordinal()].getTilesWithinRange(range - 1));
+        final Tile adjTile = adjacentTiles[dir.ordinal()];
+        if (adjTile != null && adjTile.openForMovement(unit)) {
+          tiles.addAll(adjTile.getMoveableTilesInRange(unit, range - 1));
+        }
       }
     }
     return tiles;
+  }
+
+  /**
+   * Gets a {@link Set} of all tiles within the movement range of the unit on this tile.
+   *
+   * @return a {@link Set} of all tiles that can be moved to by {@link #unit}
+   * @throws IllegalStateException if {@code unit == null}
+   */
+  public Set<Tile> getMoveableTilesInRange() {
+    if (unit == null) {
+      throw new IllegalStateException("There's no unit on this tile!");
+    }
+
+    return getMoveableTilesInRange(unit, unit.getMovementPoints());
   }
 
   /**

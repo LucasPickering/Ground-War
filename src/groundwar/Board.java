@@ -175,9 +175,7 @@ public class Board {
     Objects.requireNonNull(from);
     Objects.requireNonNull(to);
     Unit unit = from.getUnit();
-    int distance = from.distanceTo(to);
-    return unit != null && to.openForMovement(unit) && from.distanceTo(to) <= unit
-        .getMovementPoints();
+    return unit != null && to.openForMovement(unit) && from.getMoveableTilesInRange().contains(to);
   }
 
   /**

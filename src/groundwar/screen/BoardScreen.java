@@ -39,10 +39,10 @@ public class BoardScreen extends MainScreen {
 
     // Draw each tile
     for (Tile tile : board.getTiles().values()) {
+      final Tile selectedTile = board.getSelectedTile();
       final List<TileOverlay> overlays = new LinkedList<>();
 
       // If the tile is selected, add the selected overlay
-      final Tile selectedTile = board.getSelectedTile();
       if (tile == selectedTile) {
         overlays.add(TileOverlay.selected);
       } else if (selectedTile != null && board.canMoveTo(selectedTile, tile)) {
