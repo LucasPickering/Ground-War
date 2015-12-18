@@ -1,5 +1,6 @@
 package groundwar.constants;
 
+import groundwar.Direction;
 import groundwar.Point;
 
 public class Constants {
@@ -15,6 +16,7 @@ public class Constants {
   public static final int TILE_RADIUS = 54;
   public static final int TILE_WIDTH = (int) (TILE_RADIUS * 4 / Math.sqrt(3));
   public static final int TILE_HEIGHT = TILE_RADIUS * 2;
+  public static int NUM_SIDES = Direction.values().length;
 
   // Renderer constants
   /**
@@ -26,15 +28,15 @@ public class Constants {
    * @see {@link #NATIVE_WINDOW_WIDTH}
    */
   public static final int NATIVE_WINDOW_HEIGHT = 1080;
-  public static final String TEXTURE_PATH = "/textures/%s.png";
 
+  public static final String TEXTURE_PATH = "/textures/%s.png";
   // Board constants
   public static final Point BOARD_CENTER = new Point((NATIVE_WINDOW_WIDTH - TILE_WIDTH) / 2,
                                                      (NATIVE_WINDOW_HEIGHT - TILE_HEIGHT) / 2);
-  public static final String BOARD_FILE = "/boards/board.csv";
 
+  public static final String BOARD_FILE = "/boards/board.csv";
   // Texture names
   public static final String TILE_BG_NAME = "tile_background";
-  public static final String TILE_OUTLINE_NAME = "tile_outline";
 
+  public static final String TILE_OUTLINE_NAME = "tile_outline";
 }

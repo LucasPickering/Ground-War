@@ -1,14 +1,15 @@
 package groundwar.tile;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
-import groundwar.constants.Constants;
+import groundwar.Direction;
 import groundwar.HexPoint;
 import groundwar.Player;
 import groundwar.Point;
 import groundwar.constants.Colors;
+import groundwar.constants.Constants;
 import groundwar.unit.Unit;
 
 public class Tile {
@@ -24,7 +25,7 @@ public class Tile {
   private final Point screenPos;
   private int backgroundColor;
   private int outlineColor;
-  private final List<Tile> adjacentTiles = new LinkedList<>();
+  private final Tile[] adjacentTiles = new Tile[Constants.NUM_SIDES];
   private Unit unit;
 
   public Tile(HexPoint pos) {
@@ -40,13 +41,15 @@ public class Tile {
     this.outlineColor = outlineColor;
   }
 
-  public final List<Tile> getAdjacentTiles() {
+  public final Tile[] getAdjacentTiles() {
     return adjacentTiles;
   }
 
-  public final void setAdjacentTiles(List<Tile> adjTiles) {
-    adjacentTiles.clear();
-    adjacentTiles.addAll(adjTiles);
+  public final void setAdjacentTiles(Tile[] adjTiles) {
+    if (adjTiles.length != Constants.NUM_SIDES) {
+      throw new IllegalArgumentException("I need " + Constants.NUM_SIDES + " sides!");
+    }
+    System.arraycopy(adjTiles, 0, adjacentTiles, 0, Constants.NUM_SIDES);
     onSetAdjacents();
   }
 
@@ -126,6 +129,29 @@ public class Tile {
    */
   public final boolean isAdjacentTo(Tile tile) {
     return isAdjacentTo(tile.getPos());
+  }
+
+  /**
+   * Gets a {@link Set} (a list of unique elements) of all tiles within the given range. Tiles
+   * directly adjacent to this one are range 1, tiles adjacent to those are range 2, and so on. A tile
+   * is considered to be within range of itself for any valid (non-negative) range.
+   *
+   * @param range the range to search (non-negative)
+   * @return the {@link Set} of tiles within {@code range} steps of this one
+   */
+  public Set<Tile> getTilesWithinRange(int range) {
+    if (range < 0) {
+      throw new IllegalArgumentException("range must be non-negative!");
+    }
+
+    Set<Tile> tiles = new HashSet<>();
+    tiles.add(this);
+    if (range > 0) {
+      for (Direction dir : Direction.values()) {
+        tiles.addAll(adjacentTiles[dir.ordinal()].getTilesWithinRange(range - 1));
+      }
+    }
+    return tiles;
   }
 
   /**
