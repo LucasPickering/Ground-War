@@ -57,7 +57,15 @@ public class Tile {
     return adjacentTiles;
   }
 
+  /**
+   * Copies the contents of {@code adjTiles} into {@link #adjacentTiles}.
+   *
+   * @param adjTiles the array to be copied from
+   * @throws NullPointerException     if {@code adjTiles == null}
+   * @throws IllegalArgumentException if {@code adjTiles.length != {@link Constants#NUM_SIDES}}
+   */
   public final void setAdjacentTiles(Tile[] adjTiles) {
+    Objects.requireNonNull(adjTiles);
     if (adjTiles.length != Constants.NUM_SIDES) {
       throw new IllegalArgumentException("I need " + Constants.NUM_SIDES + " sides!");
     }
