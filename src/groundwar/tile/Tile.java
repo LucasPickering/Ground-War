@@ -189,7 +189,7 @@ public class Tile {
    * @return true if the unit can move here, false otherwise
    * @throws NullPointerException if {@code unit == null}
    */
-  public boolean openForMovement(Unit unit) {
+  public boolean isMoveable(Unit unit) {
     Objects.requireNonNull(unit); // Check if the new unit isn't null
     return this.unit == null; // True if this tile is empty (this.unit is the unit on this tile)
   }

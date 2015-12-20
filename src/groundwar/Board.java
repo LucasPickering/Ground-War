@@ -178,7 +178,7 @@ public class Board {
     Objects.requireNonNull(from);
     Objects.requireNonNull(to);
     Unit unit = from.getUnit();
-    return unit != null && to.openForMovement(unit) && getTilesInMoveableRange(from).contains(to);
+    return unit != null && to.isMoveable(unit) && getTilesInMoveableRange(from).contains(to);
   }
 
   /**
@@ -242,7 +242,7 @@ public class Board {
     if (range > 0) {
       for (Direction dir : Direction.values()) {
         Tile adjTile = tile.getAdjacentTiles()[dir.ordinal()];
-        if (adjTile != null && adjTile.openForMovement(unit)) {
+        if (adjTile != null && adjTile.isMoveable(unit)) {
           adjTiles.add(adjTile);
           if (range > 1) {
             adjTiles.addAll(getTilesInMoveableRange(adjTile, unit, range - 1));
