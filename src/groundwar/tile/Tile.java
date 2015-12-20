@@ -179,7 +179,7 @@ public class Tile {
    * @return true if the unit can be spawned here, false otherwise
    */
   public boolean isSpawnable(Unit unit) {
-    return getUnit() == null && unit.getOwner() == owner;
+    return getUnit() == null && unit.getOwner() == getOwner();
   }
 
   /**

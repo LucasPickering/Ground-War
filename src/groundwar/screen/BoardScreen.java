@@ -45,7 +45,7 @@ public class BoardScreen extends MainScreen {
       // If the tile is selected, add the selected overlay
       if (tile == selectedTile) {
         overlays.add(TileOverlay.selected);
-      } else if (selectedTile != null && board.canMoveTo(selectedTile, tile)) {
+      } else if (selectedTile != null && board.canSelectedMoveTo(tile)) {
         overlays.add(TileOverlay.movable);
       }
 

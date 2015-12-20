@@ -21,8 +21,20 @@ public class Board {
 
   private Player currentPlayer = Player.ORANGE;
   private final Map<HexPoint, Tile> tiles = new HashMap<>();
+
+  /**
+   * The tile that is currently selected. If {@code selectedTile != null}, then {@code selectedTile
+   * .getUnit() != null}.
+   */
   private Tile selectedTile;
   private Unit spawningUnit;
+
+  /**
+   * A set of all tiles that the currently selected unit ({@code selectedTile.getUnit()}) can move to.
+   * Null if any of the following are true: <ul> <li>{@code selectedTile == null}</li> <li>{@code
+   * selectedTile.getUnit() == null}</li> </ul>
+   */
+  private Set<Tile> moveableTiles;
 
   public Board() {
     try {
@@ -123,9 +135,11 @@ public class Board {
   /**
    * Called when a specific tile is clicked.
    *
-   * @param tile the tile clicked
+   * @param tile the tile clicked (non-null)
+   * @throws NullPointerException if {@code tile == null}
    */
   public void onTileClicked(Tile tile) {
+    Objects.requireNonNull(tile);
     if (selectedTile == null && spawningUnit != null) { // Spawn the unit
       spawnUnit(tile);
       selectedTile = null;
@@ -134,10 +148,31 @@ public class Board {
         selectedTile = null;
       }
     } else if (selectedTile != tile && tile.isSelectable(currentPlayer)) { // Select the tile
-      selectedTile = tile;
+      selectTile(tile);
     } else {
-      selectedTile = null;
+      unselectTile();
     }
+  }
+
+  /**
+   * Selects the given tile. Sets {@link #selectedTile} equal to {@code tile}.
+   *
+   * @param tile the tile to select (non-null, {@code tile.getUnit() != null})
+   * @throws NullPointerException if {@code tile == null}
+   */
+  private void selectTile(Tile tile) {
+    Objects.requireNonNull(tile);
+    Objects.requireNonNull(tile.getUnit());
+    selectedTile = tile;
+    moveableTiles = getTilesInMoveableRange();
+  }
+
+  /**
+   * Un-selects the currently-selected tile. Sets {@link #selectedTile} equal to {@code null}.
+   */
+  private void unselectTile() {
+    selectedTile = null;
+    moveableTiles = null;
   }
 
   /**
@@ -167,18 +202,17 @@ public class Board {
   }
 
   /**
-   * Can the unit on {@code from} be moved to {@code to}?
+   * Can the unit on {@link #selectedTile} be moved to {@code to}?
    *
-   * @param from the tile to be moved from (non-null)
-   * @param to   the tile to be moved to (non-null)
+   * @param to the tile to be moved to (non-null)
    * @return true if the unit can be moved, false otherwise
    * @throws NullPointerException if {@code from == null} or {@code to == null}
    */
-  public boolean canMoveTo(Tile from, Tile to) {
-    Objects.requireNonNull(from);
+  public boolean canSelectedMoveTo(Tile to) {
+    Objects.requireNonNull(selectedTile);
     Objects.requireNonNull(to);
-    Unit unit = from.getUnit();
-    return unit != null && to.isMoveable(unit) && getTilesInMoveableRange(from).contains(to);
+    Unit unit = selectedTile.getUnit();
+    return to.isMoveable(unit) && getTilesInMoveableRange().contains(to);
   }
 
   /**
@@ -190,7 +224,7 @@ public class Board {
    */
   private boolean moveSelectedUnit(Tile destination) {
     Objects.requireNonNull(destination);
-    if (canMoveTo(selectedTile, destination)) {
+    if (canSelectedMoveTo(destination)) {
       selectedTile.getUnit().move(selectedTile.distanceTo(destination));
       destination.setUnit(selectedTile.getUnit());
       selectedTile.setUnit(null);
@@ -211,18 +245,13 @@ public class Board {
   }
 
   /**
-   * Gets a {@link Set} of all tiles within moveable range of the given tile. Moveable range means
-   * that a unit can move to the tile that is "in range" in <i>at most</i> {@code range} steps. A
-   * range of 0 is not permitted, and a tile is never considered to be in range of itself.
-   *
-   * @param tile the starting tile (non-null)
-   * @return a {@link Set} of all tiles in range, not including {@code tile}
-   * @throws NullPointerException if {@code tile == null} or {@code tile.getUnit() == null}
+   * Gets a {@link Set} of all tiles within moveable range of {@link #selectedTile}. Moveable range
+   * means that a unit can move to the tile that is "in range" in <i>at most</i> {@code range} steps.
+   * A range of 0 is not permitted, and a tile is never considered to be in range of itself.
    */
-  public Set<Tile> getTilesInMoveableRange(Tile tile) {
-    Objects.requireNonNull(tile);
-    Objects.requireNonNull(tile.getUnit());
-    return getTilesInMoveableRange(tile, tile.getUnit(), tile.getUnit().getMovementPoints());
+  public Set<Tile> getTilesInMoveableRange() {
+    return getTilesInMoveableRange(selectedTile, selectedTile.getUnit(),
+                                   selectedTile.getUnit().getMovementPoints());
   }
 
   /**
