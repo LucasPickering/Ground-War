@@ -4,8 +4,10 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 import groundwar.constants.Constants;
 import groundwar.tile.ForwardFortTile;
@@ -170,12 +172,13 @@ public class Board {
    * @param from the tile to be moved from (non-null)
    * @param to   the tile to be moved to (non-null)
    * @return true if the unit can be moved, false otherwise
+   * @throws NullPointerException if {@code from == null} or {@code to == null}
    */
   public boolean canMoveTo(Tile from, Tile to) {
     Objects.requireNonNull(from);
     Objects.requireNonNull(to);
     Unit unit = from.getUnit();
-    return unit != null && to.openForMovement(unit) && from.getMoveableTilesInRange().contains(to);
+    return unit != null && to.openForMovement(unit) && getTilesInMoveableRange(from).contains(to);
   }
 
   /**
@@ -183,6 +186,7 @@ public class Board {
    *
    * @param destination the tile to be moved to, if valid (non-null)
    * @return true if the unit was moved, false otherwise
+   * @throws NullPointerException if {@code destination == null}
    */
   private boolean moveSelectedUnit(Tile destination) {
     Objects.requireNonNull(destination);
@@ -204,5 +208,49 @@ public class Board {
         .forEach(tile -> tile.getUnit().resetMovementPoints());
 
     currentPlayer = currentPlayer.other(); // Switch players
+  }
+
+  /**
+   * Gets a {@link Set} of all tiles within moveable range of the given tile. Moveable range means
+   * that a unit can move to the tile that is "in range" in <i>at most</i> {@code range} steps. A
+   * range of 0 is not permitted, and a tile is never considered to be in range of itself.
+   *
+   * @param tile the starting tile (non-null)
+   * @return a {@link Set} of all tiles in range, not including {@code tile}
+   * @throws NullPointerException if {@code tile == null} or {@code tile.getUnit() == null}
+   */
+  public Set<Tile> getTilesInMoveableRange(Tile tile) {
+    Objects.requireNonNull(tile);
+    Objects.requireNonNull(tile.getUnit());
+    return getTilesInMoveableRange(tile, tile.getUnit(), tile.getUnit().getMovementPoints());
+  }
+
+  /**
+   * Gets a {@link Set} of all tiles within moveable range of the given tile, if the given unit were
+   * to be doing the movement. Moveable range means that a unit can move to the tile that is "in
+   * range" in <i>at most</i> {@code range} steps. A range of 0 is not permitted, and a tile is never
+   * considered to be in range of itself.
+   *
+   * @param tile  the starting tile (non-null)
+   * @param unit  the unit to be checked for movement
+   * @param range the amount of tiles to spread outwards (positive)
+   * @return a {@link Set} of all tiles in range, not including {@code tile}
+   */
+  private Set<Tile> getTilesInMoveableRange(Tile tile, Unit unit, int range) {
+    Set<Tile> adjTiles = new HashSet<>();
+
+    if (range > 0) {
+      for (Direction dir : Direction.values()) {
+        Tile adjTile = tile.getAdjacentTiles()[dir.ordinal()];
+        if (adjTile != null && adjTile.openForMovement(unit)) {
+          adjTiles.add(adjTile);
+          if (range > 1) {
+            adjTiles.addAll(getTilesInMoveableRange(adjTile, unit, range - 1));
+          }
+        }
+      }
+    }
+
+    return adjTiles;
   }
 }

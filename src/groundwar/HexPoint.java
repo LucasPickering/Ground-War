@@ -44,6 +44,7 @@ public class HexPoint implements Comparable<HexPoint> {
    *
    * @param p2 the other point (non-null)
    * @return the distance between the two points
+   * @throws NullPointerException if {@code p2 == null}
    */
   public int distanceTo(HexPoint p2) {
     Objects.requireNonNull(p2);

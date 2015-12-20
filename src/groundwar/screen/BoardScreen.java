@@ -33,9 +33,9 @@ public class BoardScreen extends MainScreen {
   @Override
   public void draw(Point mousePos) {
     super.draw(mousePos);
-    final int color = board.getCurrentPlayer().primaryColor & 0xcccccc;
-    GL11.glClearColor((color >> 16 & 0xff) / 255.0f, (color >> 8 & 0xff) / 255.0f,
-                      (color & 0xff) / 255.0f, 1.0f);
+    final int clearColor = board.getCurrentPlayer().primaryColor & 0xcccccc;
+    GL11.glClearColor((clearColor >> 16 & 0xff) / 255.0f, (clearColor >> 8 & 0xff) / 255.0f,
+                      (clearColor & 0xff) / 255.0f, 1.0f);
 
     // Draw each tile
     for (Tile tile : board.getTiles().values()) {

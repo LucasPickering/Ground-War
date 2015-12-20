@@ -1,10 +1,7 @@
 package groundwar.tile;
 
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
-import groundwar.Direction;
 import groundwar.HexPoint;
 import groundwar.Player;
 import groundwar.Point;
@@ -154,38 +151,6 @@ public class Tile {
     return isAdjacentTo(tile.getPos());
   }
 
-  private Set<Tile> getMoveableTilesInRange(Unit unit, int range) {
-    if (range < 0) {
-      throw new IllegalArgumentException("range must be non-negative!");
-    }
-
-    Set<Tile> tiles = new HashSet<>();
-    tiles.add(this);
-    if (range > 0) {
-      for (Direction dir : Direction.values()) {
-        final Tile adjTile = adjacentTiles[dir.ordinal()];
-        if (adjTile != null && adjTile.openForMovement(unit)) {
-          tiles.addAll(adjTile.getMoveableTilesInRange(unit, range - 1));
-        }
-      }
-    }
-    return tiles;
-  }
-
-  /**
-   * Gets a {@link Set} of all tiles within the movement range of the unit on this tile.
-   *
-   * @return a {@link Set} of all tiles that can be moved to by {@link #unit}
-   * @throws IllegalStateException if {@code unit == null}
-   */
-  public Set<Tile> getMoveableTilesInRange() {
-    if (unit == null) {
-      throw new IllegalStateException("There's no unit on this tile!");
-    }
-
-    return getMoveableTilesInRange(unit, unit.getMovementPoints());
-  }
-
   /**
    * Does this tile contain the {@link Point} p? p is a point in screen-space, not in tile-space. This
    * is essentially used to check if the mouse is over this tile.
@@ -222,10 +187,11 @@ public class Tile {
    *
    * @param unit the unit to be moved (non-null)
    * @return true if the unit can move here, false otherwise
+   * @throws NullPointerException if {@code unit == null}
    */
   public boolean openForMovement(Unit unit) {
-    Objects.requireNonNull(unit);
-    return this.unit == null;
+    Objects.requireNonNull(unit); // Check if the new unit isn't null
+    return this.unit == null; // True if this tile is empty (this.unit is the unit on this tile)
   }
 
   // Events

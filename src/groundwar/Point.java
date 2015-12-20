@@ -32,6 +32,7 @@ public class Point {
    * Constructs a new {@code Point} with the same x and y values as the given {@code Point}.
    *
    * @param p the {@code Point} to be copied (non-null)
+   * @throws NullPointerException if {@code p == null}
    */
   public Point(Point p) {
     Objects.requireNonNull(p);
@@ -83,6 +84,7 @@ public class Point {
    *
    * @param p the other point (non-null)
    * @return the Euclidean distance between the two points
+   * @throws NullPointerException if {@code p == null}
    */
   public double distanceTo(Point p) {
     Objects.requireNonNull(p);
