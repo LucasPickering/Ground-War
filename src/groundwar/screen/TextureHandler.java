@@ -83,6 +83,13 @@ public class TextureHandler {
   }
 
   /**
+   * Deletes all loaded textures.
+   */
+  public static void deleteTextures() {
+    textureMap.values().forEach(Texture::delete);
+  }
+
+  /**
    * Enables texture-drawing for all textures. This can optionally be used before drawing a lot of
    * textures to save time on the setup and cleanup.
    */

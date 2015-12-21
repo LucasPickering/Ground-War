@@ -14,6 +14,7 @@ import org.lwjgl.system.MemoryUtil;
 import groundwar.constants.Constants;
 import groundwar.screen.BoardScreen;
 import groundwar.screen.MainScreen;
+import groundwar.screen.TextureHandler;
 import groundwar.screen.event.KeyEvent;
 import groundwar.screen.event.MouseButtonEvent;
 
@@ -105,6 +106,7 @@ public class GroundWar {
       currentScreen.draw(mousePos.copy());
       GLFW.glfwSwapBuffers(window); // Swap the color buffers
     }
+    TextureHandler.deleteTextures(); // Free up texture memory
   }
 
   public static void main(String[] args) {

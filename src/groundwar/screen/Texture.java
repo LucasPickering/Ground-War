@@ -1,5 +1,7 @@
 package groundwar.screen;
 
+import org.lwjgl.opengl.GL11;
+
 import java.io.IOException;
 
 public class Texture {
@@ -12,5 +14,9 @@ public class Texture {
 
   public int getTextureID() {
     return textureID;
+  }
+
+  public void delete() {
+    GL11.glDeleteTextures(textureID);
   }
 }
