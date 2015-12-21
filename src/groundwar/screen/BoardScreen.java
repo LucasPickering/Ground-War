@@ -82,13 +82,9 @@ public class BoardScreen extends MainScreen {
     }
 
     // Draw tile overlays
-    drawOverlays(overlays, x, y, width, height);
+    overlays.forEach(overlay -> overlay.draw(x, y, width, height));
 
     textureHandler.stopDrawingTextures(); // Tear down the texture-drawing environment
-  }
-
-  private void drawOverlays(List<TileOverlay> overlays, int x, int y, int width, int height) {
-    overlays.stream().forEach(overlay -> overlay.draw(x, y, width, height));
   }
 
   @Override
