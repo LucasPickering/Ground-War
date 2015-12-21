@@ -20,7 +20,7 @@ import groundwar.unit.UnitType;
 public class Board {
 
   private Player currentPlayer = Player.ORANGE;
-  private final Map<HexPoint, Tile> tiles = new HashMap<>();
+  private final Map<Point, Tile> tiles = new HashMap<>();
 
   /**
    * The tile that is currently selected. If {@code selectedTile != null}, then {@code selectedTile
@@ -73,7 +73,7 @@ public class Board {
   private Tile getTileForData(String[] data) throws IllegalArgumentException {
     if (data.length >= 3) {
       // First value is x, second is y. Parse the Strings to ints.
-      final HexPoint p = new HexPoint(new Integer(data[0]), new Integer(data[1]));
+      final Point p = new Point(new Integer(data[0]), new Integer(data[1]));
 
       // Switch based on the type of the tile
       switch (data[2]) {
@@ -105,10 +105,10 @@ public class Board {
    * @return all tiles adjacent to {@param tile}
    */
   private Tile[] getAdjacentTiles(Tile tile) {
-    final HexPoint p = tile.getPos();
+    final Point p = tile.getPos();
     final Tile[] adjTiles = new Tile[Constants.NUM_SIDES];
     for (Direction dir : Direction.values()) {
-      HexPoint adjPoint = p.plus(dir.delta);
+      Point adjPoint = p.plus(dir.delta);
       if (tiles.containsKey(adjPoint)) {
         adjTiles[dir.ordinal()] = tiles.get(adjPoint);
       }
@@ -120,7 +120,7 @@ public class Board {
     return currentPlayer;
   }
 
-  public Map<HexPoint, Tile> getTiles() {
+  public Map<Point, Tile> getTiles() {
     return tiles;
   }
 

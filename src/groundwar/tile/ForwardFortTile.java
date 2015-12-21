@@ -1,12 +1,12 @@
 package groundwar.tile;
 
-import groundwar.HexPoint;
 import groundwar.Player;
+import groundwar.Point;
 import groundwar.constants.Colors;
 
 public class ForwardFortTile extends Tile {
 
-  public ForwardFortTile(HexPoint pos) {
+  public ForwardFortTile(Point pos) {
     super(pos, Colors.FORT_BG, Colors.FORT_OUTLINE);
   }
 

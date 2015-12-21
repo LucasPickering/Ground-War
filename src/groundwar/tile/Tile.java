@@ -2,7 +2,6 @@ package groundwar.tile;
 
 import java.util.Objects;
 
-import groundwar.HexPoint;
 import groundwar.Player;
 import groundwar.Point;
 import groundwar.constants.Colors;
@@ -14,7 +13,7 @@ public class Tile {
   /**
    * The position of this tile within the board. Non-null.
    */
-  private final HexPoint pos;
+  private final Point pos;
 
   /**
    * The player who owns this tile. In most cases, the tile is unowned and this is {@code null}.
@@ -30,19 +29,19 @@ public class Tile {
   private final Tile[] adjacentTiles = new Tile[Constants.NUM_SIDES];
   private Unit unit;
 
-  public Tile(HexPoint pos) {
+  public Tile(Point pos) {
     this(pos, Colors.TILE_BG, Colors.TILE_OUTLINE);
   }
 
-  public Tile(HexPoint pos, int backgroundColor, int outlineColor) {
+  public Tile(Point pos, int backgroundColor, int outlineColor) {
     this(pos, null, backgroundColor, outlineColor);
   }
 
-  public Tile(HexPoint pos, Player owner) {
+  public Tile(Point pos, Player owner) {
     this(pos, owner, owner.secondaryColor, owner.primaryColor);
   }
 
-  public Tile(HexPoint pos, Player owner, int backgroundColor, int outlineColor) {
+  public Tile(Point pos, Player owner, int backgroundColor, int outlineColor) {
     Objects.nonNull(pos);
     this.pos = pos;
     this.owner = owner;
@@ -73,7 +72,7 @@ public class Tile {
     onSetAdjacents();
   }
 
-  public final HexPoint getPos() {
+  public final Point getPos() {
     return pos;
   }
 
@@ -124,39 +123,18 @@ public class Tile {
    * @param p the other point
    * @return the distance between this tile and {@param p}
    */
-  public final int distanceTo(HexPoint p) {
-    return pos.distanceTo(p);
+  public final int distanceTo(Point p) {
+    return 1; // TODO
   }
 
   /**
-   * Convenice method for {@link #distanceTo(HexPoint)}.
+   * Convenice method for {@link #distanceTo(Point)}.
    *
    * @param tile the other tile
    * @return {@code distanceTo(tile.getPos()}
    */
   public final int distanceTo(Tile tile) {
     return distanceTo(tile.getPos());
-  }
-
-  /**
-   * Is this tile directly adjacent to the tile at the given position? In other words, is the distance
-   * between this tile and the given point strictly equal to 1?
-   *
-   * @param p the point to be checked for adjacency
-   * @return {@code distanceTo(p) == 1}
-   */
-  public final boolean isAdjacentTo(HexPoint p) {
-    return distanceTo(p) == 1;
-  }
-
-  /**
-   * Convenience method for {@link #isAdjacentTo(HexPoint)}.
-   *
-   * @param tile the tile to be checked for adjacency
-   * @return {@code isAdjacentTo(tile.getPos())}
-   */
-  public final boolean isAdjacentTo(Tile tile) {
-    return isAdjacentTo(tile.getPos());
   }
 
   /**
