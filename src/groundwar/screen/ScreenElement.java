@@ -1,5 +1,6 @@
 package groundwar.screen;
 
+import groundwar.GroundWar;
 import groundwar.Point;
 import groundwar.screen.event.EventHandler;
 import groundwar.screen.event.KeyEvent;
@@ -17,6 +18,7 @@ import groundwar.screen.event.MouseButtonEvent;
 public abstract class ScreenElement {
 
   protected final long window;
+  protected final TextureHandler textureHandler = GroundWar.groundWar.getTextureHandler();
 
   protected ScreenElement(long window) {
     this.window = window;

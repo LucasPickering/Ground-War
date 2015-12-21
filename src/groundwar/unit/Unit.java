@@ -2,8 +2,8 @@ package groundwar.unit;
 
 import java.util.Objects;
 
+import groundwar.GroundWar;
 import groundwar.Player;
-import groundwar.screen.TextureHandler;
 
 public class Unit {
 
@@ -39,7 +39,7 @@ public class Unit {
     this.owner = owner;
     this.movesPerTurn = movesPerTurn;
     resetMoves();
-    TextureHandler.loadTexture(type.name);
+    GroundWar.groundWar.getTextureHandler().loadTexture(type.name);
     return this;
   }
 

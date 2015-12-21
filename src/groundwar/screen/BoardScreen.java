@@ -26,8 +26,8 @@ public class BoardScreen extends MainScreen {
     super(window);
     this.board = board;
 
-    TextureHandler.loadTexture(Constants.TILE_BG_NAME);
-    TextureHandler.loadTexture(Constants.TILE_OUTLINE_NAME);
+    textureHandler.loadTexture(Constants.TILE_BG_NAME);
+    textureHandler.loadTexture(Constants.TILE_OUTLINE_NAME);
   }
 
   @Override
@@ -67,24 +67,24 @@ public class BoardScreen extends MainScreen {
     final int width = Constants.TILE_WIDTH;
     final int height = Constants.TILE_HEIGHT;
 
-    TextureHandler.startDrawingTextures(); // Set up the texture-drawing environment
+    textureHandler.startDrawingTextures(); // Set up the texture-drawing environment
 
     // Draw the regular background
-    TextureHandler.draw(Constants.TILE_BG_NAME, x, y, width, height, tile.getBackgroundColor());
+    textureHandler.draw(Constants.TILE_BG_NAME, x, y, width, height, tile.getBackgroundColor());
 
     // Draw the regular foreground
-    TextureHandler.draw(Constants.TILE_OUTLINE_NAME, x, y, width, height, tile.getOutlineColor());
+    textureHandler.draw(Constants.TILE_OUTLINE_NAME, x, y, width, height, tile.getOutlineColor());
 
     // Draw the unit on top
     Unit unit = tile.getUnit();
     if (unit != null) {
-      TextureHandler.draw(unit.getName(), x, y, width, height, unit.getOwner().primaryColor);
+      textureHandler.draw(unit.getName(), x, y, width, height, unit.getOwner().primaryColor);
     }
 
     // Draw tile overlays
     drawOverlays(overlays, x, y, width, height);
 
-    TextureHandler.stopDrawingTextures(); // Tear down the texture-drawing environment
+    textureHandler.stopDrawingTextures(); // Tear down the texture-drawing environment
   }
 
   private void drawOverlays(List<TileOverlay> overlays, int x, int y, int width, int height) {
