@@ -1,21 +1,46 @@
 package groundwar.unit;
 
+import java.util.Objects;
+
 import groundwar.Player;
 import groundwar.screen.TextureHandler;
 
 public class Unit {
 
-  private final UnitType type;
-  private final Player owner;
-  private final int movementPointsPerTurn;
+  private UnitType type;
+  private Player owner;
+  private int movementPointsPerTurn;
   private int movementPoints;
 
-  public Unit(UnitType type, Player owner, int movementPointsPerTurn) {
+  /**
+   * Initializes the unit. This <i>must</i> be called immediately after the constructor, and can only
+   * be called once per instance.
+   *
+   * @param type                  the type of the unit (non-null)
+   * @param owner                 the owner of the unit (non-null)
+   * @param movementPointsPerTurn the amount of tiles that the unit can move per turn (positive)
+   * @return this
+   * @throws IllegalStateException    if the unit has already been initialized
+   * @throws NullPointerException     if {@code type == null} or {@code owner == null}
+   * @throws IllegalArgumentException if {@code movementPointsPerTurn <= 0}
+   */
+  public Unit init(UnitType type, Player owner, int movementPointsPerTurn) {
+    // A unit can only be initliazed once
+    if (this.type != null) {
+      throw new IllegalStateException("This unit has already been initialized!");
+    }
+    Objects.requireNonNull(type);
+    Objects.requireNonNull(owner);
+    if (movementPointsPerTurn <= 0) {
+      throw new IllegalArgumentException("movementPointsPerTurn must be positive");
+    }
+
     this.type = type;
     this.owner = owner;
     this.movementPointsPerTurn = movementPointsPerTurn;
     resetMovementPoints();
     TextureHandler.loadTexture(type.name);
+    return this;
   }
 
   public UnitType getType() {
