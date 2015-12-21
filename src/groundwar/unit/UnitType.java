@@ -7,23 +7,23 @@ public enum UnitType {
 
   public final String name;
   public final int cost;
-  public final int movementPointsPerTurn;
+  public final int movesPerTurn;
   private final Class<? extends Unit> unitClass;
 
-  UnitType(String name, int cost, int movementPointsPerTurn) {
-    this(Unit.class, name, cost, movementPointsPerTurn);
+  UnitType(String name, int cost, int movesPerTurn) {
+    this(Unit.class, name, cost, movesPerTurn);
   }
 
-  UnitType(Class<? extends Unit> unitClass, String name, int cost, int movementPointsPerTurn) {
+  UnitType(Class<? extends Unit> unitClass, String name, int cost, int movesPerTurn) {
     this.unitClass = unitClass;
     this.name = name;
     this.cost = cost;
-    this.movementPointsPerTurn = movementPointsPerTurn;
+    this.movesPerTurn = movesPerTurn;
   }
 
   public Unit createUnit(Player owner) {
     try {
-      return unitClass.newInstance().init(this, owner, movementPointsPerTurn);
+      return unitClass.newInstance().init(this, owner, movesPerTurn);
     } catch (InstantiationException | IllegalAccessException e) {
       System.err.println("Error initializing unit");
       e.printStackTrace();

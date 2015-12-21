@@ -239,7 +239,7 @@ public class Board {
   public void nextTurn() {
     // Reset movement points for each unit
     tiles.values().stream().filter(tile -> tile.getUnit() != null)
-        .forEach(tile -> tile.getUnit().resetMovementPoints());
+        .forEach(tile -> tile.getUnit().resetMoves());
 
     currentPlayer = currentPlayer.other(); // Switch players
   }
@@ -251,7 +251,7 @@ public class Board {
    */
   public Set<Tile> getTilesInMoveableRange() {
     return getTilesInMoveableRange(selectedTile, selectedTile.getUnit(),
-                                   selectedTile.getUnit().getMovementPoints());
+                                   selectedTile.getUnit().getMovesRemaining());
   }
 
   /**

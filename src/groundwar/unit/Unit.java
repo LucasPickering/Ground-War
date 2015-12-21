@@ -9,36 +9,36 @@ public class Unit {
 
   private UnitType type;
   private Player owner;
-  private int movementPointsPerTurn;
-  private int movementPoints;
+  private int movesPerTurn;
+  private int movesRemaining;
 
   /**
    * Initializes the unit. This <i>must</i> be called immediately after the constructor, and can only
    * be called once per instance.
    *
-   * @param type                  the type of the unit (non-null)
-   * @param owner                 the owner of the unit (non-null)
-   * @param movementPointsPerTurn the amount of tiles that the unit can move per turn (positive)
+   * @param type         the type of the unit (non-null)
+   * @param owner        the owner of the unit (non-null)
+   * @param movesPerTurn the amount of tiles that the unit can move per turn (positive)
    * @return this
    * @throws IllegalStateException    if the unit has already been initialized
    * @throws NullPointerException     if {@code type == null} or {@code owner == null}
-   * @throws IllegalArgumentException if {@code movementPointsPerTurn <= 0}
+   * @throws IllegalArgumentException if {@code movesPerTurn <= 0}
    */
-  public Unit init(UnitType type, Player owner, int movementPointsPerTurn) {
+  public Unit init(UnitType type, Player owner, int movesPerTurn) {
     // A unit can only be initliazed once
     if (this.type != null) {
       throw new IllegalStateException("This unit has already been initialized!");
     }
     Objects.requireNonNull(type);
     Objects.requireNonNull(owner);
-    if (movementPointsPerTurn <= 0) {
-      throw new IllegalArgumentException("movementPointsPerTurn must be positive");
+    if (movesPerTurn <= 0) {
+      throw new IllegalArgumentException("movesPerTurn must be positive");
     }
 
     this.type = type;
     this.owner = owner;
-    this.movementPointsPerTurn = movementPointsPerTurn;
-    resetMovementPoints();
+    this.movesPerTurn = movesPerTurn;
+    resetMoves();
     TextureHandler.loadTexture(type.name);
     return this;
   }
@@ -59,8 +59,8 @@ public class Unit {
     return type.cost;
   }
 
-  public int getMovementPoints() {
-    return movementPoints;
+  public int getMovesRemaining() {
+    return movesRemaining;
   }
 
   /**
@@ -74,25 +74,25 @@ public class Unit {
     if (distance <= 0) {
       throw new IllegalArgumentException("distance must be positive");
     }
-    return distance <= movementPoints;
+    return distance <= movesRemaining;
   }
 
   /**
-   * Resets {@link #movementPoints} to {@link #movementPointsPerTurn}. Should be called at the end of
-   * each turn.
+   * Resets {@link #movesRemaining} to {@link #movesPerTurn}. Should be called at the end of each
+   * turn.
    */
-  public void resetMovementPoints() {
-    movementPoints = movementPointsPerTurn;
+  public void resetMoves() {
+    movesRemaining = movesPerTurn;
   }
 
   /**
    * Move this unit the given distance. This doesn't <i>actually</i> move the unit, instead it just
-   * subtracts {@code distance} from {@link #movementPoints}.
+   * subtracts {@code distance} from {@link #movesRemaining}.
    */
   public void move(int distance) {
     if (!canMove(distance)) {
       throw new IllegalStateException("Not enough movement points to move!");
     }
-    movementPoints -= distance;
+    movesRemaining -= distance;
   }
 }
