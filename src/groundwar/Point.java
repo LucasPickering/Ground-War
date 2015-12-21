@@ -4,8 +4,10 @@ import java.util.Objects;
 
 /**
  * A class representing a 2-dimensional integer point. Used mostly for points on-screen.
+ *
+ * Points are compared first by x, then by y.
  */
-public class Point {
+public class Point implements Comparable<Point> {
 
   private int x;
   private int y;
@@ -126,5 +128,11 @@ public class Point {
   @Override
   public String toString() {
     return String.format("(%d, %d)", x, y);
+  }
+
+  @Override
+  public int compareTo(Point p) {
+    final int xcomp = Integer.compare(x, p.x);
+    return xcomp != 0 ? xcomp : Integer.compare(y, p.y);
   }
 }
