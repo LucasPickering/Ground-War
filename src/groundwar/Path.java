@@ -5,6 +5,13 @@ import java.util.List;
 
 import groundwar.tile.Tile;
 
+/**
+ * Represents a path of tiles starting at some point and following some list of directions. This can
+ * be in one of two states: editable or termianted. A path is editable if {@link #terminate} has not
+ * yet been called, meaning its destination has not been calculated yet. Once {@link #terminate} is
+ * called, {@link #destination} is given a value. At that point, the path is termintad and no more
+ * directions can be added.
+ */
 public class Path {
 
   /**
@@ -13,7 +20,7 @@ public class Path {
   private final Tile origin;
 
   /**
-   * Can't be modified after destination is calculated.
+   * Can't be modified after termination.
    */
   private final List<Direction> directions = new LinkedList<>();
   private Point destination;
@@ -24,7 +31,7 @@ public class Path {
 
   public void addDirection(Direction dir) {
     if (destination != null) {
-      throw new IllegalStateException("The path has already been finalized!");
+      throw new IllegalStateException("The path has already been terminated!");
     }
     directions.add(dir);
   }
@@ -35,17 +42,25 @@ public class Path {
 
   public Point getDestination() {
     if (destination == null) {
-      destination = findDestination();
+      throw new IllegalStateException("This path has not yet been terminated!");
     }
     return destination;
   }
 
-  private Point findDestination() {
-    Point pos = origin.getPos();
+  public void terminate() {
+    destination = origin.getPos();
     for (Direction dir : directions) {
-      pos.shift(dir.delta);
+      destination.shift(dir.delta);
     }
-    return pos;
+  }
+
+  /**
+   * Creates an <i>editable</i> copy of this path.
+   */
+  public Path copy() {
+    Path copy = new Path(origin);
+    directions.forEach(copy::addDirection);
+    return copy;
   }
 
   @Override
