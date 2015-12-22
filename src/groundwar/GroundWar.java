@@ -145,8 +145,8 @@ public class GroundWar {
       @Override
       public void invoke(long window, double xPos, double yPos) {
         // Scale the cursor coordinates to fit the coords that everything is drawn at.
-        mousePos.setX((int) (xPos * Constants.NATIVE_WINDOW_WIDTH / windowWidth));
-        mousePos.setY((int) (yPos * Constants.NATIVE_WINDOW_HEIGHT / windowHeight));
+        mousePos = new Point((int) (xPos * Constants.NATIVE_WINDOW_WIDTH / windowWidth),
+                             (int) (yPos * Constants.NATIVE_WINDOW_HEIGHT / windowHeight));
       }
     };
 

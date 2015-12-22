@@ -48,7 +48,7 @@ public class Path {
   public void terminate() {
     destination = origin;
     for (Direction dir : directions) {
-      destination.shift(dir.delta);
+      destination = destination.plus(dir.delta);
     }
   }
 
