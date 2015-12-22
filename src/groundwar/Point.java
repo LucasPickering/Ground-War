@@ -88,8 +88,7 @@ public class Point implements Comparable<Point> {
    * @return this
    */
   public Point shift(Point p) {
-    shift(p.x, p.y);
-    return this;
+    return shift(p.x, p.y);
   }
 
   /**
