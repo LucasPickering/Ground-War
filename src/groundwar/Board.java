@@ -164,7 +164,7 @@ public class Board {
     Objects.requireNonNull(tile);
     Objects.requireNonNull(tile.getUnit());
     selectedTile = tile;
-    moveableTiles = getTilesInMoveableRange();
+    moveableTiles = getMoveablePaths();
   }
 
   /**
@@ -212,7 +212,7 @@ public class Board {
     Objects.requireNonNull(selectedTile);
     Objects.requireNonNull(destination);
     Unit unit = selectedTile.getUnit();
-    return destination.isMoveable(unit) && getTilesInMoveableRange().contains(destination);
+    return destination.isMoveable(unit) && getMoveablePaths().contains(destination);
   }
 
   /**
@@ -259,36 +259,38 @@ public class Board {
   }
 
   /**
-   * Gets a {@link Set} of all tiles within moveable range of {@link #selectedTile}. Moveable range
-   * means that a unit can move to the tile that is "in range" in <i>at most</i> {@code range} steps.
-   * A range of 0 is not permitted, and a tile is never considered to be in range of itself.
+   * Gets a {@link Set} of all paths within moveable range of {@link #selectedTile}. A path is
+   * moveable if each tile in it is moveable, and its length is less than or equal to the selected
+   * unit's remaining moves.
+   *
+   * @return a {@link Set} of all moveable paths
    */
-  public Set<Tile> getTilesInMoveableRange() {
-    return getTilesInMoveableRange(selectedTile, selectedTile.getUnit(),
-                                   selectedTile.getUnit().getMovesRemaining());
+  public Set<Path> getMoveablePaths() {
+    return getMoveablePaths(selectedTile, selectedTile.getUnit(),
+                            selectedTile.getUnit().getMovesRemaining());
   }
 
   /**
-   * Gets a {@link Set} of all tiles within moveable range of the given tile, if the given unit were
-   * to be doing the movement. Moveable range means that a unit can move to the tile that is "in
-   * range" in <i>at most</i> {@code range} steps. A range of 0 is not permitted, and a tile is never
-   * considered to be in range of itself.
+   * Gets a {@link Set} of all paths within moveable range of the given tile, if the given unit were
+   * to be doing the movement. A path is moveable if each tile in it is moveable, and its length is
+   * less than or equal to {@code range}.
    *
    * @param tile  the starting tile (non-null)
    * @param unit  the unit to be checked for movement
    * @param range the amount of tiles to spread outwards (positive)
-   * @return a {@link Set} of all tiles in range, not including {@code tile}
+   * @return a {@link Set} of all paths in range
    */
-  private Set<Tile> getTilesInMoveableRange(Tile tile, Unit unit, int range) {
-    Set<Tile> adjTiles = new HashSet<>();
+  private Set<Path> getMoveablePaths(Tile tile, Unit unit, int range) {
+    Set<Path> adjTiles = new HashSet<>();
 
     if (range > 0) {
       for (Direction dir : Direction.values()) {
         Tile adjTile = tile.getAdjacentTiles()[dir.ordinal()];
         if (adjTile != null && adjTile.isMoveable(unit)) {
+
           adjTiles.add(adjTile);
           if (range > 1) {
-            adjTiles.addAll(getTilesInMoveableRange(adjTile, unit, range - 1));
+            adjTiles.addAll(getMoveablePaths(adjTile, unit, range - 1));
           }
         }
       }

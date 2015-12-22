@@ -29,6 +29,10 @@ public class Path {
     directions.add(dir);
   }
 
+  public int getLength() {
+    return directions.size();
+  }
+
   public Point getDestination() {
     if (destination == null) {
       destination = findDestination();
