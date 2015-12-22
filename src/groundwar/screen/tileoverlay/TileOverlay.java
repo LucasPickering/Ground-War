@@ -20,7 +20,9 @@ public class TileOverlay {
   public static TileOverlay mouseOver = new TileOverlay(Constants.TILE_BG_NAME, Colors.MOUSE_OVER);
   public static TileOverlay selected = new TileOverlay(Constants.TILE_OUTLINE_NAME,
                                                        Colors.SELECTED);
-  public static TileOverlay movable = new TileOverlay(Constants.TILE_OUTLINE_NAME, Colors.MOVEABLE);
+  public static TileOverlay moveable = new TileOverlay(Constants.TILE_OUTLINE_NAME, Colors.MOVEABLE);
+  public static TileOverlay attackable = new TileOverlay(Constants.TILE_OUTLINE_NAME,
+                                                         Colors.ATTACKABLE);
 
   private final ColorTexture[] textures;
 

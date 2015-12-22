@@ -11,7 +11,7 @@ public class MountainTile extends Tile {
   }
 
   @Override
-  public boolean isMoveable(Unit unit) {
+  public boolean isMoveable(Unit mover) {
     return false;
   }
 }

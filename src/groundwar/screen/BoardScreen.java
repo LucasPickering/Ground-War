@@ -42,15 +42,25 @@ public class BoardScreen extends MainScreen {
       final Tile selectedTile = board.getSelectedTile();
       final List<TileOverlay> overlays = new LinkedList<>();
 
-      // If the tile is selected, add the selected overlay
+      // If the tile is selected, add the selected overlay.
+      // Otherwise, if another tile is selected, do some more logic.
       if (tile == selectedTile) {
         overlays.add(TileOverlay.selected);
-      } else if (selectedTile != null && board.canSelectedMoveTo(tile)) {
-        overlays.add(TileOverlay.movable);
+      } else if (selectedTile != null) {
+        // If this tile can be moved to by the selected unit, draw the moveable overlay.
+        // Otherwise, if it can be attack by the selected unit, draw the attackable overlay.
+        if (board.canSelectedMoveTo(tile)) {
+          overlays.add(TileOverlay.moveable);
+        } else if (board.canSelectedAttack(tile)) {
+          overlays.add(TileOverlay.attackable);
+        }
       }
 
+      // If the mouse is over this tile
       if (tile.contains(mousePos)) {
         final Unit spawningUnit = board.getSpawningUnit();
+        // If a unit is being spawned, draw the unit-spawning overlay.
+        // Otherwise, draw the normal mouse-over overlay.
         if (spawningUnit != null) {
           overlays.add(new SpawningUnitTileOverlay(spawningUnit, tile.isSpawnable(spawningUnit)));
         } else {

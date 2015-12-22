@@ -138,6 +138,19 @@ public class Tile {
   }
 
   /**
+   * Is the given tile adjacent to this tile? Two tiles are adjacent if the distance between them is
+   * exactly 1.
+   *
+   * @param tile the other tile (non-null)
+   * @return true if this tile and the other are adjacent, false otherwise
+   * @throws NullPointerException if {@code tile == null}
+   */
+  public boolean isAdjacentTo(Tile tile) {
+    Objects.requireNonNull(tile);
+    return distanceTo(tile) == 1;
+  }
+
+  /**
    * Does this tile contain the {@link Point} p? p is a point in screen-space, not in tile-space. This
    * is essentially used to check if the mouse is over this tile.
    *
@@ -161,23 +174,38 @@ public class Tile {
   /**
    * Can the given unit be spawned on this tile?
    *
-   * @param unit the unit to be spawned
+   * @param unit the unit to be spawned (non-null)
    * @return true if the unit can be spawned here, false otherwise
+   * @throws NullPointerException if {@code unit == null}
    */
   public boolean isSpawnable(Unit unit) {
+    Objects.requireNonNull(unit);
     return getUnit() == null && unit.getOwner() == getOwner();
   }
 
   /**
    * Can the given unit move to this tile?
    *
-   * @param unit the unit to be moved (non-null)
+   * @param mover the unit to be moved (non-null)
    * @return true if the unit can move here, false otherwise
-   * @throws NullPointerException if {@code unit == null}
+   * @throws NullPointerException if {@code mover == null}
    */
-  public boolean isMoveable(Unit unit) {
-    Objects.requireNonNull(unit); // Check if the new unit isn't null
-    return this.unit == null; // True if this tile is empty (this.unit is the unit on this tile)
+  public boolean isMoveable(Unit mover) {
+    Objects.requireNonNull(mover);
+    return unit == null;
+  }
+
+  /**
+   * Checks if this tile is attackable by the given unit. In order to be attackable, this tile must
+   * have a unit owned by another player than the owner of {@code attacker}.
+   *
+   * @param attacker the attacking unit (non-null)
+   * @return true if this tile can be attacked, false otherwise
+   * @throws NullPointerException if {@code attacker == null}
+   */
+  public boolean isAttackable(Unit attacker) {
+    Objects.requireNonNull(attacker);
+    return unit != null && unit.getOwner() != attacker.getOwner();
   }
 
   // Events

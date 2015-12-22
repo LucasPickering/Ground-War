@@ -204,15 +204,15 @@ public class Board {
   /**
    * Can the unit on {@link #selectedTile} be moved to {@code to}?
    *
-   * @param to the tile to be moved to (non-null)
+   * @param destination the tile to be moved to (non-null)
    * @return true if the unit can be moved, false otherwise
-   * @throws NullPointerException if {@code from == null} or {@code to == null}
+   * @throws NullPointerException if {@code selectedTile == null} or {@code destination == null}
    */
-  public boolean canSelectedMoveTo(Tile to) {
+  public boolean canSelectedMoveTo(Tile destination) {
     Objects.requireNonNull(selectedTile);
-    Objects.requireNonNull(to);
+    Objects.requireNonNull(destination);
     Unit unit = selectedTile.getUnit();
-    return to.isMoveable(unit) && getTilesInMoveableRange().contains(to);
+    return destination.isMoveable(unit) && getTilesInMoveableRange().contains(destination);
   }
 
   /**
@@ -231,6 +231,20 @@ public class Board {
       return true;
     }
     return false;
+  }
+
+  /**
+   * Can the unit on {@link #selectedTile} attack the unit on {@code to}? Units cna only attack
+   * adjacent tiles.
+   *
+   * @param destination the tile to be attacked
+   * @return true if the unit on can attack, false otherwise
+   * @throws NullPointerException if {@code selectedTile == null} or {@code destination == null}
+   */
+  public boolean canSelectedAttack(Tile destination) {
+    Objects.requireNonNull(selectedTile);
+    Objects.requireNonNull(destination);
+    return selectedTile.isAdjacentTo(destination) && destination.isAttackable(selectedTile.getUnit());
   }
 
   /**
