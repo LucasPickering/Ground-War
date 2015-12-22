@@ -225,7 +225,7 @@ public class Board {
   private boolean moveSelectedUnit(Tile destination) {
     Objects.requireNonNull(destination);
     if (canSelectedMoveTo(destination)) {
-      selectedTile.getUnit().move(selectedTile.distanceTo(destination));
+      selectedTile.getUnit().useMoves(selectedTile.distanceTo(destination));
       destination.setUnit(selectedTile.getUnit());
       selectedTile.setUnit(null);
       return true;

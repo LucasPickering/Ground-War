@@ -9,36 +9,31 @@ public class Unit {
 
   private UnitType type;
   private Player owner;
-  private int movesPerTurn;
   private int movesRemaining;
+  private int health;
 
   /**
    * Initializes the unit. This <i>must</i> be called immediately after the constructor, and can only
    * be called once per instance.
    *
-   * @param type         the type of the unit (non-null)
-   * @param owner        the owner of the unit (non-null)
-   * @param movesPerTurn the amount of tiles that the unit can move per turn (positive)
+   * @param type  the type of the unit (non-null)
+   * @param owner the owner of the unit (non-null)
    * @return this
-   * @throws IllegalStateException    if the unit has already been initialized
-   * @throws NullPointerException     if {@code type == null} or {@code owner == null}
-   * @throws IllegalArgumentException if {@code movesPerTurn <= 0}
+   * @throws IllegalStateException if the unit has already been initialized
+   * @throws NullPointerException  if {@code type == null} or {@code owner == null}
    */
-  public Unit init(UnitType type, Player owner, int movesPerTurn) {
+  public Unit init(UnitType type, Player owner) {
     // A unit can only be initliazed once
     if (this.type != null) {
       throw new IllegalStateException("This unit has already been initialized!");
     }
     Objects.requireNonNull(type);
     Objects.requireNonNull(owner);
-    if (movesPerTurn <= 0) {
-      throw new IllegalArgumentException("movesPerTurn must be positive");
-    }
 
     this.type = type;
     this.owner = owner;
-    this.movesPerTurn = movesPerTurn;
     resetMoves();
+    health = type.maxHealth;
     GroundWar.groundWar.getTextureHandler().loadTexture(type.name);
     return this;
   }
@@ -78,21 +73,35 @@ public class Unit {
   }
 
   /**
-   * Resets {@link #movesRemaining} to {@link #movesPerTurn}. Should be called at the end of each
-   * turn.
+   * Subtracts the given distance from {@link #movesRemaining}.
    */
-  public void resetMoves() {
-    movesRemaining = movesPerTurn;
-  }
-
-  /**
-   * Move this unit the given distance. This doesn't <i>actually</i> move the unit, instead it just
-   * subtracts {@code distance} from {@link #movesRemaining}.
-   */
-  public void move(int distance) {
+  public void useMoves(int distance) {
     if (!canMove(distance)) {
       throw new IllegalStateException("Not enough movement points to move!");
     }
     movesRemaining -= distance;
+  }
+
+  public int getHealth() {
+    return health;
+  }
+
+  /**
+   * Inflicts the given amount of damage to this unit. Returns whether or not this unit is still
+   * alive. If the return value is false, this unit is dead and should be removed from the board.
+   *
+   * @param damage the amount of damage to inflict
+   * @return true if this unit is alive {@code damage > 0}, false otherwise
+   */
+  public boolean inflictDamage(int damage) {
+    health -= damage;
+    return health > 0;
+  }
+
+  /**
+   * Resets {@link #movesRemaining}. Should be called at the end of each turn.
+   */
+  public void resetMoves() {
+    movesRemaining = type.movesPerTurn;
   }
 }
