@@ -78,7 +78,31 @@ public class Point implements Comparable<Point> {
    * @return the new {@code Point}
    */
   public Point plus(int x, int y) {
-    return new Point(this.x + x, this.y + y);
+    return new Point(this).shift(x, y);
+  }
+
+  /**
+   * Changes the x and y value of this point by the x and y of the given point.
+   *
+   * @param p the point to shift by
+   * @return this
+   */
+  public Point shift(Point p) {
+    shift(p.x, p.y);
+    return this;
+  }
+
+  /**
+   * Changes the x and y value of this point by the given x and y values.
+   *
+   * @param x the x value to shift by
+   * @param y the y value to shift by
+   * @return this
+   */
+  public Point shift(int x, int y) {
+    this.x += x;
+    this.y += y;
+    return this;
   }
 
   /**
