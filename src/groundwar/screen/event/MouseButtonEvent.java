@@ -1,6 +1,6 @@
 package groundwar.screen.event;
 
-import groundwar.Point;
+import groundwar.util.Point;
 
 public class MouseButtonEvent extends Event {
 

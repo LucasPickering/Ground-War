@@ -1,8 +1,8 @@
 package groundwar.tile;
 
 import groundwar.Player;
-import groundwar.Point;
-import groundwar.constants.Colors;
+import groundwar.util.Point;
+import groundwar.util.Colors;
 
 public class ForwardFortTile extends Tile {
 

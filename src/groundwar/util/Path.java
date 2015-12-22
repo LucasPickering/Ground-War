@@ -1,4 +1,4 @@
-package groundwar;
+package groundwar.util;
 
 import java.util.LinkedList;
 import java.util.List;

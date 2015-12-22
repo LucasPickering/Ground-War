@@ -1,4 +1,4 @@
-package groundwar;
+package groundwar.util;
 
 public enum Direction {
 

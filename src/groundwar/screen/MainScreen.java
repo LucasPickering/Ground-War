@@ -3,7 +3,7 @@ package groundwar.screen;
 import java.util.LinkedList;
 import java.util.List;
 
-import groundwar.Point;
+import groundwar.util.Point;
 import groundwar.screen.event.MouseButtonEvent;
 import groundwar.screen.gui.GuiElement;
 

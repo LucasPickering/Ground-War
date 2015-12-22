@@ -9,13 +9,16 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-import groundwar.constants.Constants;
+import groundwar.util.Constants;
 import groundwar.tile.ForwardFortTile;
 import groundwar.tile.GoldTile;
 import groundwar.tile.MountainTile;
 import groundwar.tile.Tile;
 import groundwar.unit.Unit;
 import groundwar.unit.UnitType;
+import groundwar.util.Direction;
+import groundwar.util.Path;
+import groundwar.util.Point;
 
 public class Board {
 

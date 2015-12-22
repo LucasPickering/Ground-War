@@ -7,8 +7,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import groundwar.Board;
-import groundwar.Point;
-import groundwar.constants.Constants;
+import groundwar.util.Point;
+import groundwar.util.Constants;
 import groundwar.screen.event.KeyEvent;
 import groundwar.screen.event.MouseButtonEvent;
 import groundwar.screen.tileoverlay.SpawningUnitTileOverlay;

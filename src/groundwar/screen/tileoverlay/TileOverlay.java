@@ -1,8 +1,8 @@
 package groundwar.screen.tileoverlay;
 
 import groundwar.GroundWar;
-import groundwar.constants.Colors;
-import groundwar.constants.Constants;
+import groundwar.util.Colors;
+import groundwar.util.Constants;
 
 public class TileOverlay {
 

@@ -1,4 +1,4 @@
-package groundwar.constants;
+package groundwar.util;
 
 public class Colors {
 

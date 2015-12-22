@@ -3,9 +3,9 @@ package groundwar.tile;
 import java.util.Objects;
 
 import groundwar.Player;
-import groundwar.Point;
-import groundwar.constants.Colors;
-import groundwar.constants.Constants;
+import groundwar.util.Point;
+import groundwar.util.Colors;
+import groundwar.util.Constants;
 import groundwar.unit.Unit;
 
 public class Tile {

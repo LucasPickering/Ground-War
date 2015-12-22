@@ -1,6 +1,6 @@
 package groundwar.screen.gui;
 
-import groundwar.Point;
+import groundwar.util.Point;
 
 public class Button extends GuiElement {
 

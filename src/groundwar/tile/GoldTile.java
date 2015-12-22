@@ -1,7 +1,7 @@
 package groundwar.tile;
 
-import groundwar.Point;
-import groundwar.constants.Colors;
+import groundwar.util.Point;
+import groundwar.util.Colors;
 
 public class GoldTile extends Tile {
 

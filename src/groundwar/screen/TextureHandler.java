@@ -12,7 +12,7 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
-import groundwar.constants.Constants;
+import groundwar.util.Constants;
 import groundwar.GroundWar;
 
 public class TextureHandler {

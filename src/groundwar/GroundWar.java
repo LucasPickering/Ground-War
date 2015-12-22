@@ -11,12 +11,13 @@ import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.system.MemoryUtil;
 
-import groundwar.constants.Constants;
+import groundwar.util.Constants;
 import groundwar.screen.BoardScreen;
 import groundwar.screen.MainScreen;
 import groundwar.screen.TextureHandler;
 import groundwar.screen.event.KeyEvent;
 import groundwar.screen.event.MouseButtonEvent;
+import groundwar.util.Point;
 
 public class GroundWar {
 

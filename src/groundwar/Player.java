@@ -1,7 +1,7 @@
 package groundwar;
 
-import groundwar.constants.Colors;
-import groundwar.constants.Constants;
+import groundwar.util.Colors;
+import groundwar.util.Constants;
 
 public enum Player {
 

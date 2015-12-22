@@ -1,7 +1,7 @@
-package groundwar.constants;
+package groundwar.util;
 
-import groundwar.Direction;
-import groundwar.Point;
+import groundwar.util.Direction;
+import groundwar.util.Point;
 
 public class Constants {
 

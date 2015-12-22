@@ -1,7 +1,7 @@
 package groundwar.screen.tileoverlay;
 
-import groundwar.constants.Colors;
-import groundwar.constants.Constants;
+import groundwar.util.Colors;
+import groundwar.util.Constants;
 import groundwar.unit.Unit;
 
 public class SpawningUnitTileOverlay extends TileOverlay {
