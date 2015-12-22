@@ -7,7 +7,14 @@ import groundwar.tile.Tile;
 
 public class Path {
 
+  /**
+   * Non-null
+   */
   private final Tile origin;
+
+  /**
+   * Can't be modified after destination is calculated.
+   */
   private final List<Direction> directions = new LinkedList<>();
   private Point destination;
 
@@ -35,5 +42,24 @@ public class Path {
       pos.shift(dir.delta);
     }
     return pos;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || !(o instanceof Path)) {
+      return false;
+    }
+
+    Path path = (Path) o;
+    return origin.equals(path.origin) && !(destination != null ? !destination.equals(path.destination)
+                                                               : path.destination != null);
+  }
+
+  @Override
+  public int hashCode() {
+    return origin.hashCode() * 31 + (destination != null ? destination.hashCode() : 0);
   }
 }
