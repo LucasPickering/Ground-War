@@ -124,7 +124,11 @@ public class Tile {
    * @return the distance between this tile and {@param p}
    */
   public final int distanceTo(Point p) {
-    return 1; // TODO
+    final int x1 = pos.getX();
+    final int y1 = pos.getY();
+    final int x2 = p.getX();
+    final int y2 = p.getY();
+    return (Math.abs(x1 - x2) + Math.abs(y1 - y2) + Math.abs(-x1 - y1 + x2 + y2)) / 2;
   }
 
   /**
