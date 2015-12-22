@@ -3,8 +3,6 @@ package groundwar;
 import java.util.LinkedList;
 import java.util.List;
 
-import groundwar.tile.Tile;
-
 /**
  * Represents a path of tiles starting at some point and following some list of directions. This can
  * be in one of two states: editable or termianted. A path is editable if {@link #terminate} has not
@@ -17,7 +15,7 @@ public class Path {
   /**
    * Non-null
    */
-  private final Tile origin;
+  private final Point origin;
 
   /**
    * Can't be modified after termination.
@@ -25,7 +23,7 @@ public class Path {
   private final List<Direction> directions = new LinkedList<>();
   private Point destination;
 
-  public Path(Tile origin) {
+  public Path(Point origin) {
     this.origin = origin;
   }
 
@@ -48,7 +46,7 @@ public class Path {
   }
 
   public void terminate() {
-    destination = origin.getPos();
+    destination = origin;
     for (Direction dir : directions) {
       destination.shift(dir.delta);
     }

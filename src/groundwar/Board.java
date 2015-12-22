@@ -30,11 +30,15 @@ public class Board {
   private Unit spawningUnit;
 
   /**
-   * A set of all tiles that the currently selected unit ({@code selectedTile.getUnit()}) can move to.
-   * Null if any of the following are true: <ul> <li>{@code selectedTile == null}</li> <li>{@code
-   * selectedTile.getUnit() == null}</li> </ul>
+   * A set of all paths that the currently selected unit ({@code selectedTile.getUnit()}) can
+   * traverse. All paths must be terminated and moveable, meaning that for each step in the path, the
+   * tile at that position is moveable for the currently-selected unit. Null if any of the following
+   * are true: <ul> <li>{@code selectedTile == null}</li> <li>{@code selectedTile.getUnit() ==
+   * null}</li> </ul>
+   *
+   * @see Path
    */
-  private Set<Tile> moveableTiles;
+  private Set<Path> moveablePaths;
 
   public Board() {
     try {
@@ -164,7 +168,7 @@ public class Board {
     Objects.requireNonNull(tile);
     Objects.requireNonNull(tile.getUnit());
     selectedTile = tile;
-    moveableTiles = getMoveablePaths();
+    moveablePaths = getMoveablePaths();
   }
 
   /**
@@ -172,7 +176,7 @@ public class Board {
    */
   private void unselectTile() {
     selectedTile = null;
-    moveableTiles = null;
+    moveablePaths = null;
   }
 
   /**
@@ -211,8 +215,14 @@ public class Board {
   public boolean canSelectedMoveTo(Tile destination) {
     Objects.requireNonNull(selectedTile);
     Objects.requireNonNull(destination);
-    Unit unit = selectedTile.getUnit();
-    return destination.isMoveable(unit) && getMoveablePaths().contains(destination);
+
+    // Check if one of the moveable paths is to destination
+    for (Path path : moveablePaths) {
+      if (path.getDestination().equals(destination.getPos())) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**
@@ -266,36 +276,36 @@ public class Board {
    * @return a {@link Set} of all moveable paths
    */
   public Set<Path> getMoveablePaths() {
-    return getMoveablePaths(selectedTile, selectedTile.getUnit(),
-                            selectedTile.getUnit().getMovesRemaining());
+    final Path path = new Path(selectedTile.getPos());
+    path.terminate();
+    return getMoveablePaths(path, selectedTile.getUnit(), selectedTile.getUnit().getMovesRemaining());
   }
 
   /**
-   * Gets a {@link Set} of all paths within moveable range of the given tile, if the given unit were
-   * to be doing the movement. A path is moveable if each tile in it is moveable, and its length is
-   * less than or equal to {@code range}.
+   * Gets a {@link Set} of all moveable paths that are at mose {@code range} steps longer than {@code
+   * path}. A path is moveable if each tile in it is moveable for {@code unit}.
    *
-   * @param tile  the starting tile (non-null)
+   * @param path  the path to add onto (non-null, terminated)
    * @param unit  the unit to be checked for movement
    * @param range the amount of tiles to spread outwards (positive)
    * @return a {@link Set} of all paths in range
    */
-  private Set<Path> getMoveablePaths(Tile tile, Unit unit, int range) {
-    Set<Path> adjTiles = new HashSet<>();
+  private Set<Path> getMoveablePaths(Path path, Unit unit, int range) {
+    Set<Path> paths = new HashSet<>();
 
     if (range > 0) {
       for (Direction dir : Direction.values()) {
-        Tile adjTile = tile.getAdjacentTiles()[dir.ordinal()];
+        Tile adjTile = tiles.get(path.getDestination().plus(dir.delta));
         if (adjTile != null && adjTile.isMoveable(unit)) {
-
-          adjTiles.add(adjTile);
-          if (range > 1) {
-            adjTiles.addAll(getMoveablePaths(adjTile, unit, range - 1));
-          }
+          Path newPath = path.copy();
+          newPath.addDirection(dir);
+          newPath.terminate();
+          paths.add(newPath);
+          paths.addAll(getMoveablePaths(newPath, unit, range - 1));
         }
       }
     }
 
-    return adjTiles;
+    return paths;
   }
 }
