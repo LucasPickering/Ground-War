@@ -122,6 +122,10 @@ public class Tile {
     onUnitChange();
   }
 
+  public final boolean hasUnit() {
+    return unit != null;
+  }
+
   /**
    * Gets the distance between this tile and another tile located at the given point.
    *
@@ -177,7 +181,7 @@ public class Tile {
    * @return true if this tile can be selected, false otherwise
    */
   public boolean isSelectable(Player currentPlayer) {
-    return unit != null && unit.getOwner() == currentPlayer;
+    return hasUnit() && unit.getOwner() == currentPlayer;
   }
 
   /**
@@ -189,7 +193,7 @@ public class Tile {
    */
   public boolean isSpawnable(Unit unit) {
     Objects.requireNonNull(unit);
-    return getUnit() == null && unit.getOwner() == getOwner();
+    return !hasUnit() && unit.getOwner() == getOwner();
   }
 
   /**
@@ -201,7 +205,7 @@ public class Tile {
    */
   public boolean isMoveable(Unit mover) {
     Objects.requireNonNull(mover);
-    return unit == null;
+    return !hasUnit();
   }
 
   /**
@@ -214,7 +218,7 @@ public class Tile {
    */
   public boolean isAttackable(Unit attacker) {
     Objects.requireNonNull(attacker);
-    return unit != null && unit.getOwner() != attacker.getOwner();
+    return hasUnit() && unit.getOwner() != attacker.getOwner();
   }
 
   // Events

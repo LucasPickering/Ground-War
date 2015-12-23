@@ -27,7 +27,7 @@ public class Board {
 
   /**
    * The tile that is currently selected. If {@code selectedTile != null}, then {@code selectedTile
-   * .getUnit() != null}.
+   * .hasUnit()}.
    */
   private Tile selectedTile;
   private Unit spawningUnit;
@@ -164,7 +164,7 @@ public class Board {
   /**
    * Selects the given tile. Sets {@link #selectedTile} equal to {@code tile}.
    *
-   * @param tile the tile to select (non-null, {@code tile.getUnit() != null})
+   * @param tile the tile to select (non-null, {@code tile.hasUnit()})
    * @throws NullPointerException if {@code tile == null}
    */
   private void selectTile(Tile tile) {
@@ -274,9 +274,7 @@ public class Board {
    */
   public void nextTurn() {
     // Reset movement points for each unit
-    tiles.values().stream().filter(tile -> tile.getUnit() != null)
-        .forEach(tile -> tile.getUnit().resetMoves());
-
+    tiles.values().stream().filter(Tile::hasUnit).forEach(tile -> tile.getUnit().resetMoves());
     currentPlayer = currentPlayer.other(); // Switch players
   }
 

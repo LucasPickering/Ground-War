@@ -27,7 +27,7 @@ public class ForwardFortTile extends Tile {
 
     // If there's a unit on this tile now, set the owner to that unit's owner, and the color to the
     // owner's colors
-    if (getUnit() != null) {
+    if (hasUnit()) {
       owner = getUnit().getOwner();
       newBgColor = getUnit().getOwner().secondaryColor;
       newOutlineColor = getUnit().getOwner().primaryColor;
