@@ -135,7 +135,8 @@ public class BoardScreen extends MainScreen {
         board.prepareToSpawn(UnitType.TANK);
         break;
       case GLFW.GLFW_KEY_ESCAPE:
-        board.prepareToSpawn(null);
+        board.cancelSpawning();
+        board.unselectTile();
         break;
       case GLFW.GLFW_KEY_SPACE:
         board.nextTurn();

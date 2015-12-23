@@ -175,7 +175,7 @@ public class Board {
    * @param tile the tile to select (non-null, {@code tile.hasUnit()})
    * @throws NullPointerException if {@code tile == null}
    */
-  private void selectTile(Tile tile) {
+  public void selectTile(Tile tile) {
     Objects.requireNonNull(tile);
     Objects.requireNonNull(tile.getUnit());
     selectedTile = tile;
@@ -185,7 +185,7 @@ public class Board {
   /**
    * Un-selects the currently-selected tile. Sets {@link #selectedTile} equal to {@code null}.
    */
-  private void unselectTile() {
+  public void unselectTile() {
     selectedTile = null;
     moveablePaths.clear();
     attackablePaths.clear();
@@ -203,6 +203,13 @@ public class Board {
       selectedTile = null;
       spawningUnit = unitType.createUnit(currentPlayer);
     }
+  }
+
+  /**
+   * Stops spawning a unit.
+   */
+  public void cancelSpawning() {
+    spawningUnit = null;
   }
 
   /**
@@ -332,6 +339,7 @@ public class Board {
   public void nextTurn() {
     // Reset movement points for each unit
     tiles.values().stream().filter(Tile::hasUnit).forEach(tile -> tile.getUnit().resetMoves());
+    cancelSpawning(); // Cancel unit spawning
     currentPlayer = currentPlayer.other(); // Switch players
   }
 
