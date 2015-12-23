@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -35,21 +34,23 @@ public class Board {
   /**
    * A set of all paths that the currently selected unit ({@code selectedTile.getUnit()}) can move
    * through. All paths must have their origin be {@link #selectedTile}, and must be moveable, meaning
-   * that each tile in the path is moveable for the currently-selected unit.
+   * that each tile in the path is moveable for the currently-selected unit. Each entry in the map
+   * contains the destination of the path, and the path itself.
    *
    * Empty if {@code selectedTile == null}.
    */
-  private final Set<Path> moveablePaths = new HashSet<>();
+  private final Map<Tile, Path> moveablePaths = new HashMap<>();
 
   /**
-   * A set of all paths that the currently-selected unit ({@code selectedTile.getUnit()}) can attack
+   * A map of all paths that the currently-selected unit ({@code selectedTile.getUnit()}) can attack
    * via. All paths must have their origin be {@link #selectedTile}, and must be attackable, meaning
    * that each tile in the path is moveable for the currently-selected unit, except for the last,
-   * which is attackable.
+   * which is attackable. Each entry in the map contains the destination of the path, and the path
+   * itself.
    *
    * Empty if {@code selectedTile == null}.
    */
-  private final Set<Path> attackablePaths = new HashSet<>();
+  private final Map<Tile, Path> attackablePaths = new HashMap<>();
 
   public Board() {
     try {
@@ -158,7 +159,7 @@ public class Board {
     if (selectedTile == null && spawningUnit != null) { // Spawn the unit
       spawnUnit(tile);
     } else if (selectedTile != null && selectedTile != tile) { // Move the unit
-      if (moveSelectedUnit(tile)) {
+      if (moveSelectedUnit(tile) || attackWithSelectedUnit(tile)) {
         unselectTile();
       }
     } else if (selectedTile != tile && tile.isSelectable(currentPlayer)) { // Select the tile
@@ -226,23 +227,8 @@ public class Board {
   public boolean canSelectedMoveTo(Tile destination) {
     Objects.requireNonNull(selectedTile);
     Objects.requireNonNull(destination);
-    Path path = getMoveablePathToTile(destination);
+    final Path path = moveablePaths.get(destination);
     return path != null && path.getDestination().isMoveable(selectedTile.getUnit());
-  }
-
-  /**
-   * Finds a path in {@link #moveablePaths} that leads to the given tile.
-   *
-   * @param destination the destination tile
-   * @return the path leading to {@code destination}, or {@code null} if none exists
-   */
-  public Path getMoveablePathToTile(Tile destination) {
-    for (Path path : moveablePaths) {
-      if (path.getDestination().equals(destination)) {
-        return path;
-      }
-    }
-    return null;
   }
 
   /**
@@ -254,44 +240,81 @@ public class Board {
    */
   private boolean moveSelectedUnit(Tile destination) {
     Objects.requireNonNull(destination);
-    Path path = getMoveablePathToTile(destination);
+    final Path path = moveablePaths.get(destination);
     if (path != null) {
-      selectedTile.getUnit().useMoves(path.getLength());
-      destination.setUnit(selectedTile.getUnit());
-      selectedTile.setUnit(null);
+      moveUnit(selectedTile, destination, path.getLength());
       return true;
     }
     return false;
   }
 
   /**
-   * Can the unit on {@link #selectedTile} attack the unit on {@code to}? Units cna only attack
-   * adjacent tiles.
+   * Moves the unit from th first tile to the second. Also removes {@code distance} moves from the
+   * unit. NO CHECKS ARE PERFORMED, so be careful with this!
+   *
+   * @param from     the tile to move from
+   * @param to       the tile to move to
+   * @param distance the distance that the move was
+   */
+  private void moveUnit(Tile from, Tile to, int distance) {
+    to.setUnit(from.getUnit());
+    from.setUnit(null);
+    to.getUnit().useMoves(distance);
+  }
+
+  /**
+   * Can the unit on {@link #selectedTile} conductCombat the unit on {@code to}? Units cna only
+   * conductCombat adjacent tiles.
    *
    * @param destination the tile to be attacked
-   * @return true if the unit on can attack, false otherwise
+   * @return true if the unit on can conductCombat, false otherwise
    * @throws NullPointerException if {@code selectedTile == null} or {@code destination == null}
    */
   public boolean canSelectedAttack(Tile destination) {
     Objects.requireNonNull(selectedTile);
     Objects.requireNonNull(destination);
-    Path path = getAttackablePathToTile(destination);
+    final Path path = attackablePaths.get(destination);
     return path != null && path.getDestination().isAttackable(selectedTile.getUnit());
   }
 
   /**
-   * Finds a path in {@link #attackablePaths} that leads to the given tile.
+   * Attacks the unit on {@code destination} with the unit on {@link #selectedTile}. If the defending
+   * unit is destroyed, the attacking unit moves onto that tile, otherwise it moves onto the
+   * second-to-last tile in the path.
    *
-   * @param destination the destination tile
-   * @return the path leading to {@code destination}, or {@code null} if none exists
+   * @param destination the tile to be attacked
+   * @return true if the attack occurs, false otherwise
+   * @throws NullPointerException if {@code destination == null}
    */
-  public Path getAttackablePathToTile(Tile destination) {
-    for (Path path : attackablePaths) {
-      if (path.getDestination().equals(destination)) {
-        return path;
-      }
+  private boolean attackWithSelectedUnit(Tile destination) {
+    Objects.requireNonNull(destination);
+    final Path path = attackablePaths.get(destination);
+    if (path != null) {
+      final Tile adjTile = path.getTile(path.getLength() - 2); // Get the second-to-last tile
+      // Move the unit onto the tile right next to the tile being attacked
+      moveUnit(selectedTile, adjTile, path.getLength() - 1);
+
+      // Conduct combat. If the attacker wins, it will be moved, otherwise both units hold their
+      // positions (unless they're killed).
+      conductCombat(adjTile, destination);
+      return true;
     }
-    return null;
+    return false;
+  }
+
+  /**
+   * Conducts combat between the two given units. The two units must be adjacent to each other
+   *
+   * @param attacker the attacking unit
+   * @param defender the defending unit
+   */
+  private void conductCombat(Tile attacker, Tile defender) {
+    final boolean attackerAlive = attacker.hurtUnit(5);
+    final boolean defenderAlive = defender.hurtUnit(50);
+    if (attackerAlive && !defenderAlive) {
+      // The attacker survived, the defender was killed. Move the attacker onto the defender's tile
+      moveUnit(attacker, defender, 1);
+    }
   }
 
   /**
@@ -333,10 +356,10 @@ public class Board {
           // If it's moveable, add it to moveablePaths and search deeper
           // If it's attackable, add it to attackPaths, but don't search any deeper
           if (nextTile.isMoveable(unit)) {
-            moveablePaths.add(newPath);
+            moveablePaths.put(nextTile, newPath);
             populatePaths(newPath, unit, range - 1);
           } else if (nextTile.isAttackable(unit)) {
-            attackablePaths.add(newPath);
+            attackablePaths.put(nextTile, newPath);
           }
         }
       }

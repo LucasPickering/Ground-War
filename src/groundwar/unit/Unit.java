@@ -38,23 +38,23 @@ public class Unit {
     return this;
   }
 
-  public UnitType getType() {
+  public final UnitType getType() {
     return type;
   }
 
-  public Player getOwner() {
+  public final Player getOwner() {
     return owner;
   }
 
-  public String getName() {
+  public final String getName() {
     return type.name;
   }
 
-  public int getCost() {
+  public final int getCost() {
     return type.cost;
   }
 
-  public int getMovesRemaining() {
+  public final int getMovesRemaining() {
     return movesRemaining;
   }
 
@@ -65,7 +65,7 @@ public class Unit {
    * @param distance the distance to move, in tiles (positive)
    * @return true if this unit has enough movement points remaining, false otherwise
    */
-  public boolean canMove(int distance) {
+  public final boolean canMove(int distance) {
     if (distance <= 0) {
       throw new IllegalArgumentException("distance must be positive");
     }
@@ -75,33 +75,52 @@ public class Unit {
   /**
    * Subtracts the given distance from {@link #movesRemaining}.
    */
-  public void useMoves(int distance) {
+  public final void useMoves(int distance) {
     if (!canMove(distance)) {
       throw new IllegalStateException("Not enough movement points to move!");
     }
     movesRemaining -= distance;
   }
 
-  public int getHealth() {
+  public final int getHealth() {
     return health;
   }
 
   /**
-   * Inflicts the given amount of damage to this unit. Returns whether or not this unit is still
-   * alive. If the return value is false, this unit is dead and should be removed from the board.
+   * Inflicts the given amount of damage to this unit.
    *
-   * @param damage the amount of damage to inflict
-   * @return true if this unit is alive {@code damage > 0}, false otherwise
+   * @param damage the amount of damage to inflict (non-negative)
+   * @return true if the unit is still alive, false if it is now dead
+   * @throws IllegalArgumentException if {@code damage < 0}
    */
-  public boolean inflictDamage(int damage) {
+  public final boolean inflictDamage(int damage) {
+    if (damage < 0) {
+      throw new IllegalArgumentException("Can't inflict negative damage!");
+    }
     health -= damage;
-    return health > 0;
+    if (isDead()) {
+      onKilled();
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * Is this unit dead?
+   *
+   * @return {@code health <= 0}
+   */
+  public final boolean isDead() {
+    return health <= 0;
   }
 
   /**
    * Resets {@link #movesRemaining}. Should be called at the end of each turn.
    */
-  public void resetMoves() {
+  public final void resetMoves() {
     movesRemaining = type.movesPerTurn;
+  }
+
+  protected void onKilled() {
   }
 }

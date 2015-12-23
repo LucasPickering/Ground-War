@@ -63,6 +63,10 @@ public class Path {
     return origin;
   }
 
+  public Tile getTile(int i) {
+    return tiles.get(i);
+  }
+
   public Path copy() {
     Path copy = new Path(origin);
     tiles.forEach(copy::addTile);

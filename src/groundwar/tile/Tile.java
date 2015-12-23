@@ -221,6 +221,20 @@ public class Tile {
     return hasUnit() && unit.getOwner() != attacker.getOwner();
   }
 
+  /**
+   * Inflicts the given specified amount of damage to {@link #unit}.
+   *
+   * @param damage the amount of damage to inflict (non-negative)
+   * @return true if the unit is still alive, false if the unit is now dead
+   */
+  public boolean hurtUnit(int damage) {
+    if (!unit.inflictDamage(damage)) {
+      unit = null;
+      return false;
+    }
+    return true;
+  }
+
   // Events
 
   /**
