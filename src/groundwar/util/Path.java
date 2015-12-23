@@ -8,7 +8,11 @@ import java.util.Objects;
 import groundwar.tile.Tile;
 
 /**
- * Represents a path of tiles.
+ * Represents a path of tiles. Two paths are considered equal if they share the same origin and
+ * destination; the tiles in the middle don't matter for equality. Note that the origin and
+ * destination of the two paths are compared using the '==' operator rather than {@link
+ * Object#equals}, so two paths must have references to the same origin and destination {@link Tile}
+ * objects to be considered equal.
  */
 public class Path {
 
@@ -76,7 +80,7 @@ public class Path {
 
     // Two paths are equal if they have the same origin and destination. Yay for O(1)!
     Path path = (Path) o;
-    return getOrigin().equals(path.getOrigin()) && getDestination().equals(path.getDestination());
+    return getOrigin() == path.getOrigin() && getDestination() == path.getDestination();
   }
 
   @Override
