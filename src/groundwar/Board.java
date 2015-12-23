@@ -226,7 +226,8 @@ public class Board {
   public boolean canSelectedMoveTo(Tile destination) {
     Objects.requireNonNull(selectedTile);
     Objects.requireNonNull(destination);
-    return getPathToTile(destination) != null;
+    Path path = getMoveablePathToTile(destination);
+    return path != null && path.getDestination().isMoveable(selectedTile.getUnit());
   }
 
   /**
@@ -235,7 +236,7 @@ public class Board {
    * @param destination the destination tile
    * @return the path leading to {@code destination}, or {@code null} if none exists
    */
-  public Path getPathToTile(Tile destination) {
+  public Path getMoveablePathToTile(Tile destination) {
     for (Path path : moveablePaths) {
       if (path.getDestination().equals(destination)) {
         return path;
@@ -253,7 +254,7 @@ public class Board {
    */
   private boolean moveSelectedUnit(Tile destination) {
     Objects.requireNonNull(destination);
-    Path path = getPathToTile(destination);
+    Path path = getMoveablePathToTile(destination);
     if (path != null) {
       selectedTile.getUnit().useMoves(path.getLength());
       destination.setUnit(selectedTile.getUnit());
@@ -274,7 +275,23 @@ public class Board {
   public boolean canSelectedAttack(Tile destination) {
     Objects.requireNonNull(selectedTile);
     Objects.requireNonNull(destination);
-    return selectedTile.isAdjacentTo(destination) && destination.isAttackable(selectedTile.getUnit());
+    Path path = getAttackablePathToTile(destination);
+    return path != null && path.getDestination().isAttackable(selectedTile.getUnit());
+  }
+
+  /**
+   * Finds a path in {@link #attackablePaths} that leads to the given tile.
+   *
+   * @param destination the destination tile
+   * @return the path leading to {@code destination}, or {@code null} if none exists
+   */
+  public Path getAttackablePathToTile(Tile destination) {
+    for (Path path : attackablePaths) {
+      if (path.getDestination().equals(destination)) {
+        return path;
+      }
+    }
+    return null;
   }
 
   /**
