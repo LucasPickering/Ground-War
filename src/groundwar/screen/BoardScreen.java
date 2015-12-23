@@ -20,7 +20,6 @@ import groundwar.unit.UnitType;
 
 public class BoardScreen extends MainScreen {
 
-
   private final Board board;
 
   public BoardScreen(long window, Board board) {
@@ -114,8 +113,15 @@ public class BoardScreen extends MainScreen {
 
       // Draw the health bar
       final float healthPercent = (float) unit.getHealth() / unit.getType().maxHealth;
-      renderer.drawRect(x, y + 10, (int) (width * healthPercent), 10, Colors.HEALTH_BAR_POS);
-      renderer.drawRect(x, y + 10, (int) (width * (1f - healthPercent)), 10, Colors.HEALTH_BAR_NEG);
+      final int barX = x + Constants.HEALTH_BAR_X;
+      final int barY = y + Constants.HEALTH_BAR_Y;
+      final int damageDiff = (int) (Constants.HEALTH_BAR_WIDTH * healthPercent);
+      renderer.drawRect(barX, barY,
+                        damageDiff, Constants.HEALTH_BAR_HEIGHT,
+                        Colors.HEALTH_BAR_POS); // Green part
+      renderer.drawRect(barX + damageDiff, barY,
+                        Constants.HEALTH_BAR_WIDTH - damageDiff, Constants.HEALTH_BAR_HEIGHT,
+                        Colors.HEALTH_BAR_NEG); // Red part
     }
   }
 

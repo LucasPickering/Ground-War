@@ -36,4 +36,10 @@ public class Constants {
   public static final String TILE_BG_NAME = "tile_background";
 
   public static final String TILE_OUTLINE_NAME = "tile_outline";
+
+  // UI Constants
+  public static final int HEALTH_BAR_WIDTH = (int) (Constants.TILE_WIDTH * 0.6f);
+  public static final int HEALTH_BAR_HEIGHT = 8;
+  public static final int HEALTH_BAR_X = (TILE_WIDTH - HEALTH_BAR_WIDTH) / 2; // Centered
+  public static final int HEALTH_BAR_Y = 24;
 }
