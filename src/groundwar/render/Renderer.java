@@ -1,4 +1,4 @@
-package groundwar.screen;
+package groundwar.render;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;

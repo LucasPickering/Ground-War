@@ -1,11 +1,11 @@
-package groundwar.screen;
+package groundwar.render;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import groundwar.util.Point;
-import groundwar.screen.event.MouseButtonEvent;
-import groundwar.screen.gui.GuiElement;
+import groundwar.render.event.MouseButtonEvent;
+import groundwar.render.gui.GuiElement;
 
 /**
  * A {@code MainScreen} is a type of {@link ScreenElement} that is meant to be a top-level element. A

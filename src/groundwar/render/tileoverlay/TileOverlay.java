@@ -1,4 +1,4 @@
-package groundwar.screen.tileoverlay;
+package groundwar.render.tileoverlay;
 
 import groundwar.GroundWar;
 import groundwar.util.Colors;

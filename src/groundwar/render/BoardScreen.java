@@ -1,4 +1,4 @@
-package groundwar.screen;
+package groundwar.render;
 
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
@@ -10,10 +10,10 @@ import groundwar.Board;
 import groundwar.util.Colors;
 import groundwar.util.Point;
 import groundwar.util.Constants;
-import groundwar.screen.event.KeyEvent;
-import groundwar.screen.event.MouseButtonEvent;
-import groundwar.screen.tileoverlay.SpawningUnitTileOverlay;
-import groundwar.screen.tileoverlay.TileOverlay;
+import groundwar.render.event.KeyEvent;
+import groundwar.render.event.MouseButtonEvent;
+import groundwar.render.tileoverlay.SpawningUnitTileOverlay;
+import groundwar.render.tileoverlay.TileOverlay;
 import groundwar.tile.Tile;
 import groundwar.unit.Unit;
 import groundwar.unit.UnitType;

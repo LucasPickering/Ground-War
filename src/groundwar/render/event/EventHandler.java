@@ -1,4 +1,4 @@
-package groundwar.screen.event;
+package groundwar.render.event;
 
 @FunctionalInterface
 public interface EventHandler<T extends Event> {

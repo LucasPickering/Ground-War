@@ -1,4 +1,4 @@
-package groundwar.screen.event;
+package groundwar.render.event;
 
 public class KeyEvent extends Event {
 

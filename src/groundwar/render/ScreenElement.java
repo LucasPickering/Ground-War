@@ -1,10 +1,10 @@
-package groundwar.screen;
+package groundwar.render;
 
 import groundwar.GroundWar;
 import groundwar.util.Point;
-import groundwar.screen.event.EventHandler;
-import groundwar.screen.event.KeyEvent;
-import groundwar.screen.event.MouseButtonEvent;
+import groundwar.render.event.EventHandler;
+import groundwar.render.event.KeyEvent;
+import groundwar.render.event.MouseButtonEvent;
 
 /**
  * A {@code ScreenElement} is anything that be drawn into the game window. A {@code ScreenElement} can

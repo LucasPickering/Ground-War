@@ -1,4 +1,4 @@
-package groundwar.screen.gui;
+package groundwar.render.gui;
 
 import groundwar.util.Point;
 
