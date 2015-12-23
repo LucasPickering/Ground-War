@@ -218,14 +218,22 @@ public class Board {
   public boolean canSelectedMoveTo(Tile destination) {
     Objects.requireNonNull(selectedTile);
     Objects.requireNonNull(destination);
+    return getPathToTile(destination) != null;
+  }
 
-    // Check if one of the moveable paths is to destination
+  /**
+   * Finds a path in {@link #moveablePaths} that leads to the given tile.
+   *
+   * @param destination the destination tile
+   * @return the path leading to {@code destination}, or {@code null} if none exists
+   */
+  public Path getPathToTile(Tile destination) {
     for (Path path : moveablePaths) {
       if (path.getDestination().equals(destination.getPos())) {
-        return true;
+        return path;
       }
     }
-    return false;
+    return null;
   }
 
   /**
@@ -237,8 +245,9 @@ public class Board {
    */
   private boolean moveSelectedUnit(Tile destination) {
     Objects.requireNonNull(destination);
-    if (canSelectedMoveTo(destination)) {
-      selectedTile.getUnit().useMoves(selectedTile.distanceTo(destination));
+    Path path = getPathToTile(destination);
+    if (path != null) {
+      selectedTile.getUnit().useMoves(path.getLength());
       destination.setUnit(selectedTile.getUnit());
       selectedTile.setUnit(null);
       return true;
