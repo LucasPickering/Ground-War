@@ -34,7 +34,7 @@ public class Unit {
     this.owner = owner;
     resetMoves();
     health = type.maxHealth;
-    GroundWar.groundWar.getTextureHandler().loadTexture(type.name);
+    GroundWar.groundWar.getRenderer().loadTexture(type.name);
     return this;
   }
 

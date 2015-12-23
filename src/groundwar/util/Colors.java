@@ -25,4 +25,8 @@ public class Colors {
   public static final int UNIT_SPAWNING = 0xffcccccc;
   public static final int UNIT_SPAWNING_VALID = 0xbb00bb00;
   public static final int UNIT_SPAWNING_INVALID = 0xbbbb0000;
+
+  // Unit colors
+  public static final int HEALTH_BAR_POS = 0xff00ff00;
+  public static final int HEALTH_BAR_NEG = 0xffff0000;
 }

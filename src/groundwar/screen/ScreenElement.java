@@ -18,7 +18,7 @@ import groundwar.screen.event.MouseButtonEvent;
 public abstract class ScreenElement {
 
   protected final long window;
-  protected final TextureHandler textureHandler = GroundWar.groundWar.getTextureHandler();
+  protected final Renderer renderer = GroundWar.groundWar.getRenderer();
 
   protected ScreenElement(long window) {
     this.window = window;

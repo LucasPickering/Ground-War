@@ -14,7 +14,7 @@ import org.lwjgl.system.MemoryUtil;
 import groundwar.util.Constants;
 import groundwar.screen.BoardScreen;
 import groundwar.screen.MainScreen;
-import groundwar.screen.TextureHandler;
+import groundwar.screen.Renderer;
 import groundwar.screen.event.KeyEvent;
 import groundwar.screen.event.MouseButtonEvent;
 import groundwar.util.Point;
@@ -32,7 +32,7 @@ public class GroundWar {
   private GLFWWindowSizeCallback windowResizeHandler;
 
   private long window;
-  private TextureHandler textureHandler;
+  private Renderer renderer;
   private MainScreen currentScreen;
   private int windowWidth;
   private int windowHeight;
@@ -99,7 +99,7 @@ public class GroundWar {
     GLFW.glfwSetCursorPosCallback(window, cursorPosHandler);
     GLFW.glfwSetWindowSizeCallback(window, windowResizeHandler);
 
-    textureHandler = new TextureHandler();
+    renderer = new Renderer();
     board = new Board();
     currentScreen = new BoardScreen(window, board); // Initialize the current screen
   }
@@ -111,11 +111,11 @@ public class GroundWar {
       currentScreen.draw(mousePos.copy());
       GLFW.glfwSwapBuffers(window); // Swap the color buffers
     }
-    textureHandler.deleteTextures(); // Free up texture memory
+    renderer.deleteTextures(); // Free up texture memory
   }
 
-  public TextureHandler getTextureHandler() {
-    return textureHandler;
+  public Renderer getRenderer() {
+    return renderer;
   }
 
   public static void main(String[] args) {

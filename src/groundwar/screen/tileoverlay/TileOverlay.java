@@ -37,7 +37,7 @@ public class TileOverlay {
   public void draw(int x, int y, int width, int height) {
     // Draw each texture
     for (ColorTexture tex : textures) {
-      GroundWar.groundWar.getTextureHandler().draw(tex.texName, x, y, width, height, tex.color);
+      GroundWar.groundWar.getRenderer().drawTexture(tex.texName, x, y, width, height, tex.color);
     }
   }
 }

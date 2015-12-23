@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import groundwar.Board;
+import groundwar.util.Colors;
 import groundwar.util.Point;
 import groundwar.util.Constants;
 import groundwar.screen.event.KeyEvent;
@@ -26,8 +27,8 @@ public class BoardScreen extends MainScreen {
     super(window);
     this.board = board;
 
-    textureHandler.loadTexture(Constants.TILE_BG_NAME);
-    textureHandler.loadTexture(Constants.TILE_OUTLINE_NAME);
+    renderer.loadTexture(Constants.TILE_BG_NAME);
+    renderer.loadTexture(Constants.TILE_OUTLINE_NAME);
   }
 
   @Override
@@ -71,30 +72,51 @@ public class BoardScreen extends MainScreen {
     }
   }
 
+  /**
+   * Draws the given tile.
+   *
+   * @param tile     the tile to draw
+   * @param overlays the overlays to draw on the tile
+   */
   private void drawTile(Tile tile, List<TileOverlay> overlays) {
     final int x = tile.getScreenPos().getX();
     final int y = tile.getScreenPos().getY();
     final int width = Constants.TILE_WIDTH;
     final int height = Constants.TILE_HEIGHT;
 
-    textureHandler.startDrawingTextures(); // Set up the texture-drawing environment
-
     // Draw the regular background
-    textureHandler.draw(Constants.TILE_BG_NAME, x, y, width, height, tile.getBackgroundColor());
+    renderer.drawTexture(Constants.TILE_BG_NAME, x, y, width, height, tile.getBackgroundColor());
 
     // Draw the regular foreground
-    textureHandler.draw(Constants.TILE_OUTLINE_NAME, x, y, width, height, tile.getOutlineColor());
+    renderer.drawTexture(Constants.TILE_OUTLINE_NAME, x, y, width, height, tile.getOutlineColor());
 
     // Draw the unit on top
-    Unit unit = tile.getUnit();
-    if (unit != null) {
-      textureHandler.draw(unit.getName(), x, y, width, height, unit.getOwner().primaryColor);
-    }
+    drawUnit(tile.getUnit(), x, y); // Don't worry, the call is null-safe
 
     // Draw tile overlays
     overlays.forEach(overlay -> overlay.draw(x, y, width, height));
+  }
 
-    textureHandler.stopDrawingTextures(); // Tear down the texture-drawing environment
+  /**
+   * Draws the given unit at the given location. If {@code unit == null}, nothing happens.
+   *
+   * @param unit the unit to draw (null permitted)
+   * @param x    the x location to draw at
+   * @param y    the y location to draw at
+   */
+  private void drawUnit(Unit unit, int x, int y) {
+    if (unit != null) {
+      final int width = Constants.TILE_WIDTH;
+      final int height = Constants.TILE_HEIGHT;
+
+      // Draw the unit itself
+      renderer.drawTexture(unit.getName(), x, y, width, height, unit.getOwner().primaryColor);
+
+      // Draw the health bar
+      final float healthPercent = (float) unit.getHealth() / unit.getType().maxHealth;
+      renderer.drawRect(x, y + 10, (int) (width * healthPercent), 10, Colors.HEALTH_BAR_POS);
+      renderer.drawRect(x, y + 10, (int) (width * (1f - healthPercent)), 10, Colors.HEALTH_BAR_NEG);
+    }
   }
 
   @Override
