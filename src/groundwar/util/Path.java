@@ -63,8 +63,14 @@ public class Path {
     return origin;
   }
 
-  public Tile getTile(int i) {
-    return tiles.get(i);
+  public Tile getSecondToLastTile() {
+    if (tiles.isEmpty()) {
+      throw new IllegalStateException("There is no second to last tile!");
+    }
+    if (tiles.size() > 1) {
+      return tiles.get(tiles.size() - 2);
+    }
+    return origin;
   }
 
   public Path copy() {

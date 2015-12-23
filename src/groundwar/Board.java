@@ -252,14 +252,19 @@ public class Board {
    * Moves the unit from th first tile to the second. Also removes {@code distance} moves from the
    * unit. NO CHECKS ARE PERFORMED, so be careful with this!
    *
-   * @param from     the tile to move from
-   * @param to       the tile to move to
+   * @param from     the tile to move from (non-null)
+   * @param to       the tile to move to (non-null)
    * @param distance the distance that the move was
+   * @throws NullPointerException if {@code from == null} or {@code to == null}
    */
   private void moveUnit(Tile from, Tile to, int distance) {
-    to.setUnit(from.getUnit());
-    from.setUnit(null);
-    to.getUnit().useMoves(distance);
+    Objects.requireNonNull(from);
+    Objects.requireNonNull(to);
+    if (from != to) {
+      to.setUnit(from.getUnit());
+      from.setUnit(null);
+      to.getUnit().useMoves(distance);
+    }
   }
 
   /**
@@ -290,12 +295,12 @@ public class Board {
     Objects.requireNonNull(destination);
     final Path path = attackablePaths.get(destination);
     if (path != null) {
-      final Tile adjTile = path.getTile(path.getLength() - 2); // Get the second-to-last tile
-      // Move the unit onto the tile right next to the tile being attacked
+      // Get the tile adjacent to the defender first, then move the unit there.
+      final Tile adjTile = path.getSecondToLastTile();
       moveUnit(selectedTile, adjTile, path.getLength() - 1);
 
-      // Conduct combat. If the attacker wins, it will be moved, otherwise both units hold their
-      // positions (unless they're killed).
+      // Conduct combat. If the attacker wins, it will be moved onto the defender's tile, otherwise
+      // both units hold their positions (unless they're killed).
       conductCombat(adjTile, destination);
       return true;
     }
@@ -310,10 +315,14 @@ public class Board {
    */
   private void conductCombat(Tile attacker, Tile defender) {
     final boolean attackerAlive = attacker.hurtUnit(5);
-    final boolean defenderAlive = defender.hurtUnit(50);
-    if (attackerAlive && !defenderAlive) {
-      // The attacker survived, the defender was killed. Move the attacker onto the defender's tile
-      moveUnit(attacker, defender, 1);
+    final boolean defenderAlive = defender.hurtUnit(5);
+    if (attackerAlive) {
+      // The attacker survived. Take away all their movement points.
+      attacker.getUnit().useMoves(attacker.getUnit().getMovesRemaining());
+      if (!defenderAlive) {
+        // The defender was killed. Move the attacker onto the defender's tile
+        moveUnit(attacker, defender, 0);
+      }
     }
   }
 
@@ -356,13 +365,30 @@ public class Board {
           // If it's moveable, add it to moveablePaths and search deeper
           // If it's attackable, add it to attackPaths, but don't search any deeper
           if (nextTile.isMoveable(unit)) {
-            moveablePaths.put(nextTile, newPath);
-            populatePaths(newPath, unit, range - 1);
+            addPath(moveablePaths, newPath);
+            populatePaths(newPath, unit, range - 1); // Search further out
           } else if (nextTile.isAttackable(unit)) {
-            attackablePaths.put(nextTile, newPath);
+            addPath(attackablePaths, newPath);
           }
         }
       }
+    }
+  }
+
+  /**
+   * Adds the given path to the given map. If the map already contains a path leading to the same tile
+   * as the given path, then the shorter of the two will stay in the map.
+   *
+   * @param map  the map to be added to
+   * @param path the path to be added
+   */
+  private void addPath(Map<Tile, Path> map, Path path) {
+    final Tile destination = path.getDestination();
+    final Path currentPath = map.get(path.getDestination());
+
+    // If there is no current path to the tile, or the new path is shorter
+    if (currentPath == null || path.getLength() < currentPath.getLength()) {
+      map.put(destination, path); // Put it in the list
     }
   }
 }
