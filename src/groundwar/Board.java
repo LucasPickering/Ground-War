@@ -229,7 +229,7 @@ public class Board {
    */
   public Path getPathToTile(Tile destination) {
     for (Path path : moveablePaths) {
-      if (path.getDestination().equals(destination.getPos())) {
+      if (path.getDestination().equals(destination)) {
         return path;
       }
     }
@@ -288,8 +288,7 @@ public class Board {
    * @return a {@link Set} of all moveable paths
    */
   public Set<Path> getMoveablePaths() {
-    final Path path = new Path(selectedTile.getPos());
-    path.terminate();
+    final Path path = new Path(selectedTile);
     return getMoveablePaths(path, selectedTile.getUnit(), selectedTile.getUnit().getMovesRemaining());
   }
 
@@ -307,11 +306,10 @@ public class Board {
 
     if (range > 0) {
       for (Direction dir : Direction.values()) {
-        Tile adjTile = tiles.get(path.getDestination().plus(dir.delta));
+        Tile adjTile = path.getDestination().getAdjacentTile(dir);
         if (adjTile != null && adjTile.isMoveable(unit)) {
           Path newPath = path.copy();
-          newPath.addDirection(dir);
-          newPath.terminate();
+          newPath.addTile(adjTile);
           paths.add(newPath);
           paths.addAll(getMoveablePaths(newPath, unit, range - 1));
         }

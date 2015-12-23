@@ -2,62 +2,56 @@ package groundwar.util;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
+
+import groundwar.tile.Tile;
 
 /**
- * Represents a path of tiles starting at some point and following some list of directions. This can
- * be in one of two states: editable or termianted. A path is editable if {@link #terminate} has not
- * yet been called, meaning its destination has not been calculated yet. Once {@link #terminate} is
- * called, {@link #destination} is given a value. At that point, the path is termintad and no more
- * directions can be added.
+ * Represents a path of tiles.
  */
 public class Path {
 
   /**
-   * Non-null
-   */
-  private final Point origin;
-
-  /**
    * Can't be modified after termination.
    */
-  private final List<Direction> directions = new LinkedList<>();
-  private Point destination;
+  private final List<Tile> tiles = new LinkedList<>();
 
-  public Path(Point origin) {
-    this.origin = origin;
+  /**
+   * Constructs a new path starting at the given tile.
+   *
+   * @param origin the tile to start at (non-null)
+   * @throws NullPointerException if {@code origin == null}
+   */
+  public Path(Tile origin) {
+    addTile(origin);
   }
 
-  public void addDirection(Direction dir) {
-    if (destination != null) {
-      throw new IllegalStateException("The path has already been terminated!");
-    }
-    directions.add(dir);
+  /**
+   * Adds a tile to the end of this path.
+   *
+   * @param tile the tile to be added (non-null)
+   * @throws NullPointerException if {@code tile == null}
+   */
+  public void addTile(Tile tile) {
+    Objects.requireNonNull(tile);
+    tiles.add(tile);
   }
 
   public int getLength() {
-    return directions.size();
+    return tiles.size();
   }
 
-  public Point getDestination() {
-    if (destination == null) {
-      throw new IllegalStateException("This path has not yet been terminated!");
-    }
-    return destination;
+  public Tile getOrigin() {
+    return tiles.get(0);
   }
 
-  public void terminate() {
-    destination = origin;
-    for (Direction dir : directions) {
-      destination = destination.plus(dir.delta);
-    }
+  public Tile getDestination() {
+    return tiles.get(tiles.size() - 1);
   }
 
-  /**
-   * Creates an <i>editable</i> copy of this path.
-   */
   public Path copy() {
-    Path copy = new Path(origin);
-    directions.forEach(copy::addDirection);
+    Path copy = new Path(getOrigin());
+    tiles.forEach(copy::addTile);
     return copy;
   }
 
@@ -70,13 +64,13 @@ public class Path {
       return false;
     }
 
+    // Two paths are equal if they have the same origin and destination. Yay for O(1)!
     Path path = (Path) o;
-    return origin.equals(path.origin) && !(destination != null ? !destination.equals(path.destination)
-                                                               : path.destination != null);
+    return getOrigin().equals(path.getOrigin()) && getDestination().equals(path.getDestination());
   }
 
   @Override
   public int hashCode() {
-    return origin.hashCode() * 31 + (destination != null ? destination.hashCode() : 0);
+    return getOrigin().hashCode() * 31 + getDestination().hashCode();
   }
 }

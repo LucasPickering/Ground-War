@@ -3,10 +3,11 @@ package groundwar.tile;
 import java.util.Objects;
 
 import groundwar.Player;
-import groundwar.util.Point;
+import groundwar.unit.Unit;
 import groundwar.util.Colors;
 import groundwar.util.Constants;
-import groundwar.unit.Unit;
+import groundwar.util.Direction;
+import groundwar.util.Point;
 
 public class Tile {
 
@@ -54,6 +55,10 @@ public class Tile {
 
   public final Tile[] getAdjacentTiles() {
     return adjacentTiles;
+  }
+
+  public final Tile getAdjacentTile(Direction dir) {
+    return adjacentTiles[dir.ordinal()];
   }
 
   /**
@@ -213,6 +218,7 @@ public class Tile {
   }
 
   // Events
+
   /**
    * Called <i>directly after</i> {@link #adjacentTiles} is populated.
    */
