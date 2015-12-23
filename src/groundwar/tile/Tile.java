@@ -213,7 +213,6 @@ public class Tile {
   }
 
   // Events
-
   /**
    * Called <i>directly after</i> {@link #adjacentTiles} is populated.
    */
