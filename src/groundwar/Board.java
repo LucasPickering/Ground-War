@@ -309,18 +309,17 @@ public class Board {
       for (Direction dir : Direction.values()) {
         Tile nextTile = path.getDestination().getAdjacentTile(dir);
         if (nextTile != null) {
-          final boolean moveable = nextTile.isMoveable(unit);
-          final boolean attackable = nextTile.isAttackable(unit);
-          if (moveable || attackable) { // If the tile is moveable or attackable
-            // Create a new path to the tile
-            Path newPath = path.copy();
-            newPath.addTile(nextTile);
-            if (moveable) { // If it's moveable, add it to moveablePaths and search deeper
-              moveablePaths.add(newPath);
-              populatePaths(newPath, unit, range - 1);
-            } else { // If it's attackable, add it to attackablePaths, but don't search deeper
-              attackablePaths.add(newPath);
-            }
+          // Create a path to the adjacent tile
+          Path newPath = path.copy();
+          newPath.addTile(nextTile);
+
+          // If it's moveable, add it to moveablePaths and search deeper
+          // If it's attackable, add it to attackPaths, but don't search any deeper
+          if (nextTile.isMoveable(unit)) {
+            moveablePaths.add(newPath);
+            populatePaths(newPath, unit, range - 1);
+          } else if (nextTile.isAttackable(unit)) {
+            attackablePaths.add(newPath);
           }
         }
       }
