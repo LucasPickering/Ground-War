@@ -112,15 +112,12 @@ public class BoardScreen extends MainScreen {
       renderer.drawTexture(unit.getName(), x, y, width, height, unit.getOwner().primaryColor);
 
       // Draw the health bar
-      final float healthPercent = (float) unit.getHealth() / unit.getType().maxHealth;
-      final int barX = x + Constants.HEALTH_BAR_X;
-      final int barY = y + Constants.HEALTH_BAR_Y;
-      final int damageDiff = (int) (Constants.HEALTH_BAR_WIDTH * healthPercent);
-      renderer.drawRect(barX, barY,
-                        damageDiff, Constants.HEALTH_BAR_HEIGHT,
+      final int splitPoint = Constants.HEALTH_BAR_WIDTH * unit.getHealth() / unit.getType().maxHealth;
+      renderer.drawRect(x + Constants.HEALTH_BAR_X, y + Constants.HEALTH_BAR_Y,
+                        splitPoint, Constants.HEALTH_BAR_HEIGHT,
                         Colors.HEALTH_BAR_POS); // Green part
-      renderer.drawRect(barX + damageDiff, barY,
-                        Constants.HEALTH_BAR_WIDTH - damageDiff, Constants.HEALTH_BAR_HEIGHT,
+      renderer.drawRect(x + Constants.HEALTH_BAR_X + splitPoint, y + Constants.HEALTH_BAR_Y,
+                        Constants.HEALTH_BAR_WIDTH - splitPoint, Constants.HEALTH_BAR_HEIGHT,
                         Colors.HEALTH_BAR_NEG); // Red part
     }
   }
