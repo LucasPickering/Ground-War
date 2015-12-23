@@ -12,9 +12,7 @@ import groundwar.tile.Tile;
  */
 public class Path {
 
-  /**
-   * Can't be modified after termination.
-   */
+  private final Tile origin;
   private final List<Tile> tiles = new LinkedList<>();
 
   /**
@@ -24,20 +22,20 @@ public class Path {
    * @throws NullPointerException if {@code origin == null}
    */
   public Path(Tile origin) {
-    addTile(origin);
-  }
-
-  private Path() {
+    this.origin = origin;
   }
 
   /**
    * Adds a tile to the end of this path.
    *
-   * @param tile the tile to be added (non-null)
+   * @param tile the tile to be added (non-null, must be adjacent to {@link #getDestination()})
    * @throws NullPointerException if {@code tile == null}
    */
   public void addTile(Tile tile) {
     Objects.requireNonNull(tile);
+    if (!tile.isAdjacentTo(getDestination())) {
+      throw new IllegalArgumentException("Each tile in the path must be adjacent to the previous!");
+    }
     tiles.add(tile);
   }
 
@@ -46,15 +44,23 @@ public class Path {
   }
 
   public Tile getOrigin() {
-    return tiles.get(0);
+    return origin;
   }
 
+  /**
+   * Gets the destination of this path.
+   *
+   * @return the last tile in {@link #tiles}, or {@link #origin} if {@link #tiles} is empty
+   */
   public Tile getDestination() {
-    return tiles.get(tiles.size() - 1);
+    if (!tiles.isEmpty()) {
+      return tiles.get(tiles.size() - 1);
+    }
+    return origin;
   }
 
   public Path copy() {
-    Path copy = new Path();
+    Path copy = new Path(origin);
     tiles.forEach(copy::addTile);
     return copy;
   }

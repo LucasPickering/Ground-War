@@ -35,9 +35,11 @@ public class Board {
   /**
    * A set of all paths that the currently selected unit ({@code selectedTile.getUnit()}) can
    * traverse. All paths must be terminated and moveable, meaning that for each step in the path, the
-   * tile at that position is moveable for the currently-selected unit. Null if any of the following
-   * are true: <ul> <li>{@code selectedTile == null}</li> <li>{@code selectedTile.getUnit() ==
-   * null}</li> </ul>
+   * tile at that position is moveable for the currently-selected unit. Paths are also valid if
+   * each tile in the path is moveable except for
+   *
+   * This is {@code null} if any of the following are true: <ul> <li>{@code selectedTile == null}</li>
+   * <li>{@code selectedTile.getUnit() == null}</li> </ul>
    *
    * @see Path
    */
@@ -247,7 +249,7 @@ public class Board {
     Objects.requireNonNull(destination);
     Path path = getPathToTile(destination);
     if (path != null) {
-      selectedTile.getUnit().useMoves(path.getLength() - 1); // n tiles in the path means n-1 moves
+      selectedTile.getUnit().useMoves(path.getLength());
       destination.setUnit(selectedTile.getUnit());
       selectedTile.setUnit(null);
       return true;
