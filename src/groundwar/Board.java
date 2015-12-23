@@ -9,13 +9,13 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-import groundwar.util.Constants;
 import groundwar.tile.ForwardFortTile;
 import groundwar.tile.GoldTile;
 import groundwar.tile.MountainTile;
 import groundwar.tile.Tile;
 import groundwar.unit.Unit;
 import groundwar.unit.UnitType;
+import groundwar.util.Constants;
 import groundwar.util.Direction;
 import groundwar.util.Path;
 import groundwar.util.Point;
@@ -33,17 +33,23 @@ public class Board {
   private Unit spawningUnit;
 
   /**
-   * A set of all paths that the currently selected unit ({@code selectedTile.getUnit()}) can
-   * traverse. All paths must be terminated and moveable, meaning that for each step in the path, the
-   * tile at that position is moveable for the currently-selected unit. Paths are also valid if
-   * each tile in the path is moveable except for
+   * A set of all paths that the currently selected unit ({@code selectedTile.getUnit()}) can move
+   * through. All paths must have their origin be {@link #selectedTile}, and must be moveable, meaning
+   * that each tile in the path is moveable for the currently-selected unit.
    *
-   * This is {@code null} if any of the following are true: <ul> <li>{@code selectedTile == null}</li>
-   * <li>{@code selectedTile.getUnit() == null}</li> </ul>
-   *
-   * @see Path
+   * Empty if {@code selectedTile == null}.
    */
-  private Set<Path> moveablePaths;
+  private final Set<Path> moveablePaths = new HashSet<>();
+
+  /**
+   * A set of all paths that the currently-selected unit ({@code selectedTile.getUnit()}) can attack
+   * via. All paths must have their origin be {@link #selectedTile}, and must be attackable, meaning
+   * that each tile in the path is moveable for the currently-selected unit, except for the last,
+   * which is attackable.
+   *
+   * Empty if {@code selectedTile == null}.
+   */
+  private final Set<Path> attackablePaths = new HashSet<>();
 
   public Board() {
     try {
@@ -151,10 +157,9 @@ public class Board {
     Objects.requireNonNull(tile);
     if (selectedTile == null && spawningUnit != null) { // Spawn the unit
       spawnUnit(tile);
-      selectedTile = null;
     } else if (selectedTile != null && selectedTile != tile) { // Move the unit
       if (moveSelectedUnit(tile)) {
-        selectedTile = null;
+        unselectTile();
       }
     } else if (selectedTile != tile && tile.isSelectable(currentPlayer)) { // Select the tile
       selectTile(tile);
@@ -173,7 +178,7 @@ public class Board {
     Objects.requireNonNull(tile);
     Objects.requireNonNull(tile.getUnit());
     selectedTile = tile;
-    moveablePaths = getMoveablePaths();
+    populatePaths();
   }
 
   /**
@@ -181,7 +186,8 @@ public class Board {
    */
   private void unselectTile() {
     selectedTile = null;
-    moveablePaths = null;
+    moveablePaths.clear();
+    attackablePaths.clear();
   }
 
   /**
@@ -284,12 +290,10 @@ public class Board {
    * Gets a {@link Set} of all paths within moveable range of {@link #selectedTile}. A path is
    * moveable if each tile in it is moveable, and its length is less than or equal to the selected
    * unit's remaining moves.
-   *
-   * @return a {@link Set} of all moveable paths
    */
-  public Set<Path> getMoveablePaths() {
-    return getMoveablePaths(new Path(selectedTile), selectedTile.getUnit(),
-                            selectedTile.getUnit().getMovesRemaining());
+  private void populatePaths() {
+    populatePaths(new Path(selectedTile), selectedTile.getUnit(),
+                  selectedTile.getUnit().getMovesRemaining());
   }
 
   /**
@@ -299,23 +303,27 @@ public class Board {
    * @param path  the path to add onto (non-null, terminated)
    * @param unit  the unit to be checked for movement
    * @param range the amount of tiles to spread outwards (positive)
-   * @return a {@link Set} of all paths in range
    */
-  private Set<Path> getMoveablePaths(Path path, Unit unit, int range) {
-    Set<Path> paths = new HashSet<>();
-
+  private void populatePaths(Path path, Unit unit, int range) {
     if (range > 0) {
       for (Direction dir : Direction.values()) {
         Tile nextTile = path.getDestination().getAdjacentTile(dir);
-        if (nextTile != null && nextTile.isMoveable(unit)) {
-          Path newPath = path.copy();
-          newPath.addTile(nextTile);
-          paths.add(newPath);
-          paths.addAll(getMoveablePaths(newPath, unit, range - 1));
+        if (nextTile != null) {
+          final boolean moveable = nextTile.isMoveable(unit);
+          final boolean attackable = nextTile.isAttackable(unit);
+          if (moveable || attackable) { // If the tile is moveable or attackable
+            // Create a new path to the tile
+            Path newPath = path.copy();
+            newPath.addTile(nextTile);
+            if (moveable) { // If it's moveable, add it to moveablePaths and search deeper
+              moveablePaths.add(newPath);
+              populatePaths(newPath, unit, range - 1);
+            } else { // If it's attackable, add it to attackablePaths, but don't search deeper
+              attackablePaths.add(newPath);
+            }
+          }
         }
       }
     }
-
-    return paths;
   }
 }
