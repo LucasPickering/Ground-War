@@ -252,4 +252,9 @@ public class Tile {
   public int hashCode() {
     return pos.hashCode();
   }
+
+  @Override
+  public String toString() {
+    return "Tile@" + pos.toString();
+  }
 }

@@ -1,5 +1,6 @@
 package groundwar.util;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -26,6 +27,9 @@ public class Path {
     addTile(origin);
   }
 
+  private Path() {
+  }
+
   /**
    * Adds a tile to the end of this path.
    *
@@ -50,7 +54,7 @@ public class Path {
   }
 
   public Path copy() {
-    Path copy = new Path(getOrigin());
+    Path copy = new Path();
     tiles.forEach(copy::addTile);
     return copy;
   }
@@ -72,5 +76,16 @@ public class Path {
   @Override
   public int hashCode() {
     return getOrigin().hashCode() * 31 + getDestination().hashCode();
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    Iterator<Tile> iter = tiles.iterator();
+    builder.append(iter.next());
+    while (iter.hasNext()) {
+      builder.append(" -> ").append(iter.next());
+    }
+    return builder.toString();
   }
 }

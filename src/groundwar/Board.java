@@ -247,7 +247,7 @@ public class Board {
     Objects.requireNonNull(destination);
     Path path = getPathToTile(destination);
     if (path != null) {
-      selectedTile.getUnit().useMoves(path.getLength());
+      selectedTile.getUnit().useMoves(path.getLength() - 1); // n tiles in the path means n-1 moves
       destination.setUnit(selectedTile.getUnit());
       selectedTile.setUnit(null);
       return true;
@@ -286,8 +286,8 @@ public class Board {
    * @return a {@link Set} of all moveable paths
    */
   public Set<Path> getMoveablePaths() {
-    final Path path = new Path(selectedTile);
-    return getMoveablePaths(path, selectedTile.getUnit(), selectedTile.getUnit().getMovesRemaining());
+    return getMoveablePaths(new Path(selectedTile), selectedTile.getUnit(),
+                            selectedTile.getUnit().getMovesRemaining());
   }
 
   /**
@@ -304,10 +304,10 @@ public class Board {
 
     if (range > 0) {
       for (Direction dir : Direction.values()) {
-        Tile adjTile = path.getDestination().getAdjacentTile(dir);
-        if (adjTile != null && adjTile.isMoveable(unit)) {
+        Tile nextTile = path.getDestination().getAdjacentTile(dir);
+        if (nextTile != null && nextTile.isMoveable(unit)) {
           Path newPath = path.copy();
-          newPath.addTile(adjTile);
+          newPath.addTile(nextTile);
           paths.add(newPath);
           paths.addAll(getMoveablePaths(newPath, unit, range - 1));
         }
