@@ -51,7 +51,7 @@ public class Constants {
 
   // UI sizes/positions
   public static final int TURN_COUNT_X = 3830;
-  public static final int TURN_COUNT_Y = 10;
+  public static final int TURN_COUNT_Y = 2050;
   public static final int UNIT_HEALTH_WIDTH = (int) (Constants.TILE_WIDTH * 0.6f);
   public static final int UNIT_HEALTH_HEIGHT = 16;
   public static final int UNIT_HEALTH_X = (TILE_WIDTH - UNIT_HEALTH_WIDTH) / 2; // Centered
