@@ -10,6 +10,9 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
+import groundwar.GroundWar;
+import groundwar.util.Constants;
+
 public class TrueTypeFont {
 
   private static final List<String> CHARS = new ArrayList<String>() {{
@@ -20,20 +23,17 @@ public class TrueTypeFont {
     add(" $+-*/=%\"'#@&_(),.;:?!\\|<>[]§`^~");
   }};
 
-  private Font font;
+  private final Font font;
   private final FontMetrics fontMetrics;
   private final BufferedImage bufferedImage;
   private final int fontTextureId;
   private final int fontImageWidth;
   private final int fontImageHeight;
 
-  public TrueTypeFont(String path, float size) {
-    try {
-      font = Font.createFont(Font.TRUETYPE_FONT, new File(path)).deriveFont(size);
-    } catch (IOException | FontFormatException e) {
-      System.err.println("Error creating font: " + path);
-      e.printStackTrace();
-    }
+  public TrueTypeFont(String name, float size) throws IOException, FontFormatException {
+    // Load the font from the file
+    font = Font.createFont(Font.TRUETYPE_FONT, new File(GroundWar.class.getResource(
+        String.format(Constants.FONT_PATH, name)).getPath())).deriveFont(size);
 
     // Generate buffered image
     GraphicsConfiguration gc = GraphicsEnvironment.getLocalGraphicsEnvironment()

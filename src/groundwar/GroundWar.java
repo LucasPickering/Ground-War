@@ -101,7 +101,7 @@ public class GroundWar {
     GLFW.glfwSetWindowSizeCallback(window, windowResizeHandler);
 
     renderer = new Renderer();
-    renderer.loadFont("/usr/share/fonts/truetype/msttcorefonts/arial.ttf", Constants.FONT_SIZE1);
+    renderer.loadFont("arial", Constants.FONT_SIZE1);
     board = new Board();
     currentScreen = new BoardScreen(window, board); // Initialize the current screen
   }

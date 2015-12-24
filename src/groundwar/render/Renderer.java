@@ -4,7 +4,9 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
@@ -93,7 +95,12 @@ public class Renderer {
   }
 
   public void loadFont(String name, float size) {
-    fontMap.put(size, new TrueTypeFont(name, size));
+    try {
+      fontMap.put(size, new TrueTypeFont(name, size));
+    } catch (IOException | FontFormatException e) {
+      System.err.println("Error creating font: " + name);
+      e.printStackTrace();
+    }
   }
 
   public void drawRect(int x, int y, int width, int height, int color) {

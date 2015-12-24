@@ -33,6 +33,7 @@ public class Constants {
   // File paths
   public static final String BOARD_FILE = "/boards/board.csv";
   public static final String TEXTURE_PATH = "/textures/%s.png";
+  public static final String FONT_PATH = "/fonts/%s.ttf";
 
   // Texture names
   public static final String TILE_BG_NAME = "tile_background";
