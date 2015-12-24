@@ -1,8 +1,8 @@
 package groundwar.tile;
 
 import groundwar.Player;
-import groundwar.util.Point;
 import groundwar.util.Colors;
+import groundwar.util.Point;
 
 public class ForwardFortTile extends Tile {
 
@@ -29,8 +29,8 @@ public class ForwardFortTile extends Tile {
     // owner's colors
     if (hasUnit()) {
       owner = getUnit().getOwner();
-      newBgColor = getUnit().getOwner().secondaryColor;
-      newOutlineColor = getUnit().getOwner().primaryColor;
+      newBgColor = getUnit().getOwner().getSeconddaryColor();
+      newOutlineColor = getUnit().getOwner().getPrimaryColor();
     } else { // There's no unit, set owner to null and colors to default
       owner = null;
       newBgColor = Colors.FORT_BG;

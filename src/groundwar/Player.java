@@ -1,61 +1,55 @@
 package groundwar;
 
-import groundwar.util.Colors;
 import groundwar.util.Constants;
 
-public enum Player {
+public class Player {
 
-  ORANGE(Colors.ORANGE, Colors.ORANGE2), BLUE(Colors.BLUE, Colors.BLUE2);
+  private final PlayerColor playerColor;
+  private int gold = Constants.START_MONEY;
 
-  public final int primaryColor;
-  public final int secondaryColor;
-  private int money = Constants.START_MONEY;
-
-  Player(int primaryColor, int secondaryColor) {
-    this.primaryColor = primaryColor;
-    this.secondaryColor = secondaryColor;
+  public Player(PlayerColor playerColor) {
+    this.playerColor = playerColor;
   }
 
-  public int getMoney() {
-    return money;
+  public int getPrimaryColor() {
+    return playerColor.primaryColor;
+  }
+
+  public int getSeconddaryColor() {
+    return playerColor.secondaryColor;
+  }
+
+  public int getGold() {
+    return gold;
   }
 
   /**
-   * Increases this player's money by the given amount
+   * Increases this player's gold by the given amount.
    *
    * @param amt the amount to be added, (non-negative)
-   * @throws IllegalStateException if {@code amt > money}
+   * @throws IllegalStateException if {@code amt > {@link #gold}}
    */
-  public void incrMoney(int amt) {
+  public void incrGold(int amt) {
     if (amt < 0) {
       throw new IllegalArgumentException("Amount cannot be negative");
     }
-    money += amt;
+    gold += amt;
   }
 
   /**
-   * Decreases this player's money by the given amount.
+   * Decreases this player's gold by the given amount.
    *
-   * @param amt the amount to be taken away, must be <= money (non-negative)
+   * @param amt the amount to be taken away, must be <= {@link #gold} (non-negative)
    * @throws IllegalArgumentException if {@code amt < 0}
-   * @throws IllegalStateException    if {@code amt > money}
+   * @throws IllegalStateException    if {@code amt > {@link #gold}}
    */
-  public void decrMoney(int amt) {
+  public void decrGold(int amt) {
     if (amt < 0) {
       throw new IllegalArgumentException("Amount cannot be negative");
     }
-    if (amt > money) {
-      throw new IllegalStateException("Amount must be <= money");
+    if (amt > gold) {
+      throw new IllegalStateException("Amount must be <= gold");
     }
-    money -= amt;
-  }
-
-  /**
-   * Gets the other player.
-   *
-   * @return if this is ORANGE, return BLUE, if this is BLUE, return ORANGE
-   */
-  public Player other() {
-    return values()[1 - ordinal()];
+    gold -= amt;
   }
 }

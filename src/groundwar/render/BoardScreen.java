@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import groundwar.Board;
-import groundwar.Player;
+import groundwar.PlayerColor;
 import groundwar.util.Colors;
 import groundwar.util.Point;
 import groundwar.util.Constants;
@@ -34,7 +34,7 @@ public class BoardScreen extends MainScreen {
   @Override
   public void draw(Point mousePos) {
     super.draw(mousePos);
-    final int clearColor = board.getCurrentPlayer().primaryColor & 0xcccccc;
+    final int clearColor = board.getCurrentPlayer().getPrimaryColor() & 0xcccccc;
     GL11.glClearColor((clearColor >> 16 & 0xff) / 255.0f, (clearColor >> 8 & 0xff) / 255.0f,
                       (clearColor & 0xff) / 255.0f, 1.0f);
 
@@ -80,9 +80,11 @@ public class BoardScreen extends MainScreen {
                       Constants.TURN_COUNT_X, Constants.TURN_COUNT_Y, TextAlignment.RIGHT);
 
     // Draw the players's information
-    renderer.drawText(Constants.FONT_SIZE_UI, String.format("Gold: %d", Player.ORANGE.getMoney()),
+    renderer.drawText(Constants.FONT_SIZE_UI,
+                      String.format("Gold: %d", board.getPlayer(PlayerColor.ORANGE).getGold()),
                       Constants.ORANGE_UI_X, Constants.ORANGE_UI_Y);
-    renderer.drawText(Constants.FONT_SIZE_UI, String.format("Gold: %d", Player.BLUE.getMoney()),
+    renderer.drawText(Constants.FONT_SIZE_UI,
+                      String.format("Gold: %d", board.getPlayer(PlayerColor.BLUE).getGold()),
                       Constants.BLUE_UI_X, Constants.BLUE_UI_Y, TextAlignment.RIGHT);
 
     // Draw unit information
@@ -137,7 +139,7 @@ public class BoardScreen extends MainScreen {
 
       // Draw the unit itself
       renderer.drawTexture(unit.getType().textureName, x, y, width, height,
-                           unit.getOwner().primaryColor);
+                           unit.getOwner().getPrimaryColor());
 
       // If the unit belongs to the current player, draw the amount of moves remaining
       if (unit.getOwner() == board.getCurrentPlayer()) {

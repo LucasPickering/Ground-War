@@ -23,7 +23,8 @@ import groundwar.util.Point;
 
 public class Board {
 
-  private Player currentPlayer = Player.ORANGE;
+  private final Player[] players = new Player[PlayerColor.values().length];
+  private int currentPlayer;
   private int turnCounter = 1;
   private final Map<Point, Tile> tiles = new HashMap<>();
 
@@ -57,6 +58,12 @@ public class Board {
   private final Random random = new Random();
 
   public Board() {
+    // Initialize players
+    for (PlayerColor color : PlayerColor.values()) {
+      players[color.ordinal()] = new Player(color);
+    }
+
+    // Load tiles from the file
     try {
       loadTilesFromFile(Constants.BOARD_FILE);
     } catch (IOException e) {
@@ -102,9 +109,9 @@ public class Board {
         case "M":
           return new MountainTile(p);
         case "R":
-          return new Tile(p, Player.ORANGE);
+          return new Tile(p, players[PlayerColor.ORANGE.ordinal()]);
         case "B":
-          return new Tile(p, Player.BLUE);
+          return new Tile(p, players[PlayerColor.BLUE.ordinal()]);
         case "G":
           return new GoldTile(p);
         case "F":
@@ -137,7 +144,11 @@ public class Board {
   }
 
   public Player getCurrentPlayer() {
-    return currentPlayer;
+    return players[currentPlayer];
+  }
+
+  public Player getPlayer(PlayerColor color) {
+    return players[color.ordinal()];
   }
 
   public int getTurnCounter() {
@@ -170,7 +181,7 @@ public class Board {
       if (moveSelectedUnit(tile) || attackWithSelectedUnit(tile)) {
         unselectTile();
       }
-    } else if (selectedTile != tile && tile.isSelectable(currentPlayer)) { // Select the tile
+    } else if (selectedTile != tile && tile.isSelectable(getCurrentPlayer())) { // Select the tile
       selectTile(tile);
     } else {
       unselectTile();
@@ -207,9 +218,9 @@ public class Board {
   public void prepareToSpawn(UnitType unitType) {
     if (unitType == null) {
       spawningUnit = null;
-    } else if (unitType.cost <= currentPlayer.getMoney()) {
+    } else if (unitType.cost <= getCurrentPlayer().getGold()) {
       selectedTile = null;
-      spawningUnit = unitType.createUnit(currentPlayer);
+      spawningUnit = unitType.createUnit(getCurrentPlayer());
     }
   }
 
@@ -371,7 +382,8 @@ public class Board {
     // Reset movement points for each unit
     tiles.values().stream().filter(Tile::hasUnit).forEach(tile -> tile.getUnit().resetMoves());
     cancelSpawning(); // Cancel unit spawning
-    currentPlayer = currentPlayer.other(); // Switch players
+    ++currentPlayer; // Next player
+    currentPlayer %= players.length; // Back to the start of the array
     turnCounter++; // Increment the turn counter
   }
 
