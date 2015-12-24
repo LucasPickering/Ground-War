@@ -95,6 +95,10 @@ public class GroundWar {
     GL11.glClearColor(0.0f, 1.0f, 1.0f, 1.0f); // Set clear color
     GL11.glOrtho(0, Constants.NATIVE_WINDOW_WIDTH, Constants.NATIVE_WINDOW_HEIGHT, 0, -1, 1);
 
+    GL11.glEnable(GL11.GL_BLEND);
+    GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+    GL11.glEnable(GL11.GL_TEXTURE_2D);
+
     // Initialize input handlers
     GLFW.glfwSetKeyCallback(window, keyHandler);
     GLFW.glfwSetMouseButtonCallback(window, mouseButtonHandler);
@@ -102,7 +106,7 @@ public class GroundWar {
     GLFW.glfwSetWindowSizeCallback(window, windowResizeHandler);
 
     renderer = new Renderer();
-    font = new TrueTypeFont("/usr/share/fonts/truetype/msttcorefonts/arial.ttf", 10f);
+    font = new TrueTypeFont("/usr/share/fonts/truetype/msttcorefonts/arial.ttf", 100f);
     board = new Board();
     currentScreen = new BoardScreen(window, board); // Initialize the current screen
   }
@@ -114,6 +118,12 @@ public class GroundWar {
       currentScreen.draw(mousePos.copy());
       GLFW.glfwSwapBuffers(window); // Swap the color buffers
     }
+    tearDown();
+  }
+
+  private void tearDown() {
+    GL11.glDisable(GL11.GL_TEXTURE_2D);
+    GL11.glDisable(GL11.GL_BLEND);
     renderer.deleteTextures(); // Free up texture memory
   }
 

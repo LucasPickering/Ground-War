@@ -34,12 +34,11 @@ public class TrueTypeFont {
   }
 
   public float getFontImageHeight() {
-    return (float) CHARS.keySet().size() * (this.getCharHeight());
+    return (float) CHARS.keySet().size() * getCharHeight();
   }
 
   public float getCharX(char c) {
-    String
-        originStr =
+    String originStr =
         CHARS.values().stream().filter(e -> e.contains("" + c)).findFirst().orElse("" + c);
     return (float) fontMetrics.getStringBounds(originStr.substring(0, originStr.indexOf(c)), null)
         .getWidth();
@@ -50,7 +49,7 @@ public class TrueTypeFont {
         lineId =
         (float) CHARS.keySet().stream().filter(i -> CHARS.get(i).contains("" + c)).findFirst()
             .orElse(0);
-    return this.getCharHeight() * lineId;
+    return getCharHeight() * lineId;
   }
 
   public float getCharWidth(char c) {
@@ -93,9 +92,9 @@ public class TrueTypeFont {
   }
 
   public void drawText(String text, int x, int y) {
-    GL11.glBindTexture(GL11.GL_TEXTURE_2D, this.fontTextureId);
-    GL11.glBegin(GL11.GL_QUADS);
+    GL11.glBindTexture(GL11.GL_TEXTURE_2D, fontTextureId);
 
+    GL11.glBegin(GL11.GL_QUADS);
     int xTmp = x;
     for (char c : text.toCharArray()) {
       float width = getCharWidth(c);
@@ -119,7 +118,6 @@ public class TrueTypeFont {
 
       xTmp += width;
     }
-
     GL11.glEnd();
   }
 
@@ -138,7 +136,7 @@ public class TrueTypeFont {
     // draw every CHAR by line...
     imageGraphics.setColor(Color.WHITE);
     CHARS.keySet().forEach(i -> imageGraphics
-        .drawString(CHARS.get(i), 0, fontMetrics.getMaxAscent() + (this.getCharHeight() * i)));
+        .drawString(CHARS.get(i), 0, fontMetrics.getMaxAscent() + (getCharHeight() * i)));
 
     //Generate texture data
     int[] pixels = new int[bufferedImage.getWidth() * bufferedImage.getHeight()];

@@ -69,6 +69,9 @@ public class BoardScreen extends MainScreen {
       }
       drawTile(tile, overlays);
     }
+
+    GL11.glColor4f(1f, 1f, 1f, 1f);
+    font.drawText("Hello world!", 100, 100);
   }
 
   /**

@@ -122,10 +122,6 @@ public class Renderer {
       throw new IllegalArgumentException("No texture by the name \"" + name + "\"!");
     }
 
-    GL11.glEnable(GL11.GL_BLEND);
-    GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-    GL11.glEnable(GL11.GL_TEXTURE_2D);
-
     // Set the color (aren't bitshifts cool?)
     GL11.glColor4f((color >> 16 & 0xff) / 255.0f, (color >> 8 & 0xff) / 255.0f,
                    (color & 0xff) / 255.0f, (color >> 24 & 0xff) / 255.0f);
@@ -147,9 +143,6 @@ public class Renderer {
       GL11.glVertex2f(x, y + height);
     }
     GL11.glEnd();
-
-    GL11.glDisable(GL11.GL_TEXTURE_2D);
-    GL11.glDisable(GL11.GL_BLEND);
   }
 
   public void drawRect(int x, int y, int width, int height, int color) {
