@@ -34,6 +34,7 @@ public class TrueTypeFont {
   private final int fontTextureId;
   private final int fontImageWidth;
   private final int fontImageHeight;
+  private final float charHeight;
 
   public TrueTypeFont(String name, float size) throws IOException, FontFormatException {
     // Load the font from the file
@@ -52,7 +53,8 @@ public class TrueTypeFont {
     // Get font measurements
     fontImageWidth = CHARS.stream().mapToInt(e -> (int) fontMetrics.getStringBounds(e, null)
         .getWidth()).max().getAsInt();
-    fontImageHeight = (int) (CHARS.size() * getCharHeight());
+    charHeight = fontMetrics.getMaxAscent() + fontMetrics.getMaxDescent();
+    fontImageHeight = (int) (CHARS.size() * charHeight);
 
     // Make an image of the font
     bufferedImage = graphics.getDeviceConfiguration()
@@ -83,15 +85,11 @@ public class TrueTypeFont {
         break;
       }
     }
-    return getCharHeight() * lineId;
+    return charHeight * lineId;
   }
 
   private float getCharWidth(char c) {
     return fontMetrics.charWidth(c);
-  }
-
-  private float getCharHeight() {
-    return fontMetrics.getMaxAscent() + fontMetrics.getMaxDescent();
   }
 
   private float getStringWidth(String s) {
@@ -116,7 +114,7 @@ public class TrueTypeFont {
     // Draw every char by line...
     imageGraphics.setColor(Color.WHITE);
     for (int i = 0; i < CHARS.size(); i++) {
-      imageGraphics.drawString(CHARS.get(i), 0, fontMetrics.getMaxAscent() + (getCharHeight() * i));
+      imageGraphics.drawString(CHARS.get(i), 0, fontMetrics.getMaxAscent() + charHeight * i);
     }
 
     // Generate texture data
@@ -140,6 +138,16 @@ public class TrueTypeFont {
     return byteBuffer;
   }
 
+  /**
+   * Draw the given text in this font.
+   *
+   * @param text      the text to draw (non-null)
+   * @param x         the x location to draw at
+   * @param y         the y location to draw at
+   * @param color     the color to draw with
+   * @param alignment the {@link Alignment} to draw with (non-null)
+   * @throws NullPointerException if {@code text == null} or {@code alignment == null}
+   */
   public void draw(String text, int x, int y, int color, Alignment alignment) {
     Objects.requireNonNull(text);
     Objects.requireNonNull(alignment);
@@ -152,7 +160,6 @@ public class TrueTypeFont {
     int xTmp = x;
     int yTmp = y;
     GL11.glBegin(GL11.GL_QUADS);
-    final float height = getCharHeight();
     for (String line : lines) {
       switch (alignment) {
         case CENTER:
@@ -166,7 +173,7 @@ public class TrueTypeFont {
         final float width = getCharWidth(c);
 
         final float cw = 1f / fontImageWidth * width;
-        final float ch = 1f / fontImageHeight * height;
+        final float ch = 1f / fontImageHeight * charHeight;
         final float cx = 1f / fontImageWidth * getCharX(c);
         final float cy = 1f / fontImageHeight * getCharY(c);
 
@@ -177,15 +184,15 @@ public class TrueTypeFont {
         GL11.glVertex2f(xTmp + width, yTmp);
 
         GL11.glTexCoord2f(cx + cw, cy + ch);
-        GL11.glVertex2f(xTmp + width, yTmp + height);
+        GL11.glVertex2f(xTmp + width, yTmp + charHeight);
 
         GL11.glTexCoord2f(cx, cy + ch);
-        GL11.glVertex2f(xTmp, yTmp + height);
+        GL11.glVertex2f(xTmp, yTmp + charHeight);
 
         xTmp += width;
       }
       xTmp = x;
-      yTmp += height;
+      yTmp += charHeight;
     }
     GL11.glEnd();
   }
