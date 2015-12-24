@@ -15,6 +15,10 @@ import groundwar.util.Constants;
 
 public class TrueTypeFont {
 
+  public enum Alignment {
+    LEFT, CENTER, RIGHT
+  }
+
   private static final List<String> CHARS = new ArrayList<String>() {{
     add("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
     add("abcdefghijklmnopqrstuvwxyz");
@@ -127,7 +131,7 @@ public class TrueTypeFont {
     return byteBuffer;
   }
 
-  public void draw(String text, int x, int y, int color) {
+  public void draw(String text, int x, int y, int color, Alignment alignment) {
     // Set the color (aren't bitshifts cool?)
     GL11.glColor4f((color >> 16 & 0xff) / 255.0f, (color >> 8 & 0xff) / 255.0f,
                    (color & 0xff) / 255.0f, (color >> 24 & 0xff) / 255.0f);

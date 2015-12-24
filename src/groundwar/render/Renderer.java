@@ -6,7 +6,6 @@ import org.lwjgl.opengl.GL12;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
@@ -14,8 +13,8 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
-import groundwar.util.Constants;
 import groundwar.GroundWar;
+import groundwar.util.Constants;
 
 public class Renderer {
 
@@ -152,32 +151,48 @@ public class Renderer {
   }
 
   /**
-   * Draw the given text in the given size, at the given position. A font for the given size must have
-   * been loaded already using {@link #loadFont}.
+   * Draw text in white with left alignment.
    *
-   * @param size the size of the font
-   * @param text the text to draw
-   * @param x    the x position to draw at
-   * @param y    the y position to draw at
+   * @see #drawText(float, String, int, int, int, groundwar.render.TrueTypeFont.Alignment)
    */
   public void drawText(float size, String text, int x, int y) {
-    drawText(size, text, x, y, 0xffffffff);
+    drawText(size, text, x, y, 0xffffffff, TrueTypeFont.Alignment.LEFT);
+  }
+
+  /**
+   * Draw text with left alignment.
+   *
+   * @see #drawText(float, String, int, int, int, groundwar.render.TrueTypeFont.Alignment)
+   */
+  public void drawText(float size, String text, int x, int y, int color) {
+    drawText(size, text, x, y, color, TrueTypeFont.Alignment.LEFT);
+  }
+
+  /**
+   * Draw text in white.
+   *
+   * @see #drawText(float, String, int, int, int, groundwar.render.TrueTypeFont.Alignment)
+   */
+  public void drawText(float size, String text, int x, int y, TrueTypeFont.Alignment alignment) {
+    drawText(size, text, x, y, 0xffffffff, TrueTypeFont.Alignment.LEFT);
   }
 
   /**
    * Draw the given text in the given size, at the given position. A font for the given size must have
    * been loaded already using {@link #loadFont}.
    *
-   * @param size  the size of the font
-   * @param text  the text to draw
-   * @param x     the x position to draw at
-   * @param y     the y position to draw at
-   * @param color the color to draw in
+   * @param size      the size of the font
+   * @param text      the text to draw
+   * @param x         the x position to draw at
+   * @param y         the y position to draw at
+   * @param color     the color to draw in
+   * @param alignment the text alignment (left, center, right)
    */
-  public void drawText(float size, String text, int x, int y, int color) {
+  public void drawText(float size, String text, int x, int y, int color,
+                       TrueTypeFont.Alignment alignment) {
     if (!fontMap.containsKey(size)) {
       throw new IllegalArgumentException("No font of size " + size);
     }
-    fontMap.get(size).draw(text, x, y, color);
+    fontMap.get(size).draw(text, x, y, color, alignment);
   }
 }

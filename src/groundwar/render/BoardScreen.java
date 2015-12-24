@@ -76,14 +76,15 @@ public class BoardScreen extends MainScreen {
 
     // Draw turn counter
     renderer.drawText(Constants.FONT_SIZE_UI, String.format("Turn %d", board.getTurnCounter()),
-                      Constants.TURN_COUNT_X, Constants.TURN_COUNT_Y);
+                      Constants.TURN_COUNT_X, Constants.TURN_COUNT_Y, TrueTypeFont.Alignment.RIGHT);
 
     // Draw unit information
     if (selectedTile != null) {
       final Unit selectedUnit = selectedTile.getUnit();
-      final String toDraw = String.format("%s\nHealth: %d", selectedUnit.getType().displayName,
-                                          selectedUnit.getHealth());
-      renderer.drawText(Constants.FONT_SIZE_UI, toDraw, Constants.UNIT_INFO_X, Constants.UNIT_INFO_Y);
+      renderer.drawText(Constants.FONT_SIZE_UI, String.format("%s\nHealth: %d",
+                                                              selectedUnit.getType().displayName,
+                                                              selectedUnit.getHealth()),
+                        Constants.UNIT_INFO_X, Constants.UNIT_INFO_Y);
     }
 
     GL11.glDisable(GL11.GL_TEXTURE_2D);
