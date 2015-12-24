@@ -235,20 +235,6 @@ public class Tile {
     return true;
   }
 
-  // Events
-
-  /**
-   * Called <i>directly after</i> {@link #adjacentTiles} is populated.
-   */
-  protected void onSetAdjacents() {
-  }
-
-  /**
-   * Called <i>directly after</i> the unit on this tile changes.
-   */
-  protected void onUnitChange() {
-  }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -270,5 +256,26 @@ public class Tile {
   @Override
   public String toString() {
     return "Tile@" + pos.toString();
+  }
+
+  // Events
+
+  /**
+   * Called <i>directly after</i> {@link #adjacentTiles} is populated.
+   */
+  public void onSetAdjacents() {
+  }
+
+  /**
+   * Called <i>directly after</i> the unit on this tile changes.
+   */
+  public void onUnitChange() {
+  }
+
+  /**
+   * Called by {@link groundwar.Board} at the end of each turn. This is called before the current
+   * player is changed, and before any movement or other values are reset.
+   */
+  public void onEndTurn() {
   }
 }

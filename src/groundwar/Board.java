@@ -381,11 +381,14 @@ public class Board {
    * Move to the next player's turn.
    */
   public void nextTurn() {
+    tiles.values().forEach(Tile::onEndTurn); // Call onEndTurn() for each tile
     // Reset movement points for each unit
     tiles.values().stream().filter(Tile::hasUnit).forEach(tile -> tile.getUnit().resetMoves());
     cancelSpawning(); // Cancel unit spawning
-    ++currentPlayer; // Next player
-    currentPlayer %= players.length; // Back to the start of the array
+
+    // Next player
+    ++currentPlayer;
+    currentPlayer %= players.length;
     turnCounter++; // Increment the turn counter
   }
 
