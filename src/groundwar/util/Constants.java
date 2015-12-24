@@ -13,7 +13,7 @@ public class Constants {
   public static final int TILE_RADIUS = 54;
   public static final int TILE_WIDTH = (int) (TILE_RADIUS * 4 / Math.sqrt(3));
   public static final int TILE_HEIGHT = TILE_RADIUS * 2;
-  public static int NUM_SIDES = Direction.values().length;
+  public static final int NUM_SIDES = Direction.values().length;
 
   // Renderer constants
   /**
