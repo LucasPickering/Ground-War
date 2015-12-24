@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import groundwar.GroundWar;
 import groundwar.util.Constants;
@@ -93,6 +94,14 @@ public class TrueTypeFont {
     return fontMetrics.getMaxAscent() + fontMetrics.getMaxDescent();
   }
 
+  private float getStringWidth(String s) {
+    int width = 0;
+    for (char c : s.toCharArray()) {
+      width += getCharWidth(c);
+    }
+    return width;
+  }
+
   private ByteBuffer asByteBuffer() {
     ByteBuffer byteBuffer;
 
@@ -132,43 +141,51 @@ public class TrueTypeFont {
   }
 
   public void draw(String text, int x, int y, int color, Alignment alignment) {
+    Objects.requireNonNull(text);
+    Objects.requireNonNull(alignment);
     // Set the color (aren't bitshifts cool?)
     GL11.glColor4f((color >> 16 & 0xff) / 255.0f, (color >> 8 & 0xff) / 255.0f,
                    (color & 0xff) / 255.0f, (color >> 24 & 0xff) / 255.0f);
     GL11.glBindTexture(GL11.GL_TEXTURE_2D, fontTextureId);
+    String[] lines = text.split("\n");
 
     int xTmp = x;
     int yTmp = y;
     GL11.glBegin(GL11.GL_QUADS);
-    for (char c : text.toCharArray()) {
-      final float width = getCharWidth(c);
-      final float height = getCharHeight();
-
-      // For new line character, jump down to the next line
-      if (c == '\n') {
-        xTmp = x;
-        yTmp += height;
-        continue;
+    final float height = getCharHeight();
+    for (String line : lines) {
+      switch (alignment) {
+        case CENTER:
+          xTmp = x - (int) getStringWidth(line) / 2;
+          break;
+        case RIGHT:
+          xTmp = x - (int) getStringWidth(line);
+          break;
       }
+      for (char c : line.toCharArray()) {
+        final float width = getCharWidth(c);
 
-      final float cw = 1f / fontImageWidth * width;
-      final float ch = 1f / fontImageHeight * height;
-      final float cx = 1f / fontImageWidth * getCharX(c);
-      final float cy = 1f / fontImageHeight * getCharY(c);
+        final float cw = 1f / fontImageWidth * width;
+        final float ch = 1f / fontImageHeight * height;
+        final float cx = 1f / fontImageWidth * getCharX(c);
+        final float cy = 1f / fontImageHeight * getCharY(c);
 
-      GL11.glTexCoord2f(cx, cy);
-      GL11.glVertex2f(xTmp, yTmp);
+        GL11.glTexCoord2f(cx, cy);
+        GL11.glVertex2f(xTmp, yTmp);
 
-      GL11.glTexCoord2f(cx + cw, cy);
-      GL11.glVertex2f(xTmp + width, yTmp);
+        GL11.glTexCoord2f(cx + cw, cy);
+        GL11.glVertex2f(xTmp + width, yTmp);
 
-      GL11.glTexCoord2f(cx + cw, cy + ch);
-      GL11.glVertex2f(xTmp + width, yTmp + height);
+        GL11.glTexCoord2f(cx + cw, cy + ch);
+        GL11.glVertex2f(xTmp + width, yTmp + height);
 
-      GL11.glTexCoord2f(cx, cy + ch);
-      GL11.glVertex2f(xTmp, yTmp + height);
+        GL11.glTexCoord2f(cx, cy + ch);
+        GL11.glVertex2f(xTmp, yTmp + height);
 
-      xTmp += width;
+        xTmp += width;
+      }
+      xTmp = x;
+      yTmp += height;
     }
     GL11.glEnd();
   }

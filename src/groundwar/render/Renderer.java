@@ -174,7 +174,7 @@ public class Renderer {
    * @see #drawText(float, String, int, int, int, groundwar.render.TrueTypeFont.Alignment)
    */
   public void drawText(float size, String text, int x, int y, TrueTypeFont.Alignment alignment) {
-    drawText(size, text, x, y, 0xffffffff, TrueTypeFont.Alignment.LEFT);
+    drawText(size, text, x, y, 0xffffffff, alignment);
   }
 
   /**
