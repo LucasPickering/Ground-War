@@ -53,10 +53,10 @@ public class Renderer {
     for (int y = 0; y < image.getHeight(); y++) {
       for (int x = 0; x < image.getWidth(); x++) {
         int pixel = pixels[y * image.getWidth() + x];
-        buffer.put((byte) ((pixel >> 16) & 0xff)); // Red
-        buffer.put((byte) ((pixel >> 8) & 0xff)); // Green
-        buffer.put((byte) (pixel & 0xff)); // Blue
-        buffer.put((byte) ((pixel >> 24) & 0xff)); // Alpha
+        buffer.put((byte) ((pixel >> 16) & 0xff));  // Red
+        buffer.put((byte) ((pixel >> 8) & 0xff));   // Green
+        buffer.put((byte) (pixel & 0xff));          // Blue
+        buffer.put((byte) ((pixel >> 24) & 0xff));  // Alpha
       }
     }
 

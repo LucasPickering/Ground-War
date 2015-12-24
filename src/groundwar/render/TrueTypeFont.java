@@ -105,7 +105,7 @@ public class TrueTypeFont {
   private ByteBuffer asByteBuffer() {
     ByteBuffer byteBuffer;
 
-    //Draw the characters on our image
+    // Draw the characters on our image
     Graphics2D imageGraphics = (Graphics2D) bufferedImage.getGraphics();
     imageGraphics.setFont(font);
     imageGraphics
@@ -113,13 +113,13 @@ public class TrueTypeFont {
     imageGraphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                                    RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
-    // draw every CHAR by line...
+    // Draw every char by line...
     imageGraphics.setColor(Color.WHITE);
     for (int i = 0; i < CHARS.size(); i++) {
       imageGraphics.drawString(CHARS.get(i), 0, fontMetrics.getMaxAscent() + (getCharHeight() * i));
     }
 
-    //Generate texture data
+    // Generate texture data
     int[] pixels = new int[bufferedImage.getWidth() * bufferedImage.getHeight()];
     bufferedImage.getRGB(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight(), pixels, 0,
                          bufferedImage.getWidth());
@@ -128,10 +128,10 @@ public class TrueTypeFont {
     for (int y = 0; y < bufferedImage.getHeight(); y++) {
       for (int x = 0; x < bufferedImage.getWidth(); x++) {
         int pixel = pixels[y * bufferedImage.getWidth() + x];
-        byteBuffer.put((byte) ((pixel >> 16) & 0xFF));   // Red
-        byteBuffer.put((byte) ((pixel >> 8) & 0xFF));    // Green
-        byteBuffer.put((byte) (pixel & 0xFF));           // Blue
-        byteBuffer.put((byte) ((pixel >> 24) & 0xFF));   // Alpha
+        byteBuffer.put((byte) ((pixel >> 16) & 0xFF));  // Red
+        byteBuffer.put((byte) ((pixel >> 8) & 0xFF));   // Green
+        byteBuffer.put((byte) (pixel & 0xFF));          // Blue
+        byteBuffer.put((byte) ((pixel >> 24) & 0xFF));  // Alpha
       }
     }
 
