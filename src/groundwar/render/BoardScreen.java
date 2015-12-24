@@ -37,6 +37,9 @@ public class BoardScreen extends MainScreen {
     GL11.glClearColor((clearColor >> 16 & 0xff) / 255.0f, (clearColor >> 8 & 0xff) / 255.0f,
                       (clearColor & 0xff) / 255.0f, 1.0f);
 
+    GL11.glEnable(GL11.GL_BLEND);
+    GL11.glEnable(GL11.GL_TEXTURE_2D);
+
     // Draw each tile
     for (Tile tile : board.getTiles().values()) {
       final Tile selectedTile = board.getSelectedTile();
@@ -70,8 +73,8 @@ public class BoardScreen extends MainScreen {
       drawTile(tile, overlays);
     }
 
-    GL11.glColor4f(1f, 1f, 1f, 1f);
-    renderer.drawText(100f, "Hello world!", 100, 100);
+    GL11.glDisable(GL11.GL_TEXTURE_2D);
+    GL11.glDisable(GL11.GL_BLEND);
   }
 
   /**
@@ -114,14 +117,21 @@ public class BoardScreen extends MainScreen {
       // Draw the unit itself
       renderer.drawTexture(unit.getName(), x, y, width, height, unit.getOwner().primaryColor);
 
+      // Draw the amount of moves remaining
+      renderer.drawText(Constants.FONT_SIZE1, Integer.toString(unit.getMovesRemaining()),
+                        x + Constants.UNIT_MOVES_X, y + Constants.UNIT_MOVES_Y);
+
       // Draw the health bar
-      final int splitPoint = Constants.HEALTH_BAR_WIDTH * unit.getHealth() / unit.getType().maxHealth;
-      renderer.drawRect(x + Constants.HEALTH_BAR_X, y + Constants.HEALTH_BAR_Y,
-                        splitPoint, Constants.HEALTH_BAR_HEIGHT,
+      final int splitPoint =
+          Constants.UNIT_HEALTH_WIDTH * unit.getHealth() / unit.getType().maxHealth;
+      GL11.glDisable(GL11.GL_TEXTURE_2D);
+      renderer.drawRect(x + Constants.UNIT_HEALTH_X, y + Constants.UNIT_HEALTH_Y,
+                        splitPoint, Constants.UNIT_HEALTH_HEIGHT,
                         Colors.HEALTH_BAR_POS); // Green part
-      renderer.drawRect(x + Constants.HEALTH_BAR_X + splitPoint, y + Constants.HEALTH_BAR_Y,
-                        Constants.HEALTH_BAR_WIDTH - splitPoint, Constants.HEALTH_BAR_HEIGHT,
+      renderer.drawRect(x + Constants.UNIT_HEALTH_X + splitPoint, y + Constants.UNIT_HEALTH_Y,
+                        Constants.UNIT_HEALTH_WIDTH - splitPoint, Constants.UNIT_HEALTH_HEIGHT,
                         Colors.HEALTH_BAR_NEG); // Red part
+      GL11.glEnable(GL11.GL_TEXTURE_2D);
     }
   }
 
