@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import groundwar.Board;
+import groundwar.Player;
 import groundwar.util.Colors;
 import groundwar.util.Point;
 import groundwar.util.Constants;
@@ -77,6 +78,12 @@ public class BoardScreen extends MainScreen {
     // Draw turn counter
     renderer.drawText(Constants.FONT_SIZE_UI, String.format("Turn %d", board.getTurnCounter()),
                       Constants.TURN_COUNT_X, Constants.TURN_COUNT_Y, TrueTypeFont.Alignment.RIGHT);
+
+    // Draw the players's information
+    renderer.drawText(Constants.FONT_SIZE_UI, String.format("Gold: %d", Player.ORANGE.getMoney()),
+                      Constants.ORANGE_UI_X, Constants.ORANGE_UI_Y);
+    renderer.drawText(Constants.FONT_SIZE_UI, String.format("Gold: %d", Player.BLUE.getMoney()),
+                      Constants.BLUE_UI_X, Constants.BLUE_UI_Y, TrueTypeFont.Alignment.RIGHT);
 
     // Draw unit information
     if (selectedTile != null) {
