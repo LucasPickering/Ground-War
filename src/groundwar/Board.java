@@ -22,6 +22,7 @@ import groundwar.util.Point;
 public class Board {
 
   private Player currentPlayer = Player.ORANGE;
+  private int turnCounter = 1;
   private final Map<Point, Tile> tiles = new HashMap<>();
 
   /**
@@ -134,6 +135,10 @@ public class Board {
 
   public Player getCurrentPlayer() {
     return currentPlayer;
+  }
+
+  public int getTurnCounter() {
+    return turnCounter;
   }
 
   public Map<Point, Tile> getTiles() {
@@ -341,6 +346,7 @@ public class Board {
     tiles.values().stream().filter(Tile::hasUnit).forEach(tile -> tile.getUnit().resetMoves());
     cancelSpawning(); // Cancel unit spawning
     currentPlayer = currentPlayer.other(); // Switch players
+    turnCounter++; // Increment the turn counter
   }
 
   /**

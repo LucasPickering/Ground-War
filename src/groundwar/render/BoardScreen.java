@@ -74,6 +74,10 @@ public class BoardScreen extends MainScreen {
       drawTile(tile, overlays);
     }
 
+    // Draw turn counter
+    renderer.drawText(Constants.FONT_SIZE_UI, String.format("Turn %d", board.getTurnCounter()),
+                      Constants.TURN_COUNT_X, Constants.TURN_COUNT_Y);
+
     // Draw unit information
     if (selectedTile != null) {
       final Unit selectedUnit = selectedTile.getUnit();
@@ -127,9 +131,11 @@ public class BoardScreen extends MainScreen {
       renderer.drawTexture(unit.getType().textureName, x, y, width, height,
                            unit.getOwner().primaryColor);
 
-      // Draw the amount of moves remaining
-      renderer.drawText(Constants.FONT_SIZE_TILE, Integer.toString(unit.getMovesRemaining()),
-                        x + Constants.UNIT_MOVES_X, y + Constants.UNIT_MOVES_Y);
+      // If the unit belongs to the current player, draw the amount of moves remaining
+      if (unit.getOwner() == board.getCurrentPlayer()) {
+        renderer.drawText(Constants.FONT_SIZE_TILE, Integer.toString(unit.getMovesRemaining()),
+                          x + Constants.UNIT_MOVES_X, y + Constants.UNIT_MOVES_Y);
+      }
 
       // Draw the health bar
       final int splitPoint =
