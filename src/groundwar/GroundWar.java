@@ -11,12 +11,13 @@ import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.system.MemoryUtil;
 
-import groundwar.util.Constants;
 import groundwar.render.BoardScreen;
 import groundwar.render.MainScreen;
 import groundwar.render.Renderer;
+import groundwar.render.TrueTypeFont;
 import groundwar.render.event.KeyEvent;
 import groundwar.render.event.MouseButtonEvent;
+import groundwar.util.Constants;
 import groundwar.util.Point;
 
 public class GroundWar {
@@ -33,6 +34,7 @@ public class GroundWar {
 
   private long window;
   private Renderer renderer;
+  private TrueTypeFont font;
   private MainScreen currentScreen;
   private int windowWidth;
   private int windowHeight;
@@ -100,6 +102,7 @@ public class GroundWar {
     GLFW.glfwSetWindowSizeCallback(window, windowResizeHandler);
 
     renderer = new Renderer();
+    font = new TrueTypeFont("/usr/share/fonts/truetype/msttcorefonts/arial.ttf", 10f);
     board = new Board();
     currentScreen = new BoardScreen(window, board); // Initialize the current screen
   }
@@ -116,6 +119,10 @@ public class GroundWar {
 
   public Renderer getRenderer() {
     return renderer;
+  }
+
+  public TrueTypeFont getFont() {
+    return font;
   }
 
   public static void main(String[] args) {
