@@ -4,9 +4,9 @@ import groundwar.Player;
 
 public enum UnitType {
 
-  MARINES(Marines.class, UnitCategory.INFANTRY, "Marines", 1, 2, 10, 5),
-  ANTITANK(Antitank.class, UnitCategory.ANTIARMOR, "AT Squad", 2, 3, 12, 7),
-  TANK(Tank.class, UnitCategory.ARMOR, "Tank", 3, 4, 15, 8);
+  MARINES(Marines.class, UnitCategory.INFANTRY, "Marines", 1, 2, 100, 50),
+  ANTITANK(Antitank.class, UnitCategory.ANTIARMOR, "AT Squad", 2, 3, 120, 70),
+  TANK(Tank.class, UnitCategory.ARMOR, "Tank", 3, 4, 150, 80);
 
   public final Class<? extends Unit> unitClass;
   public final UnitCategory category;
@@ -17,8 +17,8 @@ public enum UnitType {
   public final int maxHealth;
   public final int combatStrength;
 
-  UnitType(Class<? extends Unit> unitClass, UnitCategory category, String displayName, int cost,
-           int movesPerTurn, int maxHealth, int combatStrength) {
+  UnitType(Class<? extends Unit> unitClass, UnitCategory category, String displayName,
+           int cost, int movesPerTurn, int maxHealth, int combatStrength) {
     this.unitClass = unitClass;
     this.category = category;
     this.textureName = toString().toLowerCase();
