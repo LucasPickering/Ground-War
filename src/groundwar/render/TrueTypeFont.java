@@ -133,11 +133,19 @@ public class TrueTypeFont {
                    (color & 0xff) / 255.0f, (color >> 24 & 0xff) / 255.0f);
     GL11.glBindTexture(GL11.GL_TEXTURE_2D, fontTextureId);
 
-    GL11.glBegin(GL11.GL_QUADS);
     int xTmp = x;
+    int yTmp = y;
+    GL11.glBegin(GL11.GL_QUADS);
     for (char c : text.toCharArray()) {
       final float width = getCharWidth(c);
       final float height = getCharHeight();
+
+      // For new line character, jump down to the next line
+      if (c == '\n') {
+        xTmp = x;
+        yTmp += height;
+        continue;
+      }
 
       final float cw = 1f / fontImageWidth * width;
       final float ch = 1f / fontImageHeight * height;
@@ -145,16 +153,16 @@ public class TrueTypeFont {
       final float cy = 1f / fontImageHeight * getCharY(c);
 
       GL11.glTexCoord2f(cx, cy);
-      GL11.glVertex2f(xTmp, y);
+      GL11.glVertex2f(xTmp, yTmp);
 
       GL11.glTexCoord2f(cx + cw, cy);
-      GL11.glVertex2f(xTmp + width, y);
+      GL11.glVertex2f(xTmp + width, yTmp);
 
       GL11.glTexCoord2f(cx + cw, cy + ch);
-      GL11.glVertex2f(xTmp + width, y + height);
+      GL11.glVertex2f(xTmp + width, yTmp + height);
 
       GL11.glTexCoord2f(cx, cy + ch);
-      GL11.glVertex2f(xTmp, y + height);
+      GL11.glVertex2f(xTmp, yTmp + height);
 
       xTmp += width;
     }
