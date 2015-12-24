@@ -34,7 +34,7 @@ public class Unit {
     this.owner = owner;
     resetMoves();
     health = type.maxHealth;
-    GroundWar.groundWar.getRenderer().loadTexture(type.name);
+    GroundWar.groundWar.getRenderer().loadTexture(type.textureName);
     return this;
   }
 
@@ -44,14 +44,6 @@ public class Unit {
 
   public final Player getOwner() {
     return owner;
-  }
-
-  public final String getName() {
-    return type.name;
-  }
-
-  public final int getCost() {
-    return type.cost;
   }
 
   public final int getMovesRemaining() {

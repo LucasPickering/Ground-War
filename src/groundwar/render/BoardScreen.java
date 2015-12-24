@@ -40,9 +40,10 @@ public class BoardScreen extends MainScreen {
     GL11.glEnable(GL11.GL_BLEND);
     GL11.glEnable(GL11.GL_TEXTURE_2D);
 
+    final Tile selectedTile = board.getSelectedTile();
+
     // Draw each tile
     for (Tile tile : board.getTiles().values()) {
-      final Tile selectedTile = board.getSelectedTile();
       final List<TileOverlay> overlays = new LinkedList<>();
 
       // If the tile is selected, add the selected overlay.
@@ -71,6 +72,14 @@ public class BoardScreen extends MainScreen {
         }
       }
       drawTile(tile, overlays);
+    }
+
+    // Draw unit information
+    if (selectedTile != null) {
+      final Unit selectedUnit = selectedTile.getUnit();
+      final String toDraw = String.format("%s\nHealth: %d", selectedUnit.getType().displayName,
+                                          selectedUnit.getHealth());
+      renderer.drawText(Constants.FONT_SIZE_UI, toDraw, Constants.UNIT_INFO_X, Constants.UNIT_INFO_Y);
     }
 
     GL11.glDisable(GL11.GL_TEXTURE_2D);
@@ -115,10 +124,11 @@ public class BoardScreen extends MainScreen {
       final int height = Constants.TILE_HEIGHT;
 
       // Draw the unit itself
-      renderer.drawTexture(unit.getName(), x, y, width, height, unit.getOwner().primaryColor);
+      renderer.drawTexture(unit.getType().textureName, x, y, width, height,
+                           unit.getOwner().primaryColor);
 
       // Draw the amount of moves remaining
-      renderer.drawText(Constants.FONT_SIZE1, Integer.toString(unit.getMovesRemaining()),
+      renderer.drawText(Constants.FONT_SIZE_TILE, Integer.toString(unit.getMovesRemaining()),
                         x + Constants.UNIT_MOVES_X, y + Constants.UNIT_MOVES_Y);
 
       // Draw the health bar

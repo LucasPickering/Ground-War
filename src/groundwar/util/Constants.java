@@ -10,7 +10,7 @@ public class Constants {
    * The distance between the center point of the hexagon and the center-point of one side of the
    * hexagon.
    */
-  public static final int TILE_RADIUS = 54;
+  public static final int TILE_RADIUS = 108;
   public static final int TILE_WIDTH = (int) (TILE_RADIUS * 4 / Math.sqrt(3));
   public static final int TILE_HEIGHT = TILE_RADIUS * 2;
   public static final int NUM_SIDES = Direction.values().length;
@@ -20,11 +20,11 @@ public class Constants {
    * The width of the window that will be assumed when all textures, words, etc. are drawn to the
    * screen. Everything will be rendered to this resolution, then scaled to the actual resolution.
    */
-  public static final int NATIVE_WINDOW_WIDTH = 1920;
+  public static final int NATIVE_WINDOW_WIDTH = 3840;
   /**
    * @see {@link #NATIVE_WINDOW_WIDTH}
    */
-  public static final int NATIVE_WINDOW_HEIGHT = 1080;
+  public static final int NATIVE_WINDOW_HEIGHT = 2160;
 
   // Board constants
   public static final Point BOARD_CENTER = new Point((NATIVE_WINDOW_WIDTH - TILE_WIDTH) / 2,
@@ -40,13 +40,16 @@ public class Constants {
   public static final String TILE_OUTLINE_NAME = "tile_outline";
 
   // Font sizes
-  public static final float FONT_SIZE1 = 30f;
+  public static final float FONT_SIZE_TILE = 60f;
+  public static final float FONT_SIZE_UI = 80f;
 
   // UI sizes/positions
   public static final int UNIT_HEALTH_WIDTH = (int) (Constants.TILE_WIDTH * 0.6f);
-  public static final int UNIT_HEALTH_HEIGHT = 8;
+  public static final int UNIT_HEALTH_HEIGHT = 16;
   public static final int UNIT_HEALTH_X = (TILE_WIDTH - UNIT_HEALTH_WIDTH) / 2; // Centered
-  public static final int UNIT_HEALTH_Y = 24;
-  public static final int UNIT_MOVES_X = 30;
-  public static final int UNIT_MOVES_Y = TILE_HEIGHT - 40;
+  public static final int UNIT_HEALTH_Y = 48;
+  public static final int UNIT_MOVES_X = 60;
+  public static final int UNIT_MOVES_Y = TILE_HEIGHT - 80;
+  public static final int UNIT_INFO_X = 10;
+  public static final int UNIT_INFO_Y = 10;
 }
