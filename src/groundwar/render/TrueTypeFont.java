@@ -16,10 +16,6 @@ import groundwar.util.Constants;
 
 public class TrueTypeFont {
 
-  public enum Alignment {
-    LEFT, CENTER, RIGHT
-  }
-
   private static final List<String> CHARS = new ArrayList<String>() {{
     add("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
     add("abcdefghijklmnopqrstuvwxyz");
@@ -145,10 +141,10 @@ public class TrueTypeFont {
    * @param x         the x location to draw at
    * @param y         the y location to draw at
    * @param color     the color to draw with
-   * @param alignment the {@link Alignment} to draw with (non-null)
+   * @param alignment the {@link TextAlignment} to draw with (non-null)
    * @throws NullPointerException if {@code text == null} or {@code alignment == null}
    */
-  public void draw(String text, int x, int y, int color, Alignment alignment) {
+  public void draw(String text, int x, int y, int color, TextAlignment alignment) {
     Objects.requireNonNull(text);
     Objects.requireNonNull(alignment);
     // Set the color (aren't bitshifts cool?)

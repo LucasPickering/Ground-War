@@ -77,13 +77,13 @@ public class BoardScreen extends MainScreen {
 
     // Draw turn counter
     renderer.drawText(Constants.FONT_SIZE_UI, String.format("Turn %d", board.getTurnCounter()),
-                      Constants.TURN_COUNT_X, Constants.TURN_COUNT_Y, TrueTypeFont.Alignment.RIGHT);
+                      Constants.TURN_COUNT_X, Constants.TURN_COUNT_Y, TextAlignment.RIGHT);
 
     // Draw the players's information
     renderer.drawText(Constants.FONT_SIZE_UI, String.format("Gold: %d", Player.ORANGE.getMoney()),
                       Constants.ORANGE_UI_X, Constants.ORANGE_UI_Y);
     renderer.drawText(Constants.FONT_SIZE_UI, String.format("Gold: %d", Player.BLUE.getMoney()),
-                      Constants.BLUE_UI_X, Constants.BLUE_UI_Y, TrueTypeFont.Alignment.RIGHT);
+                      Constants.BLUE_UI_X, Constants.BLUE_UI_Y, TextAlignment.RIGHT);
 
     // Draw unit information
     if (selectedTile != null) {

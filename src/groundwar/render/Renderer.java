@@ -153,27 +153,27 @@ public class Renderer {
   /**
    * Draw text in white with left alignment.
    *
-   * @see #drawText(float, String, int, int, int, groundwar.render.TrueTypeFont.Alignment)
+   * @see #drawText(float, String, int, int, int, TextAlignment)
    */
   public void drawText(float size, String text, int x, int y) {
-    drawText(size, text, x, y, 0xffffffff, TrueTypeFont.Alignment.LEFT);
+    drawText(size, text, x, y, 0xffffffff, TextAlignment.LEFT);
   }
 
   /**
    * Draw text with left alignment.
    *
-   * @see #drawText(float, String, int, int, int, groundwar.render.TrueTypeFont.Alignment)
+   * @see #drawText(float, String, int, int, int, TextAlignment)
    */
   public void drawText(float size, String text, int x, int y, int color) {
-    drawText(size, text, x, y, color, TrueTypeFont.Alignment.LEFT);
+    drawText(size, text, x, y, color, TextAlignment.LEFT);
   }
 
   /**
    * Draw text in white.
    *
-   * @see #drawText(float, String, int, int, int, groundwar.render.TrueTypeFont.Alignment)
+   * @see #drawText(float, String, int, int, int, TextAlignment)
    */
-  public void drawText(float size, String text, int x, int y, TrueTypeFont.Alignment alignment) {
+  public void drawText(float size, String text, int x, int y, TextAlignment alignment) {
     drawText(size, text, x, y, 0xffffffff, alignment);
   }
 
@@ -188,8 +188,7 @@ public class Renderer {
    * @param color     the color to draw in
    * @param alignment the text alignment (left, center, right)
    */
-  public void drawText(float size, String text, int x, int y, int color,
-                       TrueTypeFont.Alignment alignment) {
+  public void drawText(float size, String text, int x, int y, int color, TextAlignment alignment) {
     if (!fontMap.containsKey(size)) {
       throw new IllegalArgumentException("No font of size " + size);
     }
