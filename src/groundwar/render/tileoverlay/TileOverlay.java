@@ -1,8 +1,12 @@
 package groundwar.render.tileoverlay;
 
+import java.util.Arrays;
+
 import groundwar.GroundWar;
+import groundwar.tile.Tile;
 import groundwar.util.Colors;
 import groundwar.util.Constants;
+import groundwar.util.Point;
 
 public class TileOverlay {
 
@@ -34,10 +38,12 @@ public class TileOverlay {
     this.textures = textures;
   }
 
-  public void draw(int x, int y, int width, int height) {
+  public void draw(Tile tile) {
+    final Point p = tile.getScreenPos();
+
     // Draw each texture
-    for (ColorTexture tex : textures) {
-      GroundWar.groundWar.getRenderer().drawTexture(tex.texName, x, y, width, height, tex.color);
-    }
+    Arrays.stream(textures).forEach(tex -> GroundWar.groundWar.getRenderer()
+        .drawTexture(tex.texName, p.getX(), p.getY(),
+                     Constants.TILE_WIDTH, Constants.TILE_HEIGHT, tex.color));
   }
 }

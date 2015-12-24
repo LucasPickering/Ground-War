@@ -122,7 +122,7 @@ public class BoardScreen extends MainScreen {
     drawUnit(tile.getUnit(), x, y); // Don't worry, the call is null-safe
 
     // Draw tile overlays
-    overlays.forEach(overlay -> overlay.draw(x, y, width, height));
+    overlays.forEach(overlay -> overlay.draw(tile));
   }
 
   /**
