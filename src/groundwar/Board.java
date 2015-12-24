@@ -232,12 +232,14 @@ public class Board {
   }
 
   /**
-   * Attempt to spawn {@link #spawningUnit} on the given tile
+   * Attempt to spawn {@link #spawningUnit} on the given tile. Assumes the player has enough gold to
+   * spawn the unit.
    *
    * @param tile the tile to be spawned on
    */
   private void spawnUnit(Tile tile) {
     if (tile.isSpawnable(spawningUnit)) {
+      getCurrentPlayer().decrGold(spawningUnit.getType().cost);
       tile.setUnit(spawningUnit);
       spawningUnit = null;
     }
