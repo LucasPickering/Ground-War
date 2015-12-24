@@ -17,6 +17,7 @@ import groundwar.unit.Unit;
 import groundwar.unit.UnitType;
 import groundwar.util.Constants;
 import groundwar.util.Direction;
+import groundwar.util.Funcs;
 import groundwar.util.Path;
 import groundwar.util.Point;
 
@@ -322,24 +323,39 @@ public class Board {
   }
 
   /**
-   * Conducts combat between the two given units. The two units must be adjacent to each other
+   * Conducts combat between the two given units. The two units must be adjacent to each other.
    *
-   * @param attacker the attacking unit
-   * @param defender the defending unit
+   * @param attackingTile the attacking unit
+   * @param defendingTile the defending unit
    */
-  private void conductCombat(Tile attacker, Tile defender) {
-    final float attackerBias = attacker.getUnit().getStrengthVs(defender.getUnit());
-    final int attackerDamage = (int) (defender.getUnit().getType().combatStrength * attackerBias);
-    final int defenderDamage = (int) (attacker.getUnit().getType().combatStrength * attackerBias);
-    attacker.hurtUnit(attackerDamage);
-    defender.hurtUnit(defenderDamage);
+  private void conductCombat(Tile attackingTile, Tile defendingTile) {
+    // The bias towards the attacker
+    final float attackerBias = attackingTile.getUnit().getStrengthVs(defendingTile.getUnit());
 
-    if (attacker.hasUnit()) {
+    // The actual bias used will be in the range [biasLow, biasHigh]
+    final float biasLow = attackerBias - Constants.DAMAGE_MARGIN;
+    final float biasHigh = attackerBias + Constants.DAMAGE_MARGIN;
+
+    // Calculate inflicted damage
+    final int attackerDamage = (int) (defendingTile.getUnit().getType().combatStrength *
+                                      Funcs.randomInRange(random, biasLow, biasHigh));
+    final int defenderDamage = (int) (attackingTile.getUnit().getType().combatStrength *
+                                      Funcs.randomInRange(random, biasLow, biasHigh));
+
+    System.out.printf("Attacking %s %s took %d damage!\n", attackingTile.getUnit().getOwner(),
+                      attackingTile.getUnit().getType().displayName, attackerDamage);
+    System.out.printf("Defending %s %s took %d damage!\n", defendingTile.getUnit().getOwner(),
+                      defendingTile.getUnit().getType().displayName, defenderDamage);
+    // Inflict the damage
+    attackingTile.hurtUnit(attackerDamage);
+    defendingTile.hurtUnit(defenderDamage);
+
+    if (attackingTile.hasUnit()) {
       // The attacker survived. Take away all their movement points.
-      attacker.getUnit().useMoves(attacker.getUnit().getMovesRemaining());
-      if (!defender.hasUnit()) {
+      attackingTile.getUnit().useMoves(attackingTile.getUnit().getMovesRemaining());
+      if (!defendingTile.hasUnit()) {
         // The defender was killed. Move the attacker onto the defender's tile
-        moveUnit(attacker, defender, 0);
+        moveUnit(attackingTile, defendingTile, 0);
       }
     }
   }

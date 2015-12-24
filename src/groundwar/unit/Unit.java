@@ -46,12 +46,12 @@ public abstract class Unit {
    * Can this unit move the given distance? In other words, does this unit have enough movement points
    * remaining to move the given distance?
    *
-   * @param distance the distance to move, in tiles (positive)
+   * @param distance the distance to move, in tiles (non-negative)
    * @return true if this unit has enough movement points remaining, false otherwise
    */
   public final boolean canMove(int distance) {
-    if (distance <= 0) {
-      throw new IllegalArgumentException("distance must be positive");
+    if (distance < 0) {
+      throw new IllegalArgumentException("distance must be non-negative");
     }
     return distance <= movesRemaining;
   }
