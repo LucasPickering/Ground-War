@@ -4,9 +4,9 @@ import groundwar.Player;
 
 public enum UnitType {
 
-  MARINES(UnitCategory.INFANTRY, Marines.class, "Marines", 1, 2, 10, 5),
-  ANTITANK(UnitCategory.ANTIARMOR, Antitank.class, "AT Squad", 2, 3, 12, 7),
-  TANK(UnitCategory.ARMOR, Tank.class, "Tank", 3, 4, 15, 8);
+  MARINES(Marines.class, UnitCategory.INFANTRY, "Marines", 1, 2, 10, 5),
+  ANTITANK(Antitank.class, UnitCategory.ANTIARMOR, "AT Squad", 2, 3, 12, 7),
+  TANK(Tank.class, UnitCategory.ARMOR, "Tank", 3, 4, 15, 8);
 
   public final Class<? extends Unit> unitClass;
   public final UnitCategory category;

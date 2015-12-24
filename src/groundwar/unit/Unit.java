@@ -66,6 +66,13 @@ public abstract class Unit {
     movesRemaining -= distance;
   }
 
+  /**
+   * Uses up the rest of this unit's moves.
+   */
+  public final void exhaustMoves() {
+    movesRemaining = 0;
+  }
+
   public final int getHealth() {
     return health;
   }
@@ -105,19 +112,23 @@ public abstract class Unit {
     movesRemaining = type.movesPerTurn;
   }
 
+
   /**
-   * Gets the strength of this unit relative to the given defending unit, as a float [0, 1]. 0 means
-   * that this unit does no damage and receives lots of damage. 1 means that this unit receives no
-   * damage and does lots of damage. 0.5 means that the units receive equal damage.
+   * Gets the strength of this unit relative to a unit of the given category, as a float.
+   *
+   * <ul> <li>< 1 means this unit is weak to the given category</li> <li>1 means this unit is neutral
+   * to the given category</li> <li>> 1 means this unit is strong against the given category</li>
+   * </ul>
    *
    * This should always be called on the <i>attacking</i> unit, as it may provide bias towards the
    * attacking unit.
    *
-   * @param defender the defending unit
-   * @return a float in the range [0, 1] representing the relative strength
+   * @param category the category of the defending unit
+   * @return a float, with 1 being neutral
    */
-  public abstract float getStrengthVs(Unit defender);
+  public abstract float getStrengthVs(UnitCategory category);
 
+  // Events
   protected void onKilled() {
   }
 }

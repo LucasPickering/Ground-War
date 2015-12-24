@@ -9,16 +9,16 @@ public class Tank extends Unit {
   }
 
   @Override
-  public float getStrengthVs(Unit defender) {
-    switch (defender.getType()) {
-      case MARINES:
-        return 0.67f;
-      case ANTITANK:
-        return 0.33f;
-      case TANK:
+  public float getStrengthVs(UnitCategory category) {
+    switch (category) {
+      case INFANTRY:
+        return 1.5f;
+      case ANTIARMOR:
         return 0.5f;
+      case ARMOR:
+        return 1.0f;
       default:
-        throw new IllegalArgumentException("Unrecognized unit type: " + defender.getType());
+        throw new IllegalArgumentException("Unrecognized unit category: " + category);
     }
   }
 }
