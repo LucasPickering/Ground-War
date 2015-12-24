@@ -5,28 +5,21 @@ import java.util.Objects;
 import groundwar.GroundWar;
 import groundwar.Player;
 
-public class Unit {
+public abstract class Unit {
 
-  private UnitType type;
+  private final UnitType type;
   private Player owner;
   private int movesRemaining;
   private int health;
 
   /**
-   * Initializes the unit. This <i>must</i> be called immediately after the constructor, and can only
-   * be called once per instance.
+   * Constructs a new unit.
    *
    * @param type  the type of the unit (non-null)
    * @param owner the owner of the unit (non-null)
-   * @return this
-   * @throws IllegalStateException if the unit has already been initialized
-   * @throws NullPointerException  if {@code type == null} or {@code owner == null}
+   * @throws NullPointerException if {@code type == null} or {@code owner == null}
    */
-  public Unit init(UnitType type, Player owner) {
-    // A unit can only be initliazed once
-    if (this.type != null) {
-      throw new IllegalStateException("This unit has already been initialized!");
-    }
+  protected Unit(UnitType type, Player owner) {
     Objects.requireNonNull(type);
     Objects.requireNonNull(owner);
 
@@ -35,7 +28,6 @@ public class Unit {
     resetMoves();
     health = type.maxHealth;
     GroundWar.groundWar.getRenderer().loadTexture(type.textureName);
-    return this;
   }
 
   public final UnitType getType() {
