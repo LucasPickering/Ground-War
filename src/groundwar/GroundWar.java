@@ -122,7 +122,7 @@ public class GroundWar {
   private void tearDown() {
     GL11.glDisable(GL11.GL_TEXTURE_2D);
     GL11.glDisable(GL11.GL_BLEND);
-    renderer.deleteTextures(); // Free up texture memory
+    renderer.deleteTexturesAndFonts(); // Free up texture memory
   }
 
   public Renderer getRenderer() {

@@ -85,10 +85,11 @@ public class Renderer {
   }
 
   /**
-   * Deletes all loaded textures.
+   * Deletes all loaded textures and fonts.
    */
-  public void deleteTextures() {
+  public void deleteTexturesAndFonts() {
     textureMap.values().forEach(Texture::delete);
+    fontMap.values().forEach(TrueTypeFont::delete);
   }
 
   public void loadFont(String name, float size) {
@@ -122,7 +123,7 @@ public class Renderer {
    * @see #drawTexture(String, int, int, int, int, int)
    */
   public void drawTexture(String name, int x, int y, int width, int height) {
-    drawTexture(name, x, y, width, height, 0xffffff);
+    drawTexture(name, x, y, width, height, 0xffffffff);
   }
 
   /**
@@ -137,33 +138,10 @@ public class Renderer {
    * @throws IllegalArgumentException if there is no texture with the given name in the texture map
    */
   public void drawTexture(String name, int x, int y, int width, int height, int color) {
-    // Load the texture from the texture map
-    Texture texture = textureMap.get(name);
-    if (texture == null) {
-      throw new IllegalArgumentException("No texture by the name \"" + name + "\"!");
+    if (!textureMap.containsKey(name)) {
+      throw new IllegalArgumentException("No texture by name " + name);
     }
-
-    // Set the color (aren't bitshifts cool?)
-    GL11.glColor4f((color >> 16 & 0xff) / 255.0f, (color >> 8 & 0xff) / 255.0f,
-                   (color & 0xff) / 255.0f, (color >> 24 & 0xff) / 255.0f);
-    GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getTextureID()); // Bind the texture
-
-    // Draw a rectangle
-    GL11.glBegin(GL11.GL_QUADS);
-    {
-      GL11.glTexCoord2f(0, 0);
-      GL11.glVertex2f(x, y);
-
-      GL11.glTexCoord2f(1, 0);
-      GL11.glVertex2f(x + width, y);
-
-      GL11.glTexCoord2f(1, 1);
-      GL11.glVertex2f(x + width, y + height);
-
-      GL11.glTexCoord2f(0, 1);
-      GL11.glVertex2f(x, y + height);
-    }
-    GL11.glEnd();
+    textureMap.get(name).draw(x, y, width, height, color);
   }
 
   /**
@@ -176,9 +154,23 @@ public class Renderer {
    * @param y    the y position to draw at
    */
   public void drawText(float size, String text, int x, int y) {
+    drawText(size, text, x, y, 0xffffffff);
+  }
+
+  /**
+   * Draw the given text in the given size, at the given position. A font for the given size must have
+   * been loaded already using {@link #loadFont}.
+   *
+   * @param size  the size of the font
+   * @param text  the text to draw
+   * @param x     the x position to draw at
+   * @param y     the y position to draw at
+   * @param color the color to draw in
+   */
+  public void drawText(float size, String text, int x, int y, int color) {
     if (!fontMap.containsKey(size)) {
       throw new IllegalArgumentException("No font of size " + size);
     }
-    fontMap.get(size).drawText(text, x, y);
+    fontMap.get(size).draw(text, x, y, color);
   }
 }
