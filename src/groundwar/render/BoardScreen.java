@@ -71,7 +71,7 @@ public class BoardScreen extends MainScreen {
     }
 
     GL11.glColor4f(1f, 1f, 1f, 1f);
-    font.drawText("Hello world!", 100, 100);
+    renderer.drawText(100f, "Hello world!", 100, 100);
   }
 
   /**

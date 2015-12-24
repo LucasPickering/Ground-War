@@ -12,7 +12,7 @@ import java.util.List;
 
 public class TrueTypeFont {
 
-  private final List<String> CHARS = new ArrayList<String>() {{
+  private static final List<String> CHARS = new ArrayList<String>() {{
     add("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
     add("abcdefghijklmnopqrstuvwxyz");
     add("0123456789");
@@ -62,7 +62,6 @@ public class TrueTypeFont {
 
     GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
     GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
-
   }
 
   private float getCharX(char c) {

@@ -19,7 +19,6 @@ public abstract class ScreenElement {
 
   protected final long window;
   protected final Renderer renderer = GroundWar.groundWar.getRenderer();
-  protected final TrueTypeFont font = GroundWar.groundWar.getFont();
 
   protected ScreenElement(long window) {
     this.window = window;

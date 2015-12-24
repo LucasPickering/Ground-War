@@ -19,7 +19,9 @@ public class Renderer {
 
   private static final int BYTES_PER_PIXEL = 4; // RGBA
 
-  private Map<String, Texture> textureMap = new HashMap<>();
+  private final Map<String, Texture> textureMap = new HashMap<>();
+  private final Map<Float, TrueTypeFont> fontMap = new HashMap<>();
+
 
   /**
    * Loads the texture from the file with the given name and places it into the texture map.
@@ -89,6 +91,25 @@ public class Renderer {
     textureMap.values().forEach(Texture::delete);
   }
 
+  public void loadFont(String name, float size) {
+    fontMap.put(size, new TrueTypeFont(name, size));
+  }
+
+  public void drawRect(int x, int y, int width, int height, int color) {
+    GL11.glColor4f((color >> 16 & 0xff) / 255.0f, (color >> 8 & 0xff) / 255.0f,
+                   (color & 0xff) / 255.0f, (color >> 24 & 0xff) / 255.0f);
+
+    // Draw a rectangle
+    GL11.glBegin(GL11.GL_QUADS);
+    {
+      GL11.glVertex2f(x, y);
+      GL11.glVertex2f(x + width, y);
+      GL11.glVertex2f(x + width, y + height);
+      GL11.glVertex2f(x, y + height);
+    }
+    GL11.glEnd();
+  }
+
   /**
    * Draws the texture with the given name at the given location and size.
    *
@@ -145,18 +166,19 @@ public class Renderer {
     GL11.glEnd();
   }
 
-  public void drawRect(int x, int y, int width, int height, int color) {
-    GL11.glColor4f((color >> 16 & 0xff) / 255.0f, (color >> 8 & 0xff) / 255.0f,
-                   (color & 0xff) / 255.0f, (color >> 24 & 0xff) / 255.0f);
-
-    // Draw a rectangle
-    GL11.glBegin(GL11.GL_QUADS);
-    {
-      GL11.glVertex2f(x, y);
-      GL11.glVertex2f(x + width, y);
-      GL11.glVertex2f(x + width, y + height);
-      GL11.glVertex2f(x, y + height);
+  /**
+   * Draw the given text in the given size, at the given position. A font for the given size must have
+   * been loaded already using {@link #loadFont}.
+   *
+   * @param size the size of the font
+   * @param text the text to draw
+   * @param x    the x position to draw at
+   * @param y    the y position to draw at
+   */
+  public void drawText(float size, String text, int x, int y) {
+    if (!fontMap.containsKey(size)) {
+      throw new IllegalArgumentException("No font of size " + size);
     }
-    GL11.glEnd();
+    fontMap.get(size).drawText(text, x, y);
   }
 }
