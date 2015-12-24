@@ -29,6 +29,8 @@ public class Constants {
   // Board constants
   public static final Point BOARD_CENTER = new Point((NATIVE_WINDOW_WIDTH - TILE_WIDTH) / 2,
                                                      (NATIVE_WINDOW_HEIGHT - TILE_HEIGHT) / 2);
+  public static final float DAMAGE_LOWER = 0.5f;
+  public static final float DAMAGE_UPPER = 1.2f;
 
   // File paths
   public static final String BOARD_FILE = "/boards/board.csv";

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Random;
 import java.util.Set;
 
 import groundwar.tile.ForwardFortTile;
@@ -52,6 +53,7 @@ public class Board {
    * Empty if {@code selectedTile == null}.
    */
   private final Map<Tile, Path> attackablePaths = new HashMap<>();
+  private final Random random = new Random();
 
   public Board() {
     try {
@@ -326,12 +328,16 @@ public class Board {
    * @param defender the defending unit
    */
   private void conductCombat(Tile attacker, Tile defender) {
-    final boolean attackerAlive = attacker.hurtUnit(5);
-    final boolean defenderAlive = defender.hurtUnit(5);
-    if (attackerAlive) {
+    final float attackerBias = attacker.getUnit().getStrengthVs(defender.getUnit());
+    final int attackerDamage = (int) (defender.getUnit().getType().combatStrength * attackerBias);
+    final int defenderDamage = (int) (attacker.getUnit().getType().combatStrength * attackerBias);
+    attacker.hurtUnit(attackerDamage);
+    defender.hurtUnit(defenderDamage);
+
+    if (attacker.hasUnit()) {
       // The attacker survived. Take away all their movement points.
       attacker.getUnit().useMoves(attacker.getUnit().getMovesRemaining());
-      if (!defenderAlive) {
+      if (!defender.hasUnit()) {
         // The defender was killed. Move the attacker onto the defender's tile
         moveUnit(attacker, defender, 0);
       }
