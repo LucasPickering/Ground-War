@@ -22,7 +22,7 @@ public class VictoryScreen extends MainScreen {
     super.draw(mousePos);
     final Player winner = board.getWinner();
     renderer.drawText(Constants.FONT_SIZE_TITLE,
-                      String.format("%s wins in\n%d turns!", winner, board.getTurnCounter()),
+                      String.format("%s wins\nin %d turns!", winner, board.getTurnCounter()),
                       Constants.NATIVE_WINDOW_WIDTH / 2, Constants.NATIVE_WINDOW_HEIGHT / 2,
                       board.getWinner().getPrimaryColor(), TextAlignment.CENTER);
   }

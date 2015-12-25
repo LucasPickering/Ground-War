@@ -52,4 +52,9 @@ public class Player {
     }
     gold -= amt;
   }
+
+  @Override
+  public String toString() {
+    return playerColor.displayName + " Player";
+  }
 }
