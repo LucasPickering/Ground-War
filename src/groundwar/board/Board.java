@@ -239,7 +239,7 @@ public class Board {
    */
   private void spawnUnit(Tile tile) {
     if (tile.isSpawnable(spawningUnit)) {
-      getCurrentPlayer().decrGold(spawningUnit.getType().cost);
+      getCurrentPlayer().decrGold(spawningUnit.getCost());
       tile.setUnit(spawningUnit);
       spawningUnit = null;
     }
@@ -347,22 +347,22 @@ public class Board {
     final Unit defendingUnit = defendingTile.getUnit();
 
     // The bias towards the attacker
-    final float attackerBias = attackingUnit.getStrengthVs(defendingUnit.getType().category);
+    final float attackerBias = attackingUnit.getStrengthVs(defendingUnit.getCategory());
 
     // The actual bias used will be in the range [biasLow, biasHigh]
     final float biasLow = attackerBias - Constants.DAMAGE_MARGIN;
     final float biasHigh = attackerBias + Constants.DAMAGE_MARGIN;
 
     // Calculate inflicted damage
-    final int attackerDamage = (int) (defendingUnit.getType().combatStrength *
+    final int attackerDamage = (int) (defendingUnit.getCombatStrength() *
                                       Funcs.randomInRange(random, biasLow, biasHigh));
-    final int defenderDamage = (int) (attackingUnit.getType().combatStrength *
+    final int defenderDamage = (int) (attackingUnit.getCombatStrength() *
                                       Funcs.randomInRange(random, biasLow, biasHigh));
 
     System.out.printf("Attacking %s %s took %d damage!\n", attackingUnit.getOwner(),
-                      attackingUnit.getType().displayName, attackerDamage);
+                      attackingUnit.getDisplayName(), attackerDamage);
     System.out.printf("Defending %s %s took %d damage!\n", defendingUnit.getOwner(),
-                      defendingUnit.getType().displayName, defenderDamage);
+                      defendingUnit.getDisplayName(), defenderDamage);
     // Inflict the damage
     attackingTile.hurtUnit(attackerDamage);
     defendingTile.hurtUnit(defenderDamage);

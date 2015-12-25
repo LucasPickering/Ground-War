@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import groundwar.GroundWar;
 import groundwar.board.Player;
+import groundwar.render.TileOverlay;
 
 public abstract class Unit {
 
@@ -30,8 +31,40 @@ public abstract class Unit {
     GroundWar.groundWar.getRenderer().loadTexture(type.textureName);
   }
 
-  public final UnitType getType() {
-    return type;
+  public final UnitCategory getCategory() {
+    return type.category;
+  }
+
+  public final String getTextureName() {
+    return type.textureName;
+  }
+
+  public final String getDisplayName() {
+    return type.displayName;
+  }
+
+  public final TileOverlay getSpawningTexture() {
+    return type.spawningTexture;
+  }
+
+  public final int getCost() {
+    return type.cost;
+  }
+
+  public final int getMovesPerTurn() {
+    return type.movesPerTurn;
+  }
+
+  public final int getMaxHealth() {
+    return type.maxHealth;
+  }
+
+  public final int getCombatStrength() {
+    return type.combatStrength;
+  }
+
+  public final boolean canCarryFlag() {
+    return type.canCarryFlag;
   }
 
   public final Player getOwner() {

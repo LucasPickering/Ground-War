@@ -65,7 +65,7 @@ public class BoardScreen extends MainScreen {
         // If a unit is being spawned, draw the unit-spawning overlay.
         // Otherwise, draw the normal mouse-over overlay.
         if (spawningUnit != null) {
-          overlays.add(TileOverlay.spawningUnits[spawningUnit.getType().ordinal()]);
+          overlays.add(spawningUnit.getSpawningTexture());
           overlays.add(tile.isSpawnable(spawningUnit) ? TileOverlay.validSpawning
                                                       : TileOverlay.invalidSpawning);
         } else {
@@ -91,7 +91,7 @@ public class BoardScreen extends MainScreen {
     if (selectedTile != null) {
       final Unit selectedUnit = selectedTile.getUnit();
       renderer.drawText(Constants.FONT_SIZE_UI, String.format("%s\nHealth: %d",
-                                                              selectedUnit.getType().displayName,
+                                                              selectedUnit.getDisplayName(),
                                                               selectedUnit.getHealth()),
                         Constants.UNIT_INFO_X, Constants.UNIT_INFO_Y);
     }
@@ -138,7 +138,7 @@ public class BoardScreen extends MainScreen {
       final int height = Constants.TILE_HEIGHT;
 
       // Draw the unit itself
-      renderer.drawTexture(unit.getType().textureName, x, y, width, height,
+      renderer.drawTexture(unit.getTextureName(), x, y, width, height,
                            unit.getOwner().getPrimaryColor());
 
       // If the unit belongs to the current player, draw the amount of moves remaining
@@ -149,7 +149,7 @@ public class BoardScreen extends MainScreen {
 
       // Draw the health bar
       final int splitPoint =
-          Constants.UNIT_HEALTH_WIDTH * unit.getHealth() / unit.getType().maxHealth;
+          Constants.UNIT_HEALTH_WIDTH * unit.getHealth() / unit.getMaxHealth();
       GL11.glDisable(GL11.GL_TEXTURE_2D);
       renderer.drawRect(x + Constants.UNIT_HEALTH_X, y + Constants.UNIT_HEALTH_Y,
                         splitPoint, Constants.UNIT_HEALTH_HEIGHT,

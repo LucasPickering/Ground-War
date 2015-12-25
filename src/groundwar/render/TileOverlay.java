@@ -30,7 +30,7 @@ public class TileOverlay {
   private final String texName;
   private final int color;
 
-  TileOverlay(String texName, int color) {
+  public TileOverlay(String texName, int color) {
     this.texName = texName;
     this.color = color;
   }
