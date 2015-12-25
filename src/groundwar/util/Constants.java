@@ -46,6 +46,9 @@ public class Constants {
   public static final String TILE_OUTLINE_NAME = "tile_outline";
   public static final String FLAG_NAME = "flag";
 
+  // Font names
+  public static final String FONT1 = "arial";
+
   // Font sizes
   public static final float FONT_SIZE_TILE = 60f;
   public static final float FONT_SIZE_UI = 80f;

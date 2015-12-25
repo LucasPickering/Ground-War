@@ -121,7 +121,7 @@ public class Tile {
   }
 
   public final void setUnit(Unit unit) {
-    if(unit.canCarryFlag()) {
+    if (unit != null && unit.canCarryFlag()) {
       unit.grabFlag(flag);
       flag = null;
     }
@@ -249,7 +249,7 @@ public class Tile {
   }
 
   private void killUnit() {
-    if(unit.carryingFlag()) {
+    if (unit.carryingFlag()) {
       unit.dropFlag();
       unit.onKilled();
     }
@@ -294,8 +294,8 @@ public class Tile {
   }
 
   /**
-   * Called by {@link Board} at the end of each turn. This is called before the current
-   * player is changed, and before any movement or other values are reset.
+   * Called by {@link Board} at the end of each turn. This is called before the current player is
+   * changed, and before any movement or other values are reset.
    */
   public void onEndTurn() {
   }

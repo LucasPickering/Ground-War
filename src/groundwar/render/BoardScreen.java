@@ -25,10 +25,6 @@ public class BoardScreen extends MainScreen {
   public BoardScreen(long window, Board board) {
     super(window);
     this.board = board;
-
-    renderer.loadTexture(Constants.TILE_BG_NAME);
-    renderer.loadTexture(Constants.TILE_OUTLINE_NAME);
-    renderer.loadTexture(Constants.FLAG_NAME);
   }
 
   @Override

@@ -141,11 +141,10 @@ public class Renderer {
    * @param width  the width of the texture
    * @param height the height of the texture
    * @param color  the color of the texture
-   * @throws IllegalArgumentException if there is no texture with the given name in the texture map
    */
   public void drawTexture(String name, int x, int y, int width, int height, int color) {
     if (!textureMap.containsKey(name)) {
-      throw new IllegalArgumentException("No texture by name " + name);
+      loadTexture(name);
     }
     textureMap.get(name).draw(x, y, width, height, color);
   }
@@ -190,7 +189,7 @@ public class Renderer {
    */
   public void drawText(float size, String text, int x, int y, int color, TextAlignment alignment) {
     if (!fontMap.containsKey(size)) {
-      throw new IllegalArgumentException("No font of size " + size);
+      loadFont(Constants.FONT1, size);
     }
     fontMap.get(size).draw(text, x, y, color, alignment);
   }
