@@ -1,9 +1,9 @@
-package groundwar.unit;
+package groundwar.board.unit;
 
 import java.util.Objects;
 
 import groundwar.GroundWar;
-import groundwar.Player;
+import groundwar.board.Player;
 
 public abstract class Unit {
 

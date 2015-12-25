@@ -1,8 +1,8 @@
-package groundwar.tile;
+package groundwar.board.tile;
 
 import groundwar.util.Point;
 import groundwar.util.Colors;
-import groundwar.unit.Unit;
+import groundwar.board.unit.Unit;
 
 public class MountainTile extends Tile {
 

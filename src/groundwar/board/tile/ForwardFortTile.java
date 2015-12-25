@@ -1,6 +1,6 @@
-package groundwar.tile;
+package groundwar.board.tile;
 
-import groundwar.Player;
+import groundwar.board.Player;
 import groundwar.util.Colors;
 import groundwar.util.Point;
 

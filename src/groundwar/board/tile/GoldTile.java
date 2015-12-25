@@ -1,4 +1,4 @@
-package groundwar.tile;
+package groundwar.board.tile;
 
 import groundwar.util.Point;
 import groundwar.util.Colors;

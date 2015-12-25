@@ -1,8 +1,8 @@
 package groundwar.render;
 
 import groundwar.GroundWar;
-import groundwar.tile.Tile;
-import groundwar.unit.UnitType;
+import groundwar.board.tile.Tile;
+import groundwar.board.unit.UnitType;
 import groundwar.util.Colors;
 import groundwar.util.Constants;
 import groundwar.util.Point;

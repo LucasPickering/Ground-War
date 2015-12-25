@@ -1,4 +1,4 @@
-package groundwar.unit;
+package groundwar.board.unit;
 
 public enum UnitCategory {
 

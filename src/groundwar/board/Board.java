@@ -1,4 +1,4 @@
-package groundwar;
+package groundwar.board;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -9,12 +9,12 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
 
-import groundwar.tile.ForwardFortTile;
-import groundwar.tile.GoldTile;
-import groundwar.tile.MountainTile;
-import groundwar.tile.Tile;
-import groundwar.unit.Unit;
-import groundwar.unit.UnitType;
+import groundwar.board.tile.ForwardFortTile;
+import groundwar.board.tile.GoldTile;
+import groundwar.board.tile.MountainTile;
+import groundwar.board.tile.Tile;
+import groundwar.board.unit.Unit;
+import groundwar.board.unit.UnitType;
 import groundwar.util.Constants;
 import groundwar.util.Direction;
 import groundwar.util.Funcs;

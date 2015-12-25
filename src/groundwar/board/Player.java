@@ -1,4 +1,4 @@
-package groundwar;
+package groundwar.board;
 
 import groundwar.util.Constants;
 

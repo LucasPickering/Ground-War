@@ -6,16 +6,16 @@ import org.lwjgl.opengl.GL11;
 import java.util.LinkedList;
 import java.util.List;
 
-import groundwar.Board;
-import groundwar.PlayerColor;
+import groundwar.board.Board;
+import groundwar.board.PlayerColor;
 import groundwar.util.Colors;
 import groundwar.util.Point;
 import groundwar.util.Constants;
 import groundwar.render.event.KeyEvent;
 import groundwar.render.event.MouseButtonEvent;
-import groundwar.tile.Tile;
-import groundwar.unit.Unit;
-import groundwar.unit.UnitType;
+import groundwar.board.tile.Tile;
+import groundwar.board.unit.Unit;
+import groundwar.board.unit.UnitType;
 
 public class BoardScreen extends MainScreen {
 

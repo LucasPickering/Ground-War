@@ -1,9 +1,10 @@
-package groundwar.tile;
+package groundwar.board.tile;
 
 import java.util.Objects;
 
-import groundwar.Player;
-import groundwar.unit.Unit;
+import groundwar.board.Player;
+import groundwar.board.Board;
+import groundwar.board.unit.Unit;
 import groundwar.util.Colors;
 import groundwar.util.Constants;
 import groundwar.util.Direction;
@@ -273,7 +274,7 @@ public class Tile {
   }
 
   /**
-   * Called by {@link groundwar.Board} at the end of each turn. This is called before the current
+   * Called by {@link Board} at the end of each turn. This is called before the current
    * player is changed, and before any movement or other values are reset.
    */
   public void onEndTurn() {

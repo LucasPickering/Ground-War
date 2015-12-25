@@ -11,6 +11,7 @@ import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.system.MemoryUtil;
 
+import groundwar.board.Board;
 import groundwar.render.BoardScreen;
 import groundwar.render.MainScreen;
 import groundwar.render.Renderer;

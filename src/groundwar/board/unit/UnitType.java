@@ -1,6 +1,6 @@
-package groundwar.unit;
+package groundwar.board.unit;
 
-import groundwar.Player;
+import groundwar.board.Player;
 
 public enum UnitType {
 
