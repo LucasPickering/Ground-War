@@ -147,6 +147,17 @@ public class Tile {
   }
 
   /**
+   * Should the game end? Some tiles have the power to end the game, i.e. fort tiles. This is called
+   * on every tile, but it should only ever return true for tiles that can end the game, when the game
+   * should be ended.
+   *
+   * @return true if the game should end, false if it should keep going
+   */
+  public boolean isGameOver() {
+    return false;
+  }
+
+  /**
    * Gets the distance between this tile and another tile located at the given point.
    *
    * @param p the other point

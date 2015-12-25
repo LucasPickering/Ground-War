@@ -10,6 +10,7 @@ import groundwar.GroundWar;
 import groundwar.board.Board;
 import groundwar.board.Flag;
 import groundwar.board.PlayerColor;
+import groundwar.board.tile.FortTile;
 import groundwar.board.tile.ForwardFortTile;
 import groundwar.board.tile.GoldTile;
 import groundwar.board.tile.MountainTile;
@@ -73,10 +74,10 @@ public class BoardLoader {
           toReturn = new MountainTile(p);
           break;
         case 'O':
-          toReturn = new Tile(p, board.getPlayer(PlayerColor.ORANGE));
+          toReturn = new FortTile(p, board.getPlayer(PlayerColor.ORANGE));
           break;
         case 'B':
-          toReturn = new Tile(p, board.getPlayer(PlayerColor.BLUE));
+          toReturn = new FortTile(p, board.getPlayer(PlayerColor.BLUE));
           break;
         case 'G':
           toReturn = new GoldTile(p);
