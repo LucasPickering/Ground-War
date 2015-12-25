@@ -81,7 +81,7 @@ public abstract class Unit {
     return null;
   }
 
-  public final boolean carryingFlag() {
+  public final boolean hasFlag() {
     return getFlag() != null;
   }
 
@@ -172,7 +172,7 @@ public abstract class Unit {
   /**
    * Tells this unit to pick up the given flag. By default, this throws an exception because most
    * units cannot carry flags. This should only be called if {@link #canCarryFlag} returns true and
-   * {@link #carryingFlag} returns false.
+   * {@link #hasFlag} returns false.
    *
    * @param flag the flag to pick up
    */
@@ -183,7 +183,7 @@ public abstract class Unit {
   /**
    * Tells this unit to drop the flag it is carrying. By default, this throws an exception because
    * most units cannot carry flags. This should only be called if {@link #canCarryFlag} and {@link
-   * #carryingFlag} both return true.
+   * #hasFlag} both return true.
    *
    * @return the dropped flag
    */

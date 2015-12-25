@@ -142,7 +142,7 @@ public class Tile {
   }
 
   private boolean unitCanGrabFlag() {
-    return unit != null && flag != null && unit.canCarryFlag() && !unit.carryingFlag()
+    return unit != null && flag != null && unit.canCarryFlag() && !unit.hasFlag()
            && unit.getOwner() != flag.getOwner();
   }
 
@@ -254,7 +254,7 @@ public class Tile {
   }
 
   private void killUnit() {
-    if (unit.carryingFlag()) {
+    if (unit.hasFlag()) {
       unit.dropFlag();
       unit.onKilled();
     }

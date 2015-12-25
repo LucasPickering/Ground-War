@@ -32,7 +32,7 @@ public class Marines extends Unit {
 
   @Override
   public void grabFlag(Flag flag) {
-    if (carryingFlag()) {
+    if (hasFlag()) {
       throw new IllegalStateException("This unit is already carrying a flag!");
     }
     this.flag = flag;
@@ -40,7 +40,7 @@ public class Marines extends Unit {
 
   @Override
   public Flag dropFlag() {
-    if (!carryingFlag()) {
+    if (!hasFlag()) {
       throw new IllegalStateException("This unit is not carrying a flag!");
     }
     Flag toReturn = flag;
