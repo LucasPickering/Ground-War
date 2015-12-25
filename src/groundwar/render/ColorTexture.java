@@ -27,7 +27,11 @@ public class ColorTexture {
   private final int color;
 
   public ColorTexture(String texName, int color) {
-    texture = GroundWar.groundWar.getRenderer().getTexture(texName);
+    final Renderer renderer = GroundWar.groundWar.getRenderer();
+    if (!renderer.hasTexture(texName)) {
+      renderer.loadTexture(texName);
+    }
+    texture = renderer.getTexture(texName);
     this.color = color;
   }
 

@@ -21,7 +21,7 @@ public class Renderer {
   private static final int BYTES_PER_PIXEL = 4; // RGBA
 
   private final Map<String, Texture> textures = new HashMap<>();
-  private final Map<Float, TrueTypeFont> fontMap = new HashMap<>();
+  private final Map<Float, TrueTypeFont> fonts = new HashMap<>();
 
 
   /**
@@ -90,19 +90,26 @@ public class Renderer {
    */
   public void deleteTexturesAndFonts() {
     textures.values().forEach(Texture::delete);
-    fontMap.values().forEach(TrueTypeFont::delete);
+    fonts.values().forEach(TrueTypeFont::delete);
   }
 
   public void loadFont(String name, float size) {
     try {
-      fontMap.put(size, new TrueTypeFont(name, size));
+      fonts.put(size, new TrueTypeFont(name, size));
     } catch (IOException | FontFormatException e) {
       System.err.println("Error creating font: " + name);
       e.printStackTrace();
     }
   }
 
+  public boolean hasTexture(String name) {
+    return textures.containsKey(name);
+  }
+
   public Texture getTexture(String name) {
+    if (!textures.containsKey(name)) {
+      throw new IllegalArgumentException("No texture by the name: " + name);
+    }
     return textures.get(name);
   }
 
@@ -192,9 +199,9 @@ public class Renderer {
    * @param alignment the text alignment (left, center, right)
    */
   public void drawText(float size, String text, int x, int y, int color, TextAlignment alignment) {
-    if (!fontMap.containsKey(size)) {
+    if (!fonts.containsKey(size)) {
       loadFont(Constants.FONT1, size);
     }
-    fontMap.get(size).draw(text, x, y, color, alignment);
+    fonts.get(size).draw(text, x, y, color, alignment);
   }
 }

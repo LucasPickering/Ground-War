@@ -119,7 +119,6 @@ public class BoardScreen extends MainScreen {
     drawUnit(tile.getUnit(), x, y); // Draw the unit on top
     drawFlag(tile.getFlag(), x, y); // Draw the flag on top of that
 
-
     // Draw tile overlays
     overlays.forEach(overlay -> overlay.draw(x, y, width, height));
   }
@@ -136,9 +135,7 @@ public class BoardScreen extends MainScreen {
       final int width = Constants.TILE_WIDTH;
       final int height = Constants.TILE_HEIGHT;
 
-      // Draw the unit itself
-      renderer.drawTexture(unit.getTextureName(), x, y, width, height,
-                           unit.getOwner().getPrimaryColor());
+      unit.getTexture().draw(x, y, width, height); // Draw the unit itself
 
       // If the unit belongs to the current player, draw the amount of moves remaining
       if (unit.getOwner() == board.getCurrentPlayer()) {

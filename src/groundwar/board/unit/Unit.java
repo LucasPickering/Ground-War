@@ -10,7 +10,8 @@ import groundwar.render.ColorTexture;
 public abstract class Unit {
 
   private final UnitType type;
-  private Player owner;
+  private final Player owner;
+  private final ColorTexture texture;
   private int movesRemaining;
   private int health;
 
@@ -27,6 +28,7 @@ public abstract class Unit {
 
     this.type = type;
     this.owner = owner;
+    texture = new ColorTexture(type.textureName, owner.getPrimaryColor());
     health = type.maxHealth;
     GroundWar.groundWar.getRenderer().loadTexture(type.textureName);
   }
@@ -67,16 +69,20 @@ public abstract class Unit {
     return type.canCarryFlag;
   }
 
+  public final Player getOwner() {
+    return owner;
+  }
+
+  public final ColorTexture getTexture() {
+    return texture;
+  }
+
   public Flag getFlag() {
     return null;
   }
 
   public final boolean carryingFlag() {
     return getFlag() != null;
-  }
-
-  public final Player getOwner() {
-    return owner;
   }
 
   public final int getMovesRemaining() {
