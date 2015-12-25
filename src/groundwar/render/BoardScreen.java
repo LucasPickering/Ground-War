@@ -138,8 +138,7 @@ public class BoardScreen extends MainScreen {
       final int height = Constants.TILE_HEIGHT;
 
       // Draw the unit itself
-      renderer.drawTexture(unit.getTextureName(), x, y, width, height,
-                           unit.getOwner().getPrimaryColor());
+      unit.getTexture().draw(x, y, width, height);
 
       // If the unit belongs to the current player, draw the amount of moves remaining
       if (unit.getOwner() == board.getCurrentPlayer()) {
