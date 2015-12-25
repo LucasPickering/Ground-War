@@ -103,22 +103,45 @@ public class Board {
       final Point p = new Point(new Integer(data[0]), new Integer(data[1]));
 
       // Switch based on the type of the tile
-      switch (data[2]) {
-        case "T":
-          return new Tile(p);
-        case "M":
-          return new MountainTile(p);
-        case "R":
-          return new Tile(p, players[PlayerColor.ORANGE.ordinal()]);
-        case "B":
-          return new Tile(p, players[PlayerColor.BLUE.ordinal()]);
-        case "G":
-          return new GoldTile(p);
-        case "F":
-          return new ForwardFortTile(p);
+      Tile toReturn;
+      final String tileData = data[2];
+      final char tileType = tileData.charAt(0);
+      switch (tileType) {
+        case 'T':
+          toReturn = new Tile(p);
+          break;
+        case 'M':
+          toReturn = new MountainTile(p);
+          break;
+        case 'O':
+          toReturn = new Tile(p, players[PlayerColor.ORANGE.ordinal()]);
+          break;
+        case 'B':
+          toReturn = new Tile(p, players[PlayerColor.BLUE.ordinal()]);
+          break;
+        case 'G':
+          toReturn = new GoldTile(p);
+          break;
+        case 'F':
+          toReturn = new ForwardFortTile(p);
+          break;
         default:
-          throw new IllegalArgumentException("Unrecognized tile type: " + data[2]);
+          throw new IllegalArgumentException("No tile of type: " + tileType);
       }
+
+      // Read other tile data, such as flags
+      for (char c : tileData.substring(1).toCharArray()) {
+        switch (c) {
+          case 'P':
+            toReturn.setFlag(new Flag(getPlayer(PlayerColor.ORANGE)));
+            break;
+          case 'Q':
+            toReturn.setFlag(new Flag(getPlayer(PlayerColor.BLUE)));
+            break;
+        }
+      }
+
+      return toReturn;
     }
     throw new IllegalArgumentException("Not enough data to create a tile");
   }
