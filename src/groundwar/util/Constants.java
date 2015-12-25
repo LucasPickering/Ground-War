@@ -3,7 +3,7 @@ package groundwar.util;
 public class Constants {
 
   // Game constants
-  public static final int START_MONEY = 10;
+  public static final int STARTING_GOLD = 10;
 
   // Tile constants
   /**

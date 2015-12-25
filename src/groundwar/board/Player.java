@@ -5,7 +5,7 @@ import groundwar.util.Constants;
 public class Player {
 
   private final PlayerColor playerColor;
-  private int gold = Constants.START_MONEY;
+  private int gold = Constants.STARTING_GOLD;
 
   public Player(PlayerColor playerColor) {
     this.playerColor = playerColor;
