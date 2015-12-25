@@ -21,7 +21,7 @@ public class Board {
 
   private final Player[] players = new Player[PlayerColor.values().length];
   private int currentPlayer;
-  private int turnCounter = 1;
+  private int turnCount = 1;
   private final Map<Point, Tile> tiles;
 
   /**
@@ -72,8 +72,8 @@ public class Board {
     return players[color.ordinal()];
   }
 
-  public int getTurnCounter() {
-    return turnCounter;
+  public int getTurnCount() {
+    return turnCount;
   }
 
   public Map<Point, Tile> getTiles() {
@@ -315,7 +315,7 @@ public class Board {
     // Next player
     ++currentPlayer;
     currentPlayer %= players.length;
-    turnCounter++; // Increment the turn counter
+    turnCount++; // Increment the turn counter
   }
 
   private void endGame() {

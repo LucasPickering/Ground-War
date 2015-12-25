@@ -74,7 +74,7 @@ public class BoardScreen extends MainScreen {
     }
 
     // Draw turn counter
-    renderer.drawText(Constants.FONT_SIZE_UI, String.format("Turn %d", board.getTurnCounter()),
+    renderer.drawText(Constants.FONT_SIZE_UI, String.format("Turn %d", board.getTurnCount()),
                       Constants.TURN_COUNT_X, Constants.TURN_COUNT_Y, TextAlignment.RIGHT);
 
     // Draw the players's information

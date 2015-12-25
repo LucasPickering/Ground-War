@@ -4,7 +4,7 @@ import groundwar.util.Colors;
 
 public enum PlayerColor {
 
-  ORANGE("Orange", Colors.ORANGE, Colors.ORANGE2), BLUE("Blue", Colors.BLUE, Colors.BLUE2);
+  ORANGE("Orangge", Colors.ORANGE, Colors.ORANGE2), BLUE("Blue", Colors.BLUE, Colors.BLUE2);
 
   public final String displayName;
   public final int primaryColor;
