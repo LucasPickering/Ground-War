@@ -1,9 +1,10 @@
-package groundwar.render.tileoverlay;
+package groundwar.render.overlay;
 
 import java.util.Arrays;
 
 import groundwar.GroundWar;
 import groundwar.tile.Tile;
+import groundwar.unit.UnitType;
 import groundwar.util.Colors;
 import groundwar.util.Constants;
 import groundwar.util.Point;
@@ -27,6 +28,18 @@ public class TileOverlay {
   public static TileOverlay moveable = new TileOverlay(Constants.TILE_OUTLINE_NAME, Colors.MOVEABLE);
   public static TileOverlay attackable = new TileOverlay(Constants.TILE_OUTLINE_NAME,
                                                          Colors.ATTACKABLE);
+  public static TileOverlay[] spawningUnits = new TileOverlay[UnitType.values().length];
+  public static TileOverlay invalidSpawning = new TileOverlay(Constants.TILE_BG_NAME,
+                                                              Colors.UNIT_SPAWNING_INVALID);
+  public static TileOverlay validSpawning = new TileOverlay(Constants.TILE_BG_NAME,
+                                                            Colors.UNIT_SPAWNING_VALID);
+
+  static {
+    for (UnitType type : UnitType.values()) {
+      spawningUnits[type.ordinal()] = new TileOverlay(new ColorTexture(type.textureName, Colors
+          .UNIT_SPAWNING));
+    }
+  }
 
   private final ColorTexture[] textures;
 

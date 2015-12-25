@@ -13,8 +13,7 @@ import groundwar.util.Point;
 import groundwar.util.Constants;
 import groundwar.render.event.KeyEvent;
 import groundwar.render.event.MouseButtonEvent;
-import groundwar.render.tileoverlay.SpawningUnitTileOverlay;
-import groundwar.render.tileoverlay.TileOverlay;
+import groundwar.render.overlay.TileOverlay;
 import groundwar.tile.Tile;
 import groundwar.unit.Unit;
 import groundwar.unit.UnitType;
@@ -67,7 +66,9 @@ public class BoardScreen extends MainScreen {
         // If a unit is being spawned, draw the unit-spawning overlay.
         // Otherwise, draw the normal mouse-over overlay.
         if (spawningUnit != null) {
-          overlays.add(new SpawningUnitTileOverlay(spawningUnit, tile.isSpawnable(spawningUnit)));
+          overlays.add(TileOverlay.spawningUnits[spawningUnit.getType().ordinal()]);
+          overlays.add(tile.isSpawnable(spawningUnit) ? TileOverlay.validSpawning
+                                                      : TileOverlay.invalidSpawning);
         } else {
           overlays.add(TileOverlay.mouseOver);
         }
