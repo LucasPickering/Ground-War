@@ -26,7 +26,6 @@ public abstract class Unit {
 
     this.type = type;
     this.owner = owner;
-    resetMoves();
     health = type.maxHealth;
     GroundWar.groundWar.getRenderer().loadTexture(type.textureName);
   }
