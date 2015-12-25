@@ -43,19 +43,19 @@ public class BoardScreen extends MainScreen {
 
     // Draw each tile
     for (Tile tile : board.getTiles().values()) {
-      final List<TileOverlay> overlays = new LinkedList<>();
+      final List<ColorTexture> overlays = new LinkedList<>();
 
       // If the tile is selected, add the selected overlay.
       // Otherwise, if another tile is selected, do some more logic.
       if (tile == selectedTile) {
-        overlays.add(TileOverlay.selected);
+        overlays.add(ColorTexture.selected);
       } else if (selectedTile != null) {
         // If this tile can be moved to by the selected unit, draw the moveable overlay.
         // Otherwise, if it can be attack by the selected unit, draw the attackable overlay.
         if (board.canSelectedMoveTo(tile)) {
-          overlays.add(TileOverlay.moveable);
+          overlays.add(ColorTexture.moveable);
         } else if (board.canSelectedAttack(tile)) {
-          overlays.add(TileOverlay.attackable);
+          overlays.add(ColorTexture.attackable);
         }
       }
 
@@ -66,10 +66,10 @@ public class BoardScreen extends MainScreen {
         // Otherwise, draw the normal mouse-over overlay.
         if (spawningUnit != null) {
           overlays.add(spawningUnit.getSpawningTexture());
-          overlays.add(tile.isSpawnable(spawningUnit) ? TileOverlay.validSpawning
-                                                      : TileOverlay.invalidSpawning);
+          overlays.add(tile.isSpawnable(spawningUnit) ? ColorTexture.validSpawning
+                                                      : ColorTexture.invalidSpawning);
         } else {
-          overlays.add(TileOverlay.mouseOver);
+          overlays.add(ColorTexture.mouseOver);
         }
       }
       drawTile(tile, overlays);
@@ -106,7 +106,7 @@ public class BoardScreen extends MainScreen {
    * @param tile     the tile to draw
    * @param overlays the overlays to draw on the tile
    */
-  private void drawTile(Tile tile, List<TileOverlay> overlays) {
+  private void drawTile(Tile tile, List<ColorTexture> overlays) {
     final int x = tile.getScreenPos().getX();
     final int y = tile.getScreenPos().getY();
     final int width = Constants.TILE_WIDTH;
@@ -122,7 +122,7 @@ public class BoardScreen extends MainScreen {
     drawUnit(tile.getUnit(), x, y); // Don't worry, the call is null-safe
 
     // Draw tile overlays
-    overlays.forEach(overlay -> overlay.draw(tile));
+    overlays.forEach(overlay -> overlay.draw(x, y, width, height));
   }
 
   /**

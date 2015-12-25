@@ -4,7 +4,7 @@ import java.util.Objects;
 
 import groundwar.GroundWar;
 import groundwar.board.Player;
-import groundwar.render.TileOverlay;
+import groundwar.render.ColorTexture;
 
 public abstract class Unit {
 
@@ -43,7 +43,7 @@ public abstract class Unit {
     return type.displayName;
   }
 
-  public final TileOverlay getSpawningTexture() {
+  public final ColorTexture getSpawningTexture() {
     return type.spawningTexture;
   }
 

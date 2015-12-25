@@ -1,7 +1,7 @@
 package groundwar.board.unit;
 
 import groundwar.board.Player;
-import groundwar.render.TileOverlay;
+import groundwar.render.ColorTexture;
 import groundwar.util.Colors;
 
 public enum UnitType {
@@ -14,7 +14,7 @@ public enum UnitType {
   public final UnitCategory category;
   public final String textureName;
   public final String displayName;
-  public final TileOverlay spawningTexture;
+  public final ColorTexture spawningTexture;
   public final int cost;
   public final int movesPerTurn;
   public final int maxHealth;
@@ -27,7 +27,7 @@ public enum UnitType {
     this.category = category;
     this.textureName = toString().toLowerCase();
     this.displayName = displayName;
-    spawningTexture = new TileOverlay(textureName, Colors.UNIT_SPAWNING);
+    spawningTexture = new ColorTexture(textureName, Colors.UNIT_SPAWNING);
     this.cost = cost;
     this.movesPerTurn = movesPerTurn;
     this.maxHealth = maxHealth;
