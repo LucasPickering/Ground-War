@@ -132,10 +132,10 @@ public class Board {
       // Read other tile data, such as flags
       for (char c : tileData.substring(1).toCharArray()) {
         switch (c) {
-          case 'P':
+          case 'o':
             toReturn.setFlag(new Flag(getPlayer(PlayerColor.ORANGE)));
             break;
-          case 'Q':
+          case 'b':
             toReturn.setFlag(new Flag(getPlayer(PlayerColor.BLUE)));
             break;
         }
