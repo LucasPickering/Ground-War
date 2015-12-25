@@ -27,6 +27,13 @@ public abstract class MainScreen extends ScreenElement {
     guiElements.stream().forEach(guiElement -> guiElement.draw(mousePos));
   }
 
+  /**
+   * Called each frame by the main game loop, after {@link #draw}. To keep this screen as the current
+   * screen, return {@code null}. To change to another screen, return that screen. To keep this
+   * screen, return {@code this}.
+   *
+   * @return the screen to change to, or {@code this} to keep this screen
+   */
   public abstract MainScreen nextScreen();
 
   @Override

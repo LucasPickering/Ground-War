@@ -101,9 +101,9 @@ public class BoardScreen extends MainScreen {
   @Override
   public MainScreen nextScreen() {
     if (board.isGameOver()) {
-      return new VictoryScreen(window, board.getWinner());
+      return new VictoryScreen(window, board);
     }
-    return null;
+    return this;
   }
 
   /**

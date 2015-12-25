@@ -122,11 +122,8 @@ public class GroundWar {
       currentScreen.draw(mousePos.copy());
       GLFW.glfwSwapBuffers(window); // Swap the color buffers
 
-      // If the screen should change, do that
-      MainScreen nextScreen;
-      if ((nextScreen = currentScreen.nextScreen()) != null) {
-        currentScreen = nextScreen;
-      }
+      // Change to the next screen (usually nextScreen() returns the same screen)
+      currentScreen = currentScreen.nextScreen();
     }
     tearDown();
   }
