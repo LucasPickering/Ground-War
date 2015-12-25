@@ -16,7 +16,7 @@
 # Anything after the first tile is additional data, one character at a time. Possible additional data:
 # o - Orange flag
 # b - Blue flag
-# If there are multiple conflicting values, such as 0,0,TPQ, the last one will apply
+# If there are multiple conflicting values, such as 0,0,Tob, the last one will apply
 
 -6,5,T
 -6,4,T
