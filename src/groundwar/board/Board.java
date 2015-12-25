@@ -311,6 +311,7 @@ public class Board {
     // Reset movement points for each unit
     tiles.values().stream().filter(Tile::hasUnit).forEach(tile -> tile.getUnit().resetMoves());
     cancelSpawning(); // Cancel unit spawning
+    unselectTile();
 
     // Next player
     ++currentPlayer;
