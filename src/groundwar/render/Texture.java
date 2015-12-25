@@ -2,13 +2,11 @@ package groundwar.render;
 
 import org.lwjgl.opengl.GL11;
 
-import java.io.IOException;
-
 public class Texture {
 
   private final int textureID;
 
-  public Texture(int textureID) throws IOException {
+  public Texture(int textureID) {
     this.textureID = textureID;
   }
 

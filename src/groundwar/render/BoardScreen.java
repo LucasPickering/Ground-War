@@ -13,7 +13,6 @@ import groundwar.util.Point;
 import groundwar.util.Constants;
 import groundwar.render.event.KeyEvent;
 import groundwar.render.event.MouseButtonEvent;
-import groundwar.render.overlay.TileOverlay;
 import groundwar.tile.Tile;
 import groundwar.unit.Unit;
 import groundwar.unit.UnitType;
