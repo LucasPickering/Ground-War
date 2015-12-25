@@ -40,7 +40,7 @@ public class Tile {
   }
 
   public Tile(Point pos, Player owner) {
-    this(pos, owner, owner.getSeconddaryColor(), owner.getPrimaryColor());
+    this(pos, owner, owner.getSecondaryColor(), owner.getPrimaryColor());
   }
 
   public Tile(Point pos, Player owner, int backgroundColor, int outlineColor) {

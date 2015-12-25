@@ -29,7 +29,7 @@ public class ForwardFortTile extends Tile {
     // owner's colors
     if (hasUnit()) {
       owner = getUnit().getOwner();
-      newBgColor = getUnit().getOwner().getSeconddaryColor();
+      newBgColor = getUnit().getOwner().getSecondaryColor();
       newOutlineColor = getUnit().getOwner().getPrimaryColor();
     } else { // There's no unit, set owner to null and colors to default
       owner = null;

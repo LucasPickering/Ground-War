@@ -15,7 +15,7 @@ public class Player {
     return playerColor.primaryColor;
   }
 
-  public int getSeconddaryColor() {
+  public int getSecondaryColor() {
     return playerColor.secondaryColor;
   }
 
