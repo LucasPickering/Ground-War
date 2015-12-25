@@ -1,8 +1,11 @@
 package groundwar.board.unit;
 
+import groundwar.board.Flag;
 import groundwar.board.Player;
 
 public class Marines extends Unit {
+
+  private Flag flag;
 
   public Marines(Player owner) {
     super(UnitType.MARINES, owner);
@@ -20,5 +23,28 @@ public class Marines extends Unit {
       default:
         throw new IllegalArgumentException("Unrecognized unit category: " + category);
     }
+  }
+
+  @Override
+  public boolean carryingFlag() {
+    return flag != null;
+  }
+
+  @Override
+  public void grabFlag(Flag flag) {
+    if (carryingFlag()) {
+      throw new IllegalStateException("This unit is already carrying a flag!");
+    }
+    this.flag = flag;
+  }
+
+  @Override
+  public Flag dropFlag() {
+    if (!carryingFlag()) {
+      throw new IllegalStateException("This unit is not carrying a flag!");
+    }
+    Flag toReturn = flag;
+    flag = null;
+    return toReturn;
   }
 }

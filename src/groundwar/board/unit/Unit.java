@@ -3,6 +3,7 @@ package groundwar.board.unit;
 import java.util.Objects;
 
 import groundwar.GroundWar;
+import groundwar.board.Flag;
 import groundwar.board.Player;
 import groundwar.render.ColorTexture;
 
@@ -64,6 +65,10 @@ public abstract class Unit {
 
   public final boolean canCarryFlag() {
     return type.canCarryFlag;
+  }
+
+  public boolean carryingFlag() {
+    return false;
   }
 
   public final Player getOwner() {
@@ -159,6 +164,28 @@ public abstract class Unit {
    * @return a float, with 1 being neutral
    */
   public abstract float getStrengthVs(UnitCategory category);
+
+  /**
+   * Tells this unit to pick up the given flag. By default, this throws an exception because most
+   * units cannot carry flags. This should only be called if {@link #canCarryFlag} returns true and
+   * {@link #carryingFlag} returns false.
+   *
+   * @param flag the flag to pick up
+   */
+  public void grabFlag(Flag flag) {
+    throw new IllegalStateException("This unit cannot carry flags!");
+  }
+
+  /**
+   * Tells this unit to drop the flag it is carrying. By default, this throws an exception because
+   * most units cannot carry flags. This should only be called if {@link #canCarryFlag} and {@link
+   * #carryingFlag} both return true.
+   *
+   * @return the dropped flag
+   */
+  public Flag dropFlag() {
+    throw new IllegalStateException("This unit cannot carry flags!");
+  }
 
   // Events
   protected void onKilled() {
