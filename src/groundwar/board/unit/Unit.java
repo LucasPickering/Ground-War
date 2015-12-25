@@ -67,8 +67,12 @@ public abstract class Unit {
     return type.canCarryFlag;
   }
 
-  public boolean carryingFlag() {
-    return false;
+  public Flag getFlag() {
+    return null;
+  }
+
+  public final boolean carryingFlag() {
+    return getFlag() != null;
   }
 
   public final Player getOwner() {
@@ -118,19 +122,13 @@ public abstract class Unit {
    * Inflicts the given amount of damage to this unit.
    *
    * @param damage the amount of damage to inflict (non-negative)
-   * @return true if the unit is still alive, false if it is now dead
    * @throws IllegalArgumentException if {@code damage < 0}
    */
-  public final boolean inflictDamage(int damage) {
+  public final void inflictDamage(int damage) {
     if (damage < 0) {
       throw new IllegalArgumentException("Can't inflict negative damage!");
     }
     health -= damage;
-    if (isDead()) {
-      onKilled();
-      return false;
-    }
-    return true;
   }
 
   /**
@@ -188,6 +186,6 @@ public abstract class Unit {
   }
 
   // Events
-  protected void onKilled() {
+  public void onKilled() {
   }
 }

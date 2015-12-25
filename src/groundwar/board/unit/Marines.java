@@ -26,8 +26,8 @@ public class Marines extends Unit {
   }
 
   @Override
-  public boolean carryingFlag() {
-    return flag != null;
+  public Flag getFlag() {
+    return flag;
   }
 
   @Override

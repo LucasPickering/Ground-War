@@ -2,8 +2,9 @@ package groundwar.board.tile;
 
 import java.util.Objects;
 
-import groundwar.board.Player;
 import groundwar.board.Board;
+import groundwar.board.Flag;
+import groundwar.board.Player;
 import groundwar.board.unit.Unit;
 import groundwar.util.Colors;
 import groundwar.util.Constants;
@@ -30,6 +31,7 @@ public class Tile {
   private int outlineColor;
   private final Tile[] adjacentTiles = new Tile[Constants.NUM_SIDES];
   private Unit unit;
+  private Flag flag;
 
   public Tile(Point pos) {
     this(pos, Colors.TILE_BG, Colors.TILE_OUTLINE);
@@ -119,12 +121,24 @@ public class Tile {
   }
 
   public final void setUnit(Unit unit) {
+    if(unit.canCarryFlag()) {
+      unit.grabFlag(flag);
+      flag = null;
+    }
     this.unit = unit;
     onUnitChange();
   }
 
   public final boolean hasUnit() {
     return unit != null;
+  }
+
+  public final Flag getFlag() {
+    return flag;
+  }
+
+  public final void setFlag(Flag flag) {
+    this.flag = flag;
   }
 
   /**
@@ -226,14 +240,20 @@ public class Tile {
    * Inflicts the given specified amount of damage to {@link #unit}.
    *
    * @param damage the amount of damage to inflict (non-negative)
-   * @return true if the unit is still alive, false if the unit is now dead
    */
-  public boolean hurtUnit(int damage) {
-    if (!unit.inflictDamage(damage)) {
-      unit = null;
-      return false;
+  public void hurtUnit(int damage) {
+    unit.inflictDamage(damage);
+    if (unit.isDead()) {
+      killUnit();
     }
-    return true;
+  }
+
+  private void killUnit() {
+    if(unit.carryingFlag()) {
+      unit.dropFlag();
+      unit.onKilled();
+    }
+    unit = null;
   }
 
   @Override
