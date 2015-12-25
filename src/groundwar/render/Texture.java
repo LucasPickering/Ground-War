@@ -10,10 +10,6 @@ public class Texture {
     this.textureID = textureID;
   }
 
-  public int getTextureID() {
-    return textureID;
-  }
-
   /**
    * Draws this texture at the given location and size, with the given color.
    *

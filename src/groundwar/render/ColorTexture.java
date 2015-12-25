@@ -23,15 +23,15 @@ public class ColorTexture {
     validSpawning = new ColorTexture(Constants.TILE_BG_NAME, Colors.UNIT_SPAWNING_VALID);
   }
 
-  private final String texName;
+  private final Texture texture;
   private final int color;
 
   public ColorTexture(String texName, int color) {
-    this.texName = texName;
+    texture = GroundWar.groundWar.getRenderer().getTexture(texName);
     this.color = color;
   }
 
   public void draw(int x, int y, int width, int height) {
-    GroundWar.groundWar.getRenderer().drawTexture(texName, x, y, width, height, color);
+    texture.draw(x, y, width, height, color);
   }
 }

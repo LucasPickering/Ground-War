@@ -20,7 +20,7 @@ public class Renderer {
 
   private static final int BYTES_PER_PIXEL = 4; // RGBA
 
-  private final Map<String, Texture> textureMap = new HashMap<>();
+  private final Map<String, Texture> textures = new HashMap<>();
   private final Map<Float, TrueTypeFont> fontMap = new HashMap<>();
 
 
@@ -34,7 +34,7 @@ public class Renderer {
     try {
       BufferedImage image =
           ImageIO.read(GroundWar.class.getResource(String.format(Constants.TEXTURE_PATH, name)));
-      textureMap.put(name, new Texture(loadTextureFromImage(image)));
+      textures.put(name, new Texture(loadTextureFromImage(image)));
     } catch (IOException e) {
       System.err.println("Error loading texture: " + name);
       e.printStackTrace();
@@ -89,7 +89,7 @@ public class Renderer {
    * Deletes all loaded textures and fonts.
    */
   public void deleteTexturesAndFonts() {
-    textureMap.values().forEach(Texture::delete);
+    textures.values().forEach(Texture::delete);
     fontMap.values().forEach(TrueTypeFont::delete);
   }
 
@@ -100,6 +100,10 @@ public class Renderer {
       System.err.println("Error creating font: " + name);
       e.printStackTrace();
     }
+  }
+
+  public Texture getTexture(String name) {
+    return textures.get(name);
   }
 
   public void drawRect(int x, int y, int width, int height, int color) {
@@ -143,10 +147,10 @@ public class Renderer {
    * @param color  the color of the texture
    */
   public void drawTexture(String name, int x, int y, int width, int height, int color) {
-    if (!textureMap.containsKey(name)) {
+    if (!textures.containsKey(name)) {
       loadTexture(name);
     }
-    textureMap.get(name).draw(x, y, width, height, color);
+    textures.get(name).draw(x, y, width, height, color);
   }
 
   /**
