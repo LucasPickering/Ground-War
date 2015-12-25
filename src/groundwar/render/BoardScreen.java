@@ -7,15 +7,16 @@ import java.util.LinkedList;
 import java.util.List;
 
 import groundwar.board.Board;
+import groundwar.board.Flag;
 import groundwar.board.PlayerColor;
-import groundwar.util.Colors;
-import groundwar.util.Point;
-import groundwar.util.Constants;
-import groundwar.render.event.KeyEvent;
-import groundwar.render.event.MouseButtonEvent;
 import groundwar.board.tile.Tile;
 import groundwar.board.unit.Unit;
 import groundwar.board.unit.UnitType;
+import groundwar.render.event.KeyEvent;
+import groundwar.render.event.MouseButtonEvent;
+import groundwar.util.Colors;
+import groundwar.util.Constants;
+import groundwar.util.Point;
 
 public class BoardScreen extends MainScreen {
 
@@ -27,6 +28,7 @@ public class BoardScreen extends MainScreen {
 
     renderer.loadTexture(Constants.TILE_BG_NAME);
     renderer.loadTexture(Constants.TILE_OUTLINE_NAME);
+    renderer.loadTexture(Constants.FLAG_NAME);
   }
 
   @Override
@@ -118,8 +120,9 @@ public class BoardScreen extends MainScreen {
     // Draw the regular foreground
     renderer.drawTexture(Constants.TILE_OUTLINE_NAME, x, y, width, height, tile.getOutlineColor());
 
-    // Draw the unit on top
-    drawUnit(tile.getUnit(), x, y); // Don't worry, the call is null-safe
+    drawUnit(tile.getUnit(), x, y); // Draw the unit on top
+    drawFlag(tile.getFlag(), x, y); // Draw the flag on top of that
+
 
     // Draw tile overlays
     overlays.forEach(overlay -> overlay.draw(x, y, width, height));
@@ -158,6 +161,25 @@ public class BoardScreen extends MainScreen {
                         Constants.UNIT_HEALTH_WIDTH - splitPoint, Constants.UNIT_HEALTH_HEIGHT,
                         Colors.HEALTH_BAR_NEG); // Red part
       GL11.glEnable(GL11.GL_TEXTURE_2D);
+
+      drawFlag(unit.getFlag(), x, y); // Draw the flag, if the unit has one
+    }
+  }
+
+  /**
+   * Draws the given flag at the given location. if {@code flag == null}, nothing happens.
+   *
+   * @param flag the flag to be drawn
+   * @param x    the x location to draw at
+   * @param y    the y location to draw at
+   */
+  private void drawFlag(Flag flag, int x, int y) {
+    if (flag != null) {
+      final int width = Constants.TILE_WIDTH;
+      final int height = Constants.TILE_HEIGHT;
+
+      renderer
+          .drawTexture(Constants.FLAG_NAME, x, y, width, height, flag.getOwner().getPrimaryColor());
     }
   }
 

@@ -44,6 +44,7 @@ public class Constants {
   // Texture names
   public static final String TILE_BG_NAME = "tile_background";
   public static final String TILE_OUTLINE_NAME = "tile_outline";
+  public static final String FLAG_NAME = "flag";
 
   // Font sizes
   public static final float FONT_SIZE_TILE = 60f;
