@@ -68,16 +68,19 @@ public class TrueTypeFont {
   }
 
   private float getCharX(char c) {
-    final String s = Character.toString(c);
+    final String s = Character.toString(c); // String containing just the character
+    // Find the string in CHARS that contains the character
     final String originStr = CHARS.stream().filter(e -> e.contains(s)).findFirst().orElse(s);
     return (float) fontMetrics.getStringBounds(originStr.substring(0, originStr.indexOf(c)), null)
         .getWidth();
   }
 
   private float getCharY(char c) {
+    final String s = Character.toString(c); // String containing just the character
     int lineId;
+    // Find the line containing c
     for (lineId = 0; lineId < CHARS.size(); lineId++) {
-      if (CHARS.get(lineId).contains(Character.toString(c))) {
+      if (CHARS.get(lineId).contains(s)) {
         break;
       }
     }
