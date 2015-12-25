@@ -11,6 +11,8 @@ import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.system.MemoryUtil;
 
+import java.io.IOException;
+
 import groundwar.board.Board;
 import groundwar.render.BoardScreen;
 import groundwar.render.MainScreen;
@@ -102,7 +104,14 @@ public class GroundWar {
     GLFW.glfwSetWindowSizeCallback(window, windowResizeHandler);
 
     renderer = new Renderer();
-    board = new Board();
+
+    try {
+      board = new Board();
+    } catch (IOException e) {
+      System.err.printf("Error loading board \"%s\"\n", Constants.BOARD_FILE);
+      e.printStackTrace();
+    }
+
     currentScreen = new BoardScreen(window, board); // Initialize the current screen
   }
 

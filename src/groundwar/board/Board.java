@@ -1,7 +1,5 @@
 package groundwar.board;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,12 +7,10 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
 
-import groundwar.board.tile.ForwardFortTile;
-import groundwar.board.tile.GoldTile;
-import groundwar.board.tile.MountainTile;
 import groundwar.board.tile.Tile;
 import groundwar.board.unit.Unit;
 import groundwar.board.unit.UnitType;
+import groundwar.util.BoardLoader;
 import groundwar.util.Constants;
 import groundwar.util.Direction;
 import groundwar.util.Funcs;
@@ -26,7 +22,7 @@ public class Board {
   private final Player[] players = new Player[PlayerColor.values().length];
   private int currentPlayer;
   private int turnCounter = 1;
-  private final Map<Point, Tile> tiles = new HashMap<>();
+  private final Map<Point, Tile> tiles;
 
   /**
    * The tile that is currently selected. If {@code selectedTile != null}, then {@code selectedTile
@@ -57,115 +53,14 @@ public class Board {
   private final Map<Tile, Path> attackablePaths = new HashMap<>();
   private final Random random = new Random();
 
-  public Board() {
+  public Board() throws IOException {
     // Initialize players
     for (PlayerColor color : PlayerColor.values()) {
       players[color.ordinal()] = new Player(color);
     }
 
     // Load tiles from the file
-    try {
-      loadTilesFromFile(Constants.BOARD_FILE);
-    } catch (IOException e) {
-      System.err.printf("Error loading board \"%s\"\n", Constants.BOARD_FILE);
-      e.printStackTrace();
-    }
-
-    // For each tile, tell it which tiles are adjacent to it
-    tiles.values().forEach(tile -> tile.setAdjacentTiles(getAdjacentTiles(tile)));
-  }
-
-  private void loadTilesFromFile(String fileName) throws IOException {
-    BufferedReader reader = null;
-    String line;
-    try {
-      reader = new BufferedReader(new FileReader(getClass().getResource(fileName).getFile()));
-      while ((line = reader.readLine()) != null) { // Read each line from the file
-        line = line.replaceAll(" ", ""); // Strip spaces out
-        if (line.length() > 0 && line.charAt(0) != '#') { // If the line isn't blank or commented-out
-          try {
-            putTile(getTileForData(line.split(","))); // Split by commas, then convert to tile data
-          } catch (IllegalArgumentException e) {
-            System.err.printf("Error reading line \"%s\" from board \"%s\"\n", line, fileName);
-          }
-        }
-      }
-    } finally {
-      if (reader != null) {
-        reader.close();
-      }
-    }
-  }
-
-  private Tile getTileForData(String[] data) throws IllegalArgumentException {
-    if (data.length >= 3) {
-      // First value is x, second is y. Parse the Strings to ints.
-      final Point p = new Point(new Integer(data[0]), new Integer(data[1]));
-
-      // Switch based on the type of the tile
-      Tile toReturn;
-      final String tileData = data[2];
-      final char tileType = tileData.charAt(0);
-      switch (tileType) {
-        case 'T':
-          toReturn = new Tile(p);
-          break;
-        case 'M':
-          toReturn = new MountainTile(p);
-          break;
-        case 'O':
-          toReturn = new Tile(p, players[PlayerColor.ORANGE.ordinal()]);
-          break;
-        case 'B':
-          toReturn = new Tile(p, players[PlayerColor.BLUE.ordinal()]);
-          break;
-        case 'G':
-          toReturn = new GoldTile(p);
-          break;
-        case 'F':
-          toReturn = new ForwardFortTile(p);
-          break;
-        default:
-          throw new IllegalArgumentException("No tile of type: " + tileType);
-      }
-
-      // Read other tile data, such as flags
-      for (char c : tileData.substring(1).toCharArray()) {
-        switch (c) {
-          case 'o':
-            toReturn.setFlag(new Flag(getPlayer(PlayerColor.ORANGE)));
-            break;
-          case 'b':
-            toReturn.setFlag(new Flag(getPlayer(PlayerColor.BLUE)));
-            break;
-        }
-      }
-
-      return toReturn;
-    }
-    throw new IllegalArgumentException("Not enough data to create a tile");
-  }
-
-  private void putTile(Tile tile) {
-    tiles.put(tile.getPos(), tile);
-  }
-
-  /**
-   * Gets an array of tiles adjcaent to the given tile.
-   *
-   * @param tile the given tile
-   * @return all tiles adjacent to {@param tile}
-   */
-  private Tile[] getAdjacentTiles(Tile tile) {
-    final Point p = tile.getPos();
-    final Tile[] adjTiles = new Tile[Constants.NUM_SIDES];
-    for (Direction dir : Direction.values()) {
-      Point adjPoint = p.plus(dir.delta);
-      if (tiles.containsKey(adjPoint)) {
-        adjTiles[dir.ordinal()] = tiles.get(adjPoint);
-      }
-    }
-    return adjTiles;
+    tiles = new BoardLoader(this).loadBoard();
   }
 
   public Player getCurrentPlayer() {
