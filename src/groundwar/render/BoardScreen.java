@@ -98,6 +98,14 @@ public class BoardScreen extends MainScreen {
     GL11.glDisable(GL11.GL_BLEND);
   }
 
+  @Override
+  public MainScreen nextScreen() {
+    if (board.isGameOver()) {
+      return new VictoryScreen(window, board.getWinner());
+    }
+    return null;
+  }
+
   /**
    * Draws the given tile.
    *

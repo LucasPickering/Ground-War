@@ -121,6 +121,12 @@ public class GroundWar {
       GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT); // Clear the framebuffer
       currentScreen.draw(mousePos.copy());
       GLFW.glfwSwapBuffers(window); // Swap the color buffers
+
+      // If the screen should change, do that
+      MainScreen nextScreen;
+      if ((nextScreen = currentScreen.nextScreen()) != null) {
+        currentScreen = nextScreen;
+      }
     }
     tearDown();
   }

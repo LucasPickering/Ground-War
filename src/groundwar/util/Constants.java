@@ -52,6 +52,7 @@ public class Constants {
   // Font sizes
   public static final float FONT_SIZE_TILE = 60f;
   public static final float FONT_SIZE_UI = 80f;
+  public static final float FONT_SIZE_TITLE = 200f;
 
   // UI sizes/positions
   public static final int TURN_COUNT_X = 3830;

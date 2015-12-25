@@ -27,6 +27,8 @@ public abstract class MainScreen extends ScreenElement {
     guiElements.stream().forEach(guiElement -> guiElement.draw(mousePos));
   }
 
+  public abstract MainScreen nextScreen();
+
   @Override
   public boolean contains(Point p) {
     return true;
