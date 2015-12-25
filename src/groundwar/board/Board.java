@@ -52,6 +52,7 @@ public class Board {
    */
   private final Map<Tile, Path> attackablePaths = new HashMap<>();
   private final Random random = new Random();
+  private Player winner;
 
   public Board() throws IOException {
     // Initialize players
@@ -212,6 +213,11 @@ public class Board {
       to.setUnit(from.getUnit());
       from.setUnit(null);
       to.getUnit().useMoves(distance);
+
+      // After moving the unit, check the moved-to tile for victory
+      if(to.shouldGameEnd()) {
+        endGame();
+      }
     }
   }
 
@@ -310,6 +316,18 @@ public class Board {
     ++currentPlayer;
     currentPlayer %= players.length;
     turnCounter++; // Increment the turn counter
+  }
+
+  private void endGame() {
+    winner = getCurrentPlayer();
+  }
+
+  public Player getWinner() {
+    return winner;
+  }
+
+  public boolean isGameOver() {
+    return winner != null;
   }
 
   /**

@@ -147,13 +147,11 @@ public class Tile {
   }
 
   /**
-   * Should the game end? Some tiles have the power to end the game, i.e. fort tiles. This is called
-   * on every tile, but it should only ever return true for tiles that can end the game, when the game
-   * should be ended.
+   * Should the game end? Some tiles have the power to end the game, i.e. fort tiles.
    *
    * @return true if the game should end, false if it should keep going
    */
-  public boolean isGameOver() {
+  public boolean shouldGameEnd() {
     return false;
   }
 

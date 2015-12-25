@@ -10,7 +10,7 @@ public class FortTile extends Tile {
   }
 
   @Override
-  public boolean isGameOver() {
+  public boolean shouldGameEnd() {
     return hasUnit() && getUnit().hasFlag() && getUnit().getFlag().getOwner() != getOwner();
   }
 }
