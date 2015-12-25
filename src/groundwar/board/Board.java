@@ -116,6 +116,8 @@ public class Board {
           return new GoldTile(p);
         case "F":
           return new ForwardFortTile(p);
+        default:
+          throw new IllegalArgumentException("Unrecognized tile type: " + data[2]);
       }
     }
     throw new IllegalArgumentException("Not enough data to create a tile");

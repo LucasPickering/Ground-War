@@ -67,10 +67,10 @@ public class Path {
     if (tiles.isEmpty()) {
       throw new IllegalStateException("There is no second to last tile!");
     }
-    if (tiles.size() > 1) {
-      return tiles.get(tiles.size() - 2);
+    if (tiles.size() == 1) {
+      return origin;
     }
-    return origin;
+    return tiles.get(tiles.size() - 2);
   }
 
   public Path copy() {

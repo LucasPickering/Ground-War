@@ -13,16 +13,16 @@ public abstract class GuiElement extends ScreenElement {
   /**
    * Constructs a new {@code GuiElement} with the given coordinates and size.
    *
-   * @param x      the x position of the element (non-negative)
-   * @param y      the y position of the element (non-negative)
+   * @param x      the x position of the element
+   * @param y      the y position of the element
    * @param width  the width of the element (positive)
    * @param height the height of the element (positive)
    * @throws IllegalArgumentException if x or y is negative, or width or height is non-positive
    */
   protected GuiElement(long window, int x, int y, int width, int height) {
     super(window);
-    if (x < 0 || y < 0 || width <= 0 || height <= 0) {
-      throw new IllegalArgumentException("Parameter out of bounds");
+    if (width <= 0 || height <= 0) {
+      throw new IllegalArgumentException("Width or height out of bounds");
     }
     this.x = x;
     this.y = y;
