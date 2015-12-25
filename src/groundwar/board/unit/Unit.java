@@ -10,7 +10,6 @@ public abstract class Unit {
 
   private final UnitType type;
   private Player owner;
-  private ColorTexture texture;
   private int movesRemaining;
   private int health;
 
@@ -29,7 +28,6 @@ public abstract class Unit {
     this.owner = owner;
     health = type.maxHealth;
     GroundWar.groundWar.getRenderer().loadTexture(type.textureName);
-    texture = new ColorTexture(type.textureName, owner.getPrimaryColor());
   }
 
   public final UnitCategory getCategory() {
@@ -70,10 +68,6 @@ public abstract class Unit {
 
   public final Player getOwner() {
     return owner;
-  }
-
-  public final ColorTexture getTexture() {
-    return texture;
   }
 
   public final int getMovesRemaining() {
