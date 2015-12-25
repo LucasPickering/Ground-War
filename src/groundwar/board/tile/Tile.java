@@ -121,11 +121,11 @@ public class Tile {
   }
 
   public final void setUnit(Unit unit) {
-    if (unit != null && unit.canCarryFlag()) {
-      unit.grabFlag(flag);
-      flag = null;
-    }
     this.unit = unit;
+    if (unitCanGrabFlag()) {
+      unit.grabFlag(flag);
+      setFlag(null);
+    }
     onUnitChange();
   }
 
@@ -139,6 +139,11 @@ public class Tile {
 
   public final void setFlag(Flag flag) {
     this.flag = flag;
+  }
+
+  private boolean unitCanGrabFlag() {
+    return unit != null && flag != null && unit.canCarryFlag() && !unit.carryingFlag()
+           && unit.getOwner() != flag.getOwner();
   }
 
   /**
