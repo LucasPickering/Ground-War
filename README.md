@@ -6,3 +6,4 @@ Uses the Lightweight Java Game Library.
 2. Download [LWJGL 3](http://lwjgl.org)
 3. Open the repo in your IDE
 4. Link LWJGL to your project (IDE specific)
+5. In the VM launch options, add "-Djava.library.path=/path/to/lwjgl/native" (the native folder should be in the LWJGL installation you extracted)
