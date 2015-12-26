@@ -1,8 +1,10 @@
 package groundwar.render;
 
+import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
 import groundwar.board.Board;
+import groundwar.render.event.KeyEvent;
 import groundwar.util.Constants;
 import groundwar.util.Point;
 
@@ -30,5 +32,14 @@ public class VictoryScreen extends MainScreen {
   @Override
   public MainScreen nextScreen() {
     return this;
+  }
+
+  @Override
+  public void onKey(KeyEvent event) {
+    switch (event.key) {
+      case GLFW.GLFW_KEY_ESCAPE:
+        GLFW.glfwSetWindowShouldClose(window, GLFW.GLFW_TRUE);
+        break;
+    }
   }
 }
