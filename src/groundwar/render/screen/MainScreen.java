@@ -26,12 +26,14 @@ public abstract class MainScreen extends ScreenElement {
   @Override
   public void draw(Point mousePos) {
     // Draw all the GUI elements
+    GL11.glEnable(GL11.GL_BLEND);
     for (GuiElement element : guiElements) {
       GL11.glPushMatrix();
       GL11.glTranslatef(element.getX(), element.getY(), 0f);
       element.draw(mousePos);
       GL11.glPopMatrix();
     }
+    GL11.glDisable(GL11.GL_BLEND);
   }
 
   /**

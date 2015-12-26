@@ -3,7 +3,6 @@ package groundwar.render.screen;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
-import groundwar.GroundWar;
 import groundwar.board.Board;
 import groundwar.render.TextAlignment;
 import groundwar.render.event.KeyEvent;
@@ -22,14 +21,14 @@ public class VictoryScreen extends MainScreen {
   public VictoryScreen(long window, Board board) {
     super(window);
     this.board = board;
-    guiElements.add(menuButton = new Button(window, 10, 10, 600, "Main Menu"));
     GL11.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    guiElements.add(menuButton = new Button(window, 10, 10, 600, "Main Menu"));
   }
 
   @Override
   public void draw(Point mousePos) {
-    GL11.glEnable(GL11.GL_BLEND);
     super.draw(mousePos);
+    GL11.glEnable(GL11.GL_BLEND);
     renderer.drawText(Constants.FONT_SIZE_TITLE,
                       String.format("%s wins\nin %d turns!", board.getWinner(), board.getTurnCount()),
                       Constants.NATIVE_WINDOW_WIDTH / 2, Constants.NATIVE_WINDOW_HEIGHT / 2,
@@ -40,7 +39,7 @@ public class VictoryScreen extends MainScreen {
   @Override
   public MainScreen nextScreen() {
     if (backToMenu) {
-      return new BoardScreen(window, GroundWar.groundWar.loadNewBoard());
+      return new MainMenuScreen(window);
     }
     return this;
   }

@@ -14,11 +14,11 @@ import org.lwjgl.system.MemoryUtil;
 import java.io.IOException;
 
 import groundwar.board.Board;
-import groundwar.render.screen.BoardScreen;
-import groundwar.render.screen.MainScreen;
 import groundwar.render.Renderer;
 import groundwar.render.event.KeyEvent;
 import groundwar.render.event.MouseButtonEvent;
+import groundwar.render.screen.MainMenuScreen;
+import groundwar.render.screen.MainScreen;
 import groundwar.util.Constants;
 import groundwar.util.Point;
 
@@ -105,7 +105,7 @@ public class GroundWar {
 
     renderer = new Renderer();
     loadNewBoard();
-    currentScreen = new BoardScreen(window, board); // Initialize the current screen
+    currentScreen = new MainMenuScreen(window); // Initialize the current screen
   }
 
   private void gameLoop() {
