@@ -1,5 +1,6 @@
-# Ground-war
-A Java implementation of Ground War, a board game I made in the spring of 2015. Uses the Lightweight Java Game Library.  
+# Ground War
+A Java implementation of Ground War, a board game I made in the spring of 2015. The original rules can be found in rules.pdf, and the board in board.jpg (the original board didn't have the tile numbering). I've changed both since then.  
+Uses the Lightweight Java Game Library.  
 ### Installation instructions:
 1. Clone the repo
 2. Download [LWJGL 3](http://lwjgl.org)
