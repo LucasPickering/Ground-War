@@ -99,10 +99,6 @@ public class TrueTypeFont {
     return width;
   }
 
-  public float getStringHeight() {
-    return charHeight;
-  }
-
   private ByteBuffer asByteBuffer() {
     ByteBuffer byteBuffer;
 
@@ -144,16 +140,19 @@ public class TrueTypeFont {
   /**
    * Draw the given text in this font.
    *
-   * @param text      the text to draw (non-null)
-   * @param x         the x location to draw at
-   * @param y         the y location to draw at
-   * @param color     the color to draw with
-   * @param alignment the {@link HorizAlignment} to draw with (non-null)
-   * @throws NullPointerException if {@code text == null} or {@code alignment == null}
+   * @param text       the text to draw (non-null)
+   * @param x          the x location to draw at
+   * @param y          the y location to draw at
+   * @param color      the color to draw with
+   * @param horizAlign the {@link HorizAlignment} to draw with (non-null)
+   * @param vertAlign  the {@link VertAlignment} to draw with (non-null)
+   * @throws NullPointerException if {@code text == null} or {@code horizAlign == null} or {@code
+   *                              vertAlign == null}
    */
-  public void draw(String text, int x, int y, int color, HorizAlignment alignment) {
+  public void draw(String text, int x, int y, int color,
+                   HorizAlignment horizAlign, VertAlignment vertAlign) {
     Objects.requireNonNull(text);
-    Objects.requireNonNull(alignment);
+    Objects.requireNonNull(horizAlign);
     // Set the color (aren't bitshifts cool?)
     GL11.glColor4f((color >> 16 & 0xff) / 255.0f, (color >> 8 & 0xff) / 255.0f,
                    (color & 0xff) / 255.0f, (color >> 24 & 0xff) / 255.0f);
@@ -164,12 +163,20 @@ public class TrueTypeFont {
     int yTmp = y;
     GL11.glBegin(GL11.GL_QUADS);
     for (String line : lines) {
-      switch (alignment) {
+      switch (horizAlign) {
         case CENTER:
           xTmp = x - (int) getStringWidth(line) / 2;
           break;
         case RIGHT:
           xTmp = x - (int) getStringWidth(line);
+          break;
+      }
+      switch (vertAlign) {
+        case CENTER:
+          yTmp -= charHeight / 2;
+          break;
+        case BOTTOM:
+          yTmp -= charHeight;
           break;
       }
       for (char c : line.toCharArray()) {

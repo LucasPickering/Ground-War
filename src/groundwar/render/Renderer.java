@@ -163,52 +163,47 @@ public class Renderer {
   /**
    * Draw text in white with left alignment.
    *
-   * @see #drawText(float, String, int, int, int, HorizAlignment)
+   * @see #drawText(float, String, int, int, int, HorizAlignment, VertAlignment)
    */
   public void drawText(float size, String text, int x, int y) {
-    drawText(size, text, x, y, 0xffffffff, HorizAlignment.LEFT);
+    drawText(size, text, x, y, 0xffffffff, HorizAlignment.LEFT, VertAlignment.TOP);
   }
 
   /**
    * Draw text with left alignment.
    *
-   * @see #drawText(float, String, int, int, int, HorizAlignment)
+   * @see #drawText(float, String, int, int, int, HorizAlignment, VertAlignment)
    */
   public void drawText(float size, String text, int x, int y, int color) {
-    drawText(size, text, x, y, color, HorizAlignment.LEFT);
+    drawText(size, text, x, y, color, HorizAlignment.LEFT, VertAlignment.TOP);
   }
 
   /**
    * Draw text in white.
    *
-   * @see #drawText(float, String, int, int, int, HorizAlignment)
+   * @see #drawText(float, String, int, int, int, HorizAlignment, VertAlignment)
    */
   public void drawText(float size, String text, int x, int y, HorizAlignment alignment) {
-    drawText(size, text, x, y, 0xffffffff, alignment);
+    drawText(size, text, x, y, 0xffffffff, alignment, VertAlignment.TOP);
   }
 
   /**
    * Draw the given text in the given size, at the given position. A font for the given size must have
    * been loaded already using {@link #loadFont}.
    *
-   * @param size      the size of the font
-   * @param text      the text to draw
-   * @param x         the x position to draw at
-   * @param y         the y position to draw at
-   * @param color     the color to draw in
-   * @param alignment the text alignment (left, center, right)
+   * @param size       the size of the font
+   * @param text       the text to draw
+   * @param x          the x position to draw at
+   * @param y          the y position to draw at
+   * @param color      the color to draw in
+   * @param horizAlign the text alignment (left, center, right)
+   * @param vertAlign  the vertical text alignment (top, center, bottom)
    */
-  public void drawText(float size, String text, int x, int y, int color, HorizAlignment alignment) {
+  public void drawText(float size, String text, int x, int y, int color,
+                       HorizAlignment horizAlign, VertAlignment vertAlign) {
     if (!fonts.containsKey(size)) {
       loadFont(Constants.FONT1, size);
     }
-    fonts.get(size).draw(text, x, y, color, alignment);
-  }
-
-  public float getFontHeight(float size) {
-    if (fonts.containsKey(size)) {
-      return fonts.get(size).getStringHeight();
-    }
-    return 0f;
+    fonts.get(size).draw(text, x, y, color, horizAlign, vertAlign);
   }
 }
