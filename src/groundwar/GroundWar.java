@@ -104,14 +104,7 @@ public class GroundWar {
     GLFW.glfwSetWindowSizeCallback(window, windowResizeHandler);
 
     renderer = new Renderer();
-
-    try {
-      board = new Board();
-    } catch (IOException e) {
-      System.err.printf("Error loading board \"%s\"\n", Constants.BOARD_FILE);
-      e.printStackTrace();
-    }
-
+    loadNewBoard();
     currentScreen = new BoardScreen(window, board); // Initialize the current screen
   }
 
@@ -130,6 +123,16 @@ public class GroundWar {
 
   private void tearDown() {
     renderer.deleteTexturesAndFonts(); // Free up texture memory
+  }
+
+  public Board loadNewBoard() {
+    try {
+      board = new Board();
+    } catch (IOException e) {
+      System.err.printf("Error loading board \"%s\"\n", Constants.BOARD_FILE);
+      e.printStackTrace();
+    }
+    return board;
   }
 
   public Renderer getRenderer() {
