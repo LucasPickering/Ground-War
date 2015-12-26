@@ -163,28 +163,28 @@ public class Renderer {
   /**
    * Draw text in white with left alignment.
    *
-   * @see #drawText(float, String, int, int, int, HorizAlignment, VertAlignment)
+   * @see #drawString(float, String, int, int, int, HorizAlignment, VertAlignment)
    */
-  public void drawText(float size, String text, int x, int y) {
-    drawText(size, text, x, y, 0xffffffff, HorizAlignment.LEFT, VertAlignment.TOP);
+  public void drawString(float size, String text, int x, int y) {
+    drawString(size, text, x, y, 0xffffffff, HorizAlignment.LEFT, VertAlignment.TOP);
   }
 
   /**
    * Draw text with left alignment.
    *
-   * @see #drawText(float, String, int, int, int, HorizAlignment, VertAlignment)
+   * @see #drawString(float, String, int, int, int, HorizAlignment, VertAlignment)
    */
-  public void drawText(float size, String text, int x, int y, int color) {
-    drawText(size, text, x, y, color, HorizAlignment.LEFT, VertAlignment.TOP);
+  public void drawString(float size, String text, int x, int y, int color) {
+    drawString(size, text, x, y, color, HorizAlignment.LEFT, VertAlignment.TOP);
   }
 
   /**
    * Draw text in white.
    *
-   * @see #drawText(float, String, int, int, int, HorizAlignment, VertAlignment)
+   * @see #drawString(float, String, int, int, int, HorizAlignment, VertAlignment)
    */
-  public void drawText(float size, String text, int x, int y, HorizAlignment alignment) {
-    drawText(size, text, x, y, 0xffffffff, alignment, VertAlignment.TOP);
+  public void drawString(float size, String text, int x, int y, HorizAlignment alignment) {
+    drawString(size, text, x, y, 0xffffffff, alignment, VertAlignment.TOP);
   }
 
   /**
@@ -199,8 +199,8 @@ public class Renderer {
    * @param horizAlign the text alignment (left, center, right)
    * @param vertAlign  the vertical text alignment (top, center, bottom)
    */
-  public void drawText(float size, String text, int x, int y, int color,
-                       HorizAlignment horizAlign, VertAlignment vertAlign) {
+  public void drawString(float size, String text, int x, int y, int color,
+                         HorizAlignment horizAlign, VertAlignment vertAlign) {
     if (!fonts.containsKey(size)) {
       loadFont(Constants.FONT1, size);
     }

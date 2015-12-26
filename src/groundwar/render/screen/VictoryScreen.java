@@ -20,17 +20,18 @@ public class VictoryScreen extends MainScreen {
   public VictoryScreen(Board board) {
     this.board = board;
     GL11.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-    addGuiElement(menuButton = new Button(10, 10, "Main Menu"));
+    addGuiElement(menuButton = new Button(center.getX(), 1000, "Main Menu"));
   }
 
   @Override
   public void draw(Point mousePos) {
     super.draw(mousePos);
     GL11.glEnable(GL11.GL_BLEND);
-    renderer().drawText(Constants.FONT_SIZE_TITLE,
-                      String.format("%s wins\nin %d turns!", board.getWinner(), board.getTurnCount()),
-                      center.getX(), center.getY(), board.getWinner().getPrimaryColor(),
-                      HorizAlignment.CENTER, VertAlignment.CENTER);
+    renderer().drawString(
+        Constants.FONT_SIZE_TITLE,
+        String.format("%s wins\nin %d turns!", board.getWinner(), board.getTurnCount()),
+        center.getX(), center.getY(), board.getWinner().getPrimaryColor(),
+        HorizAlignment.CENTER, VertAlignment.CENTER);
     GL11.glDisable(GL11.GL_BLEND);
   }
 

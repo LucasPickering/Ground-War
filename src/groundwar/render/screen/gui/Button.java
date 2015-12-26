@@ -28,8 +28,8 @@ public class Button extends GuiElement {
     renderer().drawRect(0, 0, getWidth(), getHeight(),
                         mouseOver ? Colors.BUTTON_HIGHLIGHT : Colors.BUTTON_NORMAL);
     GL11.glEnable(GL11.GL_TEXTURE_2D);
-    renderer().drawText(Constants.FONT_SIZE_UI, text, getWidth() / 2, getHeight() / 2,
+    renderer().drawString(Constants.FONT_SIZE_UI, text, getWidth() / 2, getHeight() / 2,
                         mouseOver ? Colors.BUTTON_TEXT_HIGHLIGHT : Colors.BUTTON_TEXT_NORMAL,
-                        HorizAlignment.CENTER, VertAlignment.CENTER);
+                          HorizAlignment.CENTER, VertAlignment.CENTER);
   }
 }
