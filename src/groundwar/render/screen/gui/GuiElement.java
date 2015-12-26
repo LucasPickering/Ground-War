@@ -1,7 +1,7 @@
-package groundwar.render.gui;
+package groundwar.render.screen.gui;
 
 import groundwar.util.Point;
-import groundwar.render.ScreenElement;
+import groundwar.render.screen.ScreenElement;
 
 public abstract class GuiElement extends ScreenElement {
 

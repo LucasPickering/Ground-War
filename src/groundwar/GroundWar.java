@@ -14,8 +14,8 @@ import org.lwjgl.system.MemoryUtil;
 import java.io.IOException;
 
 import groundwar.board.Board;
-import groundwar.render.BoardScreen;
-import groundwar.render.MainScreen;
+import groundwar.render.screen.BoardScreen;
+import groundwar.render.screen.MainScreen;
 import groundwar.render.Renderer;
 import groundwar.render.event.KeyEvent;
 import groundwar.render.event.MouseButtonEvent;

@@ -1,6 +1,7 @@
-package groundwar.render;
+package groundwar.render.screen;
 
 import groundwar.GroundWar;
+import groundwar.render.Renderer;
 import groundwar.util.Point;
 import groundwar.render.event.EventHandler;
 import groundwar.render.event.KeyEvent;

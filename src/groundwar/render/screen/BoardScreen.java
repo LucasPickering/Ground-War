@@ -1,4 +1,4 @@
-package groundwar.render;
+package groundwar.render.screen;
 
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
@@ -12,6 +12,8 @@ import groundwar.board.PlayerColor;
 import groundwar.board.tile.Tile;
 import groundwar.board.unit.Unit;
 import groundwar.board.unit.UnitType;
+import groundwar.render.ColorTexture;
+import groundwar.render.TextAlignment;
 import groundwar.render.event.KeyEvent;
 import groundwar.render.event.MouseButtonEvent;
 import groundwar.util.Colors;

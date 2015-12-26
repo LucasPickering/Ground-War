@@ -1,10 +1,12 @@
-package groundwar.render;
+package groundwar.render.screen;
 
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
 import groundwar.board.Board;
+import groundwar.render.TextAlignment;
 import groundwar.render.event.KeyEvent;
+import groundwar.render.screen.MainScreen;
 import groundwar.util.Constants;
 import groundwar.util.Point;
 
