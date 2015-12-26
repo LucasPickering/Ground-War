@@ -4,7 +4,7 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
 import groundwar.board.Board;
-import groundwar.render.TextAlignment;
+import groundwar.render.HorizAlignment;
 import groundwar.render.event.KeyEvent;
 import groundwar.render.event.MouseButtonEvent;
 import groundwar.render.screen.gui.Button;
@@ -32,7 +32,7 @@ public class VictoryScreen extends MainScreen {
     renderer.drawText(Constants.FONT_SIZE_TITLE,
                       String.format("%s wins\nin %d turns!", board.getWinner(), board.getTurnCount()),
                       center.getX(), center.getY(),
-                      board.getWinner().getPrimaryColor(), TextAlignment.CENTER);
+                      board.getWinner().getPrimaryColor(), HorizAlignment.CENTER);
     GL11.glDisable(GL11.GL_BLEND);
   }
 

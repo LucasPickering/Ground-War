@@ -1,5 +1,5 @@
 package groundwar.render;
 
-public enum TextAlignment {
+public enum HorizAlignment {
   LEFT, CENTER, RIGHT
 }

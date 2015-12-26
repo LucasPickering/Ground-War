@@ -163,27 +163,27 @@ public class Renderer {
   /**
    * Draw text in white with left alignment.
    *
-   * @see #drawText(float, String, int, int, int, TextAlignment)
+   * @see #drawText(float, String, int, int, int, HorizAlignment)
    */
   public void drawText(float size, String text, int x, int y) {
-    drawText(size, text, x, y, 0xffffffff, TextAlignment.LEFT);
+    drawText(size, text, x, y, 0xffffffff, HorizAlignment.LEFT);
   }
 
   /**
    * Draw text with left alignment.
    *
-   * @see #drawText(float, String, int, int, int, TextAlignment)
+   * @see #drawText(float, String, int, int, int, HorizAlignment)
    */
   public void drawText(float size, String text, int x, int y, int color) {
-    drawText(size, text, x, y, color, TextAlignment.LEFT);
+    drawText(size, text, x, y, color, HorizAlignment.LEFT);
   }
 
   /**
    * Draw text in white.
    *
-   * @see #drawText(float, String, int, int, int, TextAlignment)
+   * @see #drawText(float, String, int, int, int, HorizAlignment)
    */
-  public void drawText(float size, String text, int x, int y, TextAlignment alignment) {
+  public void drawText(float size, String text, int x, int y, HorizAlignment alignment) {
     drawText(size, text, x, y, 0xffffffff, alignment);
   }
 
@@ -198,10 +198,17 @@ public class Renderer {
    * @param color     the color to draw in
    * @param alignment the text alignment (left, center, right)
    */
-  public void drawText(float size, String text, int x, int y, int color, TextAlignment alignment) {
+  public void drawText(float size, String text, int x, int y, int color, HorizAlignment alignment) {
     if (!fonts.containsKey(size)) {
       loadFont(Constants.FONT1, size);
     }
     fonts.get(size).draw(text, x, y, color, alignment);
+  }
+
+  public float getFontHeight(float size) {
+    if (fonts.containsKey(size)) {
+      return fonts.get(size).getStringHeight();
+    }
+    return 0f;
   }
 }

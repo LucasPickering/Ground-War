@@ -13,7 +13,7 @@ import groundwar.board.tile.Tile;
 import groundwar.board.unit.Unit;
 import groundwar.board.unit.UnitType;
 import groundwar.render.ColorTexture;
-import groundwar.render.TextAlignment;
+import groundwar.render.HorizAlignment;
 import groundwar.render.event.KeyEvent;
 import groundwar.render.event.MouseButtonEvent;
 import groundwar.util.Colors;
@@ -81,7 +81,7 @@ public class BoardScreen extends MainScreen {
 
     // Draw turn counter
     renderer.drawText(Constants.FONT_SIZE_UI, String.format("Turn %d", board.getTurnCount()),
-                      Constants.TURN_COUNT_X, Constants.TURN_COUNT_Y, TextAlignment.RIGHT);
+                      Constants.TURN_COUNT_X, Constants.TURN_COUNT_Y, HorizAlignment.RIGHT);
 
     // Draw the players's information
     renderer.drawText(Constants.FONT_SIZE_UI,
@@ -89,7 +89,7 @@ public class BoardScreen extends MainScreen {
                       Constants.ORANGE_UI_X, Constants.ORANGE_UI_Y);
     renderer.drawText(Constants.FONT_SIZE_UI,
                       String.format("Gold: %d", board.getPlayer(PlayerColor.BLUE).getGold()),
-                      Constants.BLUE_UI_X, Constants.BLUE_UI_Y, TextAlignment.RIGHT);
+                      Constants.BLUE_UI_X, Constants.BLUE_UI_Y, HorizAlignment.RIGHT);
 
     // Draw unit information
     if (selectedTile != null) {

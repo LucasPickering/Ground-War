@@ -91,12 +91,16 @@ public class TrueTypeFont {
     return fontMetrics.charWidth(c);
   }
 
-  private float getStringWidth(String s) {
+  public float getStringWidth(String s) {
     int width = 0;
     for (char c : s.toCharArray()) {
       width += getCharWidth(c);
     }
     return width;
+  }
+
+  public float getStringHeight() {
+    return charHeight;
   }
 
   private ByteBuffer asByteBuffer() {
@@ -144,10 +148,10 @@ public class TrueTypeFont {
    * @param x         the x location to draw at
    * @param y         the y location to draw at
    * @param color     the color to draw with
-   * @param alignment the {@link TextAlignment} to draw with (non-null)
+   * @param alignment the {@link HorizAlignment} to draw with (non-null)
    * @throws NullPointerException if {@code text == null} or {@code alignment == null}
    */
-  public void draw(String text, int x, int y, int color, TextAlignment alignment) {
+  public void draw(String text, int x, int y, int color, HorizAlignment alignment) {
     Objects.requireNonNull(text);
     Objects.requireNonNull(alignment);
     // Set the color (aren't bitshifts cool?)

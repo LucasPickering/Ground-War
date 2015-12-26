@@ -2,7 +2,7 @@ package groundwar.render.screen.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import groundwar.render.TextAlignment;
+import groundwar.render.HorizAlignment;
 import groundwar.util.Colors;
 import groundwar.util.Constants;
 import groundwar.util.Point;
@@ -27,8 +27,9 @@ public class Button extends GuiElement {
     renderer.drawRect(0, 0, getWidth(), getHeight(),
                       mouseOver ? Colors.BUTTON_HIGHLIGHT : Colors.BUTTON_NORMAL);
     GL11.glEnable(GL11.GL_TEXTURE_2D);
-    renderer.drawText(Constants.FONT_SIZE_UI, text, getWidth() / 2, 20,
+    renderer.drawText(Constants.FONT_SIZE_UI, text, getWidth() / 2,
+                      (getHeight() - (int) renderer.getFontHeight(Constants.FONT_SIZE_UI)) / 2,
                       mouseOver ? Colors.BUTTON_TEXT_HIGHLIGHT : Colors.BUTTON_TEXT_NORMAL,
-                      TextAlignment.CENTER);
+                      HorizAlignment.CENTER);
   }
 }
