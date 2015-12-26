@@ -81,7 +81,7 @@ public abstract class MainScreen implements ScreenElement {
    * @param event   the event that occurred
    * @param element the element that was clicked
    */
-  public void onElementClicked(MouseButtonEvent event, GuiElement element) {
+  protected void onElementClicked(MouseButtonEvent event, GuiElement element) {
     // By default, do nothing
   }
 }
