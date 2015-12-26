@@ -22,7 +22,7 @@ public class VictoryScreen extends MainScreen {
     super(window);
     this.board = board;
     GL11.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-    addGuiElement(menuButton = new Button(window, 10, 10, 600, "Main Menu"));
+    addGuiElement(menuButton = new Button(window, 10, 10, "Main Menu"));
   }
 
   @Override
@@ -31,7 +31,7 @@ public class VictoryScreen extends MainScreen {
     GL11.glEnable(GL11.GL_BLEND);
     renderer.drawText(Constants.FONT_SIZE_TITLE,
                       String.format("%s wins\nin %d turns!", board.getWinner(), board.getTurnCount()),
-                      Constants.NATIVE_WINDOW_WIDTH / 2, Constants.NATIVE_WINDOW_HEIGHT / 2,
+                      center.getX(), center.getY(),
                       board.getWinner().getPrimaryColor(), TextAlignment.CENTER);
     GL11.glDisable(GL11.GL_BLEND);
   }

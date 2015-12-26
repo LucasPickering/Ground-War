@@ -6,6 +6,7 @@ import groundwar.GroundWar;
 import groundwar.render.event.MouseButtonEvent;
 import groundwar.render.screen.gui.Button;
 import groundwar.render.screen.gui.GuiElement;
+import groundwar.util.Constants;
 
 public class MainMenuScreen extends MainScreen {
 
@@ -15,7 +16,8 @@ public class MainMenuScreen extends MainScreen {
   public MainMenuScreen(long window) {
     super(window);
     GL11.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-    addGuiElement(newGameButton = new Button(window, 100, 100, 400, "New Game"));
+    addGuiElement(newGameButton = new Button(window, center.getX() - Constants.BUTTON_WIDTH / 2,
+                                             1000, "New Game"));
   }
 
   @Override

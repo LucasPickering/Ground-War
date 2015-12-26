@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import java.util.LinkedList;
 import java.util.List;
 
+import groundwar.util.Constants;
 import groundwar.util.Point;
 import groundwar.render.event.MouseButtonEvent;
 import groundwar.render.screen.gui.GuiElement;
@@ -17,6 +18,8 @@ import groundwar.render.screen.gui.GuiElement;
  */
 public abstract class MainScreen extends ScreenElement {
 
+  protected final Point center = new Point(Constants.NATIVE_WINDOW_WIDTH / 2,
+                                           Constants.NATIVE_WINDOW_HEIGHT / 2);
   private List<GuiElement> guiElements = new LinkedList<>();
 
   protected MainScreen(long window) {

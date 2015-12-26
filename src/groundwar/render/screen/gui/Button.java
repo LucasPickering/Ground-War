@@ -11,8 +11,12 @@ public class Button extends GuiElement {
 
   private String text;
 
-  public Button(long window, int x, int y, int width, String text) {
-    super(window, x, y, Math.max(width, Constants.BUTTON_MIN_WIDTH), Constants.BUTTON_HEIGHT);
+  public Button(long window, int x, int y, String text) {
+    this(window, x, y, Constants.BUTTON_WIDTH, Constants.BUTTON_HEIGHT, text);
+  }
+
+  public Button(long window, int x, int y, int width, int height, String text) {
+    super(window, x, y, width, height);
     this.text = text;
   }
 
