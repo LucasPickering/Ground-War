@@ -29,4 +29,10 @@ public class Colors {
   // Unit colors
   public static final int HEALTH_BAR_POS = 0xff00ff00;
   public static final int HEALTH_BAR_NEG = 0xffff0000;
+
+  // Button colors
+  public static final int BUTTON_NORMAL = 0xff000000;
+  public static final int BUTTON_HIGHLIGHT = 0xffff0000;
+  public static final int BUTTON_TEXT_NORMAL = 0xffffffff;
+  public static final int BUTTON_TEXT_HIGHLIGHT = 0xff0000ff;
 }

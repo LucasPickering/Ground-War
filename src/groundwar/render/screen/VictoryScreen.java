@@ -22,7 +22,7 @@ public class VictoryScreen extends MainScreen {
   public VictoryScreen(long window, Board board) {
     super(window);
     this.board = board;
-    guiElements.add(menuButton = new Button(window, 10, 10, 600, 200, "Main Menu"));
+    guiElements.add(menuButton = new Button(window, 10, 10, 600, "Main Menu"));
     GL11.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
   }
 
