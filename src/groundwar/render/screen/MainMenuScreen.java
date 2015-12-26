@@ -13,10 +13,9 @@ public class MainMenuScreen extends MainScreen {
   private MainScreen nextScreen;
   private Button newGameButton;
 
-  public MainMenuScreen(long window) {
-    super(window);
+  public MainMenuScreen() {
     GL11.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-    addGuiElement(newGameButton = new Button(window, center.getX() - Constants.BUTTON_WIDTH / 2,
+    addGuiElement(newGameButton = new Button(center.getX() - Constants.BUTTON_WIDTH / 2,
                                              1000, "New Game"));
   }
 
@@ -31,7 +30,7 @@ public class MainMenuScreen extends MainScreen {
   @Override
   public void onElementClicked(MouseButtonEvent event, GuiElement element) {
     if (element == newGameButton) {
-      nextScreen = new BoardScreen(window, GroundWar.groundWar.loadNewBoard());
+      nextScreen = new BoardScreen(GroundWar.groundWar.loadNewBoard());
     }
   }
 }

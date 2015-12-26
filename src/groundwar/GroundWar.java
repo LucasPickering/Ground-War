@@ -105,7 +105,7 @@ public class GroundWar {
 
     renderer = new Renderer();
     loadNewBoard();
-    currentScreen = new MainMenuScreen(window); // Initialize the current screen
+    currentScreen = new MainMenuScreen(); // Initialize the current screen
   }
 
   private void gameLoop() {
@@ -149,7 +149,7 @@ public class GroundWar {
       @Override
       public void invoke(long window, int key, int scancode, int action, int mods) {
         if (action == GLFW.GLFW_RELEASE) {
-          currentScreen.handleKey(new KeyEvent(window, key, scancode, mods));
+          currentScreen.onKey(new KeyEvent(window, key, scancode, mods));
         }
       }
     };
@@ -158,7 +158,7 @@ public class GroundWar {
       @Override
       public void invoke(long window, int button, int action, int mods) {
         if (action == GLFW.GLFW_RELEASE && currentScreen.contains(mousePos)) {
-          currentScreen.handleMouseButton(new MouseButtonEvent(window, button, mods, mousePos));
+          currentScreen.onClick(new MouseButtonEvent(window, button, mods, mousePos));
         }
       }
     };

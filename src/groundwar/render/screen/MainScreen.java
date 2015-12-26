@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import java.util.LinkedList;
 import java.util.List;
 
+import groundwar.render.event.KeyEvent;
 import groundwar.util.Constants;
 import groundwar.util.Point;
 import groundwar.render.event.MouseButtonEvent;
@@ -16,15 +17,11 @@ import groundwar.render.screen.gui.GuiElement;
  * MainScreen} at a time. Examples of a {@code MainScreen} include the main menu screen and the
  * in-game screen.
  */
-public abstract class MainScreen extends ScreenElement {
+public abstract class MainScreen implements ScreenElement {
 
   protected final Point center = new Point(Constants.NATIVE_WINDOW_WIDTH / 2,
                                            Constants.NATIVE_WINDOW_HEIGHT / 2);
   private List<GuiElement> guiElements = new LinkedList<>();
-
-  protected MainScreen(long window) {
-    super(window);
-  }
 
   @Override
   public void draw(Point mousePos) {
@@ -53,15 +50,29 @@ public abstract class MainScreen extends ScreenElement {
     return true;
   }
 
-  @Override
+
+  protected void addGuiElement(GuiElement element) {
+    guiElements.add(element);
+  }
+
+  /**
+   * Called when a key is pressed.
+   *
+   * @param event the event that occurred
+   */
+  public void onKey(KeyEvent event) {
+    // By default, nothing is done on key press
+  }
+
+  /**
+   * Called when this element is clicked.
+   *
+   * @param event the event that occurred
+   */
   public void onClick(MouseButtonEvent event) {
     // Call onElementClicked for all GUI elements that contain the cursor
     guiElements.stream().filter(element -> element.contains(event.mousePos))
         .forEach(element -> onElementClicked(event, element));
-  }
-
-  protected void addGuiElement(GuiElement element) {
-    guiElements.add(element);
   }
 
   /**

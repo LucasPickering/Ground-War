@@ -3,7 +3,7 @@ package groundwar.render.screen.gui;
 import groundwar.util.Point;
 import groundwar.render.screen.ScreenElement;
 
-public abstract class GuiElement extends ScreenElement {
+public abstract class GuiElement implements ScreenElement {
 
   private int x;
   private int y;
@@ -19,8 +19,7 @@ public abstract class GuiElement extends ScreenElement {
    * @param height the height of the element (positive)
    * @throws IllegalArgumentException if x or y is negative, or width or height is non-positive
    */
-  protected GuiElement(long window, int x, int y, int width, int height) {
-    super(window);
+  protected GuiElement(int x, int y, int width, int height) {
     if (width <= 0 || height <= 0) {
       throw new IllegalArgumentException("Width or height out of bounds");
     }

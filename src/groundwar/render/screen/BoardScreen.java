@@ -24,8 +24,7 @@ public class BoardScreen extends MainScreen {
 
   private final Board board;
 
-  public BoardScreen(long window, Board board) {
-    super(window);
+  public BoardScreen(Board board) {
     this.board = board;
   }
 
@@ -80,24 +79,24 @@ public class BoardScreen extends MainScreen {
     }
 
     // Draw turn counter
-    renderer.drawText(Constants.FONT_SIZE_UI, String.format("Turn %d", board.getTurnCount()),
-                      Constants.TURN_COUNT_X, Constants.TURN_COUNT_Y, HorizAlignment.RIGHT);
+    renderer().drawText(Constants.FONT_SIZE_UI, String.format("Turn %d", board.getTurnCount()),
+                        Constants.TURN_COUNT_X, Constants.TURN_COUNT_Y, HorizAlignment.RIGHT);
 
     // Draw the players's information
-    renderer.drawText(Constants.FONT_SIZE_UI,
-                      String.format("Gold: %d", board.getPlayer(PlayerColor.ORANGE).getGold()),
-                      Constants.ORANGE_UI_X, Constants.ORANGE_UI_Y);
-    renderer.drawText(Constants.FONT_SIZE_UI,
-                      String.format("Gold: %d", board.getPlayer(PlayerColor.BLUE).getGold()),
-                      Constants.BLUE_UI_X, Constants.BLUE_UI_Y, HorizAlignment.RIGHT);
+    renderer().drawText(Constants.FONT_SIZE_UI,
+                        String.format("Gold: %d", board.getPlayer(PlayerColor.ORANGE).getGold()),
+                        Constants.ORANGE_UI_X, Constants.ORANGE_UI_Y);
+    renderer().drawText(Constants.FONT_SIZE_UI,
+                        String.format("Gold: %d", board.getPlayer(PlayerColor.BLUE).getGold()),
+                        Constants.BLUE_UI_X, Constants.BLUE_UI_Y, HorizAlignment.RIGHT);
 
     // Draw unit information
     if (selectedTile != null) {
       final Unit selectedUnit = selectedTile.getUnit();
-      renderer.drawText(Constants.FONT_SIZE_UI, String.format("%s\nHealth: %d",
-                                                              selectedUnit.getDisplayName(),
-                                                              selectedUnit.getHealth()),
-                        Constants.UNIT_INFO_X, Constants.UNIT_INFO_Y);
+      renderer().drawText(Constants.FONT_SIZE_UI, String.format("%s\nHealth: %d",
+                                                                selectedUnit.getDisplayName(),
+                                                                selectedUnit.getHealth()),
+                          Constants.UNIT_INFO_X, Constants.UNIT_INFO_Y);
     }
 
     GL11.glDisable(GL11.GL_TEXTURE_2D);
@@ -107,7 +106,7 @@ public class BoardScreen extends MainScreen {
   @Override
   public MainScreen nextScreen() {
     if (board.isGameOver()) {
-      return new VictoryScreen(window, board);
+      return new VictoryScreen(board);
     }
     return this;
   }
@@ -123,10 +122,10 @@ public class BoardScreen extends MainScreen {
     final int height = Constants.TILE_HEIGHT;
 
     // Draw the regular background
-    renderer.drawTexture(Constants.TILE_BG_NAME, 0, 0, width, height, tile.getBackgroundColor());
+    renderer().drawTexture(Constants.TILE_BG_NAME, 0, 0, width, height, tile.getBackgroundColor());
 
     // Draw the regular foreground
-    renderer.drawTexture(Constants.TILE_OUTLINE_NAME, 0, 0, width, height, tile.getOutlineColor());
+    renderer().drawTexture(Constants.TILE_OUTLINE_NAME, 0, 0, width, height, tile.getOutlineColor());
 
     drawUnit(tile.getUnit()); // Draw the unit on top
     drawFlag(tile.getFlag()); // Draw the flag on top of that
@@ -149,20 +148,20 @@ public class BoardScreen extends MainScreen {
 
       // If the unit belongs to the current player, draw the amount of moves remaining
       if (unit.getOwner() == board.getCurrentPlayer()) {
-        renderer.drawText(Constants.FONT_SIZE_TILE, Integer.toString(unit.getMovesRemaining()),
-                          Constants.UNIT_MOVES_X, Constants.UNIT_MOVES_Y);
+        renderer().drawText(Constants.FONT_SIZE_TILE, Integer.toString(unit.getMovesRemaining()),
+                            Constants.UNIT_MOVES_X, Constants.UNIT_MOVES_Y);
       }
 
       // Draw the health bar
       final int splitPoint =
           Constants.UNIT_HEALTH_WIDTH * unit.getHealth() / unit.getMaxHealth();
       GL11.glDisable(GL11.GL_TEXTURE_2D);
-      renderer.drawRect(Constants.UNIT_HEALTH_X, Constants.UNIT_HEALTH_Y,
-                        splitPoint, Constants.UNIT_HEALTH_HEIGHT,
-                        Colors.HEALTH_BAR_POS); // Green part
-      renderer.drawRect(Constants.UNIT_HEALTH_X + splitPoint, Constants.UNIT_HEALTH_Y,
-                        Constants.UNIT_HEALTH_WIDTH - splitPoint, Constants.UNIT_HEALTH_HEIGHT,
-                        Colors.HEALTH_BAR_NEG); // Red part
+      renderer().drawRect(Constants.UNIT_HEALTH_X, Constants.UNIT_HEALTH_Y,
+                          splitPoint, Constants.UNIT_HEALTH_HEIGHT,
+                          Colors.HEALTH_BAR_POS); // Green part
+      renderer().drawRect(Constants.UNIT_HEALTH_X + splitPoint, Constants.UNIT_HEALTH_Y,
+                          Constants.UNIT_HEALTH_WIDTH - splitPoint, Constants.UNIT_HEALTH_HEIGHT,
+                          Colors.HEALTH_BAR_NEG); // Red part
       GL11.glEnable(GL11.GL_TEXTURE_2D);
 
       drawFlag(unit.getFlag()); // Draw the flag, if the unit has one
@@ -176,11 +175,8 @@ public class BoardScreen extends MainScreen {
    */
   private void drawFlag(Flag flag) {
     if (flag != null) {
-      final int width = Constants.TILE_WIDTH;
-      final int height = Constants.TILE_HEIGHT;
-
-      renderer
-          .drawTexture(Constants.FLAG_NAME, 0, 0, width, height, flag.getOwner().getPrimaryColor());
+      renderer().drawTexture(Constants.FLAG_NAME, 0, 0, Constants.TILE_WIDTH, Constants.TILE_HEIGHT,
+                             flag.getOwner().getPrimaryColor());
     }
   }
 
