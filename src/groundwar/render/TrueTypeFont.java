@@ -182,28 +182,36 @@ public class TrueTypeFont {
           break;
       }
 
+      // Draw each character
       for (char c : line.toCharArray()) {
         final float width = getCharWidth(c);
 
-        final float cw = 1f / fontImageWidth * width;
-        final float ch = 1f / fontImageHeight * charHeight;
-        final float cx = 1f / fontImageWidth * getCharX(c);
-        final float cy = 1f / fontImageHeight * getCharY(c);
+        final float cw = 1f / fontImageWidth * width; // Character width
+        final float ch = 1f / fontImageHeight * charHeight; // Character height
+        final float cx = 1f / fontImageWidth * getCharX(c); // Character x-pos in texture
+        final float cy = 1f / fontImageHeight * getCharY(c); // Character y-pos in texture
 
+        // Top-left corner
         GL11.glTexCoord2f(cx, cy);
         GL11.glVertex2f(xTmp, yTmp);
 
+        // Top-right corner
         GL11.glTexCoord2f(cx + cw, cy);
         GL11.glVertex2f(xTmp + width, yTmp);
 
+        // Bottom-right corner
         GL11.glTexCoord2f(cx + cw, cy + ch);
         GL11.glVertex2f(xTmp + width, yTmp + charHeight);
 
+        // Bottom-left corner
         GL11.glTexCoord2f(cx, cy + ch);
         GL11.glVertex2f(xTmp, yTmp + charHeight);
 
+        // Increase x for the next character
         xTmp += width;
       }
+
+      // Reset x and increase y for the next line
       xTmp = x;
       yTmp += charHeight;
     }
