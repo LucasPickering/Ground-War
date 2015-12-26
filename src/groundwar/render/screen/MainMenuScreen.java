@@ -3,10 +3,10 @@ package groundwar.render.screen;
 import org.lwjgl.opengl.GL11;
 
 import groundwar.GroundWar;
+import groundwar.render.HorizAlignment;
 import groundwar.render.event.MouseButtonEvent;
 import groundwar.render.screen.gui.Button;
 import groundwar.render.screen.gui.GuiElement;
-import groundwar.util.Constants;
 
 public class MainMenuScreen extends MainScreen {
 
@@ -15,8 +15,8 @@ public class MainMenuScreen extends MainScreen {
 
   public MainMenuScreen() {
     GL11.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-    addGuiElement(newGameButton = new Button(center.getX() - Constants.BUTTON_WIDTH / 2,
-                                             1000, "New Game"));
+    addGuiElement(newGameButton = new Button.Builder().setX(center.getX()).setY(1000)
+        .setText("New Game").setHorizAlign(HorizAlignment.CENTER).build());
   }
 
   @Override
