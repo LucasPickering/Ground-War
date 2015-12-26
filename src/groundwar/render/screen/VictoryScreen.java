@@ -23,7 +23,6 @@ public class VictoryScreen extends MainScreen {
     super(window);
     this.board = board;
     guiElements.add(menuButton = new Button(window, 10, 10, 600, 200, "Main Menu"));
-    menuButton.setMouseButtonHandler(this::onClick);
     GL11.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
   }
 
