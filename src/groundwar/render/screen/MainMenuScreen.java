@@ -15,7 +15,7 @@ public class MainMenuScreen extends MainScreen {
   public MainMenuScreen(long window) {
     super(window);
     GL11.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-    guiElements.add(newGameButton = new Button(window, 100, 100, 400, "New Game"));
+    addGuiElement(newGameButton = new Button(window, 100, 100, 400, "New Game"));
   }
 
   @Override

@@ -17,7 +17,7 @@ import groundwar.render.screen.gui.GuiElement;
  */
 public abstract class MainScreen extends ScreenElement {
 
-  protected List<GuiElement> guiElements = new LinkedList<>();
+  private List<GuiElement> guiElements = new LinkedList<>();
 
   protected MainScreen(long window) {
     super(window);
@@ -53,8 +53,12 @@ public abstract class MainScreen extends ScreenElement {
   @Override
   public void onClick(MouseButtonEvent event) {
     // Call onElementClicked for all GUI elements that contain the cursor
-    guiElements.stream().filter(guiElement -> guiElement.contains(event.mousePos))
-        .forEach(guiElement -> onElementClicked(event, guiElement));
+    guiElements.stream().filter(element -> element.contains(event.mousePos))
+        .forEach(element -> onElementClicked(event, element));
+  }
+
+  protected void addGuiElement(GuiElement element) {
+    guiElements.add(element);
   }
 
   /**
