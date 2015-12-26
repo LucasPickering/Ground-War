@@ -18,8 +18,8 @@ public class Button extends GuiElement {
   @Override
   public void draw(Point mousePos) {
     GL11.glDisable(GL11.GL_TEXTURE_2D);
-    renderer.drawRect(getX(), getY(), getWidth(), getHeight(), 0xff00ffff);
+    renderer.drawRect(0, 0, getWidth(), getHeight(), 0xff000000);
     GL11.glEnable(GL11.GL_TEXTURE_2D);
-    renderer.drawText(Constants.FONT_SIZE_UI, text, getX(), getY(), TextAlignment.CENTER);
+    renderer.drawText(Constants.FONT_SIZE_UI, text, getWidth() / 2, 0, TextAlignment.CENTER);
   }
 }

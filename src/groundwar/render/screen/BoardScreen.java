@@ -72,7 +72,11 @@ public class BoardScreen extends MainScreen {
           overlays.add(ColorTexture.mouseOver);
         }
       }
+
+      GL11.glPushMatrix();
+      GL11.glTranslatef(tile.getScreenPos().getX(), tile.getScreenPos().getY(), 0f);
       drawTile(tile, overlays);
+      GL11.glPopMatrix();
     }
 
     // Draw turn counter
@@ -115,57 +119,53 @@ public class BoardScreen extends MainScreen {
    * @param overlays the overlays to draw on the tile
    */
   private void drawTile(Tile tile, List<ColorTexture> overlays) {
-    final int x = tile.getScreenPos().getX();
-    final int y = tile.getScreenPos().getY();
     final int width = Constants.TILE_WIDTH;
     final int height = Constants.TILE_HEIGHT;
 
     // Draw the regular background
-    renderer.drawTexture(Constants.TILE_BG_NAME, x, y, width, height, tile.getBackgroundColor());
+    renderer.drawTexture(Constants.TILE_BG_NAME, 0, 0, width, height, tile.getBackgroundColor());
 
     // Draw the regular foreground
-    renderer.drawTexture(Constants.TILE_OUTLINE_NAME, x, y, width, height, tile.getOutlineColor());
+    renderer.drawTexture(Constants.TILE_OUTLINE_NAME, 0, 0, width, height, tile.getOutlineColor());
 
-    drawUnit(tile.getUnit(), x, y); // Draw the unit on top
-    drawFlag(tile.getFlag(), x, y); // Draw the flag on top of that
+    drawUnit(tile.getUnit()); // Draw the unit on top
+    drawFlag(tile.getFlag()); // Draw the flag on top of that
 
     // Draw tile overlays
-    overlays.forEach(overlay -> overlay.draw(x, y, width, height));
+    overlays.forEach(overlay -> overlay.draw(0, 0, width, height));
   }
 
   /**
-   * Draws the given unit at the given location. If {@code unit == null}, nothing happens.
+   * Draws the given unit. If {@code unit == null}, nothing happens.
    *
    * @param unit the unit to draw (null permitted)
-   * @param x    the x location to draw at
-   * @param y    the y location to draw at
    */
-  private void drawUnit(Unit unit, int x, int y) {
+  private void drawUnit(Unit unit) {
     if (unit != null) {
       final int width = Constants.TILE_WIDTH;
       final int height = Constants.TILE_HEIGHT;
 
-      unit.getTexture().draw(x, y, width, height); // Draw the unit itself
+      unit.getTexture().draw(0, 0, width, height); // Draw the unit itself
 
       // If the unit belongs to the current player, draw the amount of moves remaining
       if (unit.getOwner() == board.getCurrentPlayer()) {
         renderer.drawText(Constants.FONT_SIZE_TILE, Integer.toString(unit.getMovesRemaining()),
-                          x + Constants.UNIT_MOVES_X, y + Constants.UNIT_MOVES_Y);
+                          Constants.UNIT_MOVES_X, Constants.UNIT_MOVES_Y);
       }
 
       // Draw the health bar
       final int splitPoint =
           Constants.UNIT_HEALTH_WIDTH * unit.getHealth() / unit.getMaxHealth();
       GL11.glDisable(GL11.GL_TEXTURE_2D);
-      renderer.drawRect(x + Constants.UNIT_HEALTH_X, y + Constants.UNIT_HEALTH_Y,
+      renderer.drawRect(Constants.UNIT_HEALTH_X, Constants.UNIT_HEALTH_Y,
                         splitPoint, Constants.UNIT_HEALTH_HEIGHT,
                         Colors.HEALTH_BAR_POS); // Green part
-      renderer.drawRect(x + Constants.UNIT_HEALTH_X + splitPoint, y + Constants.UNIT_HEALTH_Y,
+      renderer.drawRect(Constants.UNIT_HEALTH_X + splitPoint, Constants.UNIT_HEALTH_Y,
                         Constants.UNIT_HEALTH_WIDTH - splitPoint, Constants.UNIT_HEALTH_HEIGHT,
                         Colors.HEALTH_BAR_NEG); // Red part
       GL11.glEnable(GL11.GL_TEXTURE_2D);
 
-      drawFlag(unit.getFlag(), x, y); // Draw the flag, if the unit has one
+      drawFlag(unit.getFlag()); // Draw the flag, if the unit has one
     }
   }
 
@@ -173,16 +173,14 @@ public class BoardScreen extends MainScreen {
    * Draws the given flag at the given location. if {@code flag == null}, nothing happens.
    *
    * @param flag the flag to be drawn
-   * @param x    the x location to draw at
-   * @param y    the y location to draw at
    */
-  private void drawFlag(Flag flag, int x, int y) {
+  private void drawFlag(Flag flag) {
     if (flag != null) {
       final int width = Constants.TILE_WIDTH;
       final int height = Constants.TILE_HEIGHT;
 
       renderer
-          .drawTexture(Constants.FLAG_NAME, x, y, width, height, flag.getOwner().getPrimaryColor());
+          .drawTexture(Constants.FLAG_NAME, 0, 0, width, height, flag.getOwner().getPrimaryColor());
     }
   }
 

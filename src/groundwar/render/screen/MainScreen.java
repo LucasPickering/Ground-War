@@ -1,5 +1,7 @@
 package groundwar.render.screen;
 
+import org.lwjgl.opengl.GL11;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,7 +26,12 @@ public abstract class MainScreen extends ScreenElement {
   @Override
   public void draw(Point mousePos) {
     // Draw all the GUI elements
-    guiElements.stream().forEach(guiElement -> guiElement.draw(mousePos));
+    for (GuiElement element : guiElements) {
+      GL11.glPushMatrix();
+      GL11.glTranslatef(element.getX(), element.getY(), 0f);
+      element.draw(mousePos);
+      GL11.glPopMatrix();
+    }
   }
 
   /**
