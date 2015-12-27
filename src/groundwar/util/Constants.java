@@ -48,7 +48,7 @@ public class Constants {
   public static final String BUTTON_NAME = "button";
 
   // Font names
-  public static final String FONT1 = "arial";
+  public static final String FONT1 = "armalite_rifle";
 
   // Font sizes
   public static final float FONT_SIZE_TILE = 60f;
