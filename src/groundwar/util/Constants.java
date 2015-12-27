@@ -45,6 +45,7 @@ public class Constants {
   public static final String TILE_BG_NAME = "tile_background";
   public static final String TILE_OUTLINE_NAME = "tile_outline";
   public static final String FLAG_NAME = "flag";
+  public static final String BUTTON_NAME = "button";
 
   // Font names
   public static final String FONT1 = "arial";

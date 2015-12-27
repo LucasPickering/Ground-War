@@ -1,7 +1,5 @@
 package groundwar.render.screen.gui;
 
-import org.lwjgl.opengl.GL11;
-
 import groundwar.render.HorizAlignment;
 import groundwar.render.VertAlignment;
 import groundwar.util.Colors;
@@ -90,10 +88,7 @@ public class Button extends GuiElement {
   @Override
   public void draw(Point mousePos) {
     final boolean mouseOver = contains(mousePos);
-    GL11.glDisable(GL11.GL_TEXTURE_2D);
-    renderer().drawRect(0, 0, getWidth(), getHeight(),
-                        mouseOver ? Colors.BUTTON_HIGHLIGHT : Colors.BUTTON_NORMAL);
-    GL11.glEnable(GL11.GL_TEXTURE_2D);
+    renderer().drawTexture(Constants.BUTTON_NAME, 0, 0, getWidth(), getHeight());
     renderer().drawString(Constants.FONT_SIZE_UI, text, getWidth() / 2, getHeight() / 2,
                           mouseOver ? Colors.BUTTON_TEXT_HIGHLIGHT : Colors.BUTTON_TEXT_NORMAL,
                           HorizAlignment.CENTER, VertAlignment.CENTER);
