@@ -84,6 +84,10 @@ public class Board {
     return selectedTile;
   }
 
+  public boolean isSelected(Tile tile) {
+    return tile == selectedTile;
+  }
+
   public Unit getSpawningUnit() {
     return spawningUnit;
   }

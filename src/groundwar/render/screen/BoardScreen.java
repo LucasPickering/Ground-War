@@ -3,9 +3,6 @@ package groundwar.render.screen;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import groundwar.board.Board;
 import groundwar.board.Flag;
 import groundwar.board.Player;
@@ -43,7 +40,7 @@ public class BoardScreen extends MainScreen {
     for (Tile tile : board.getTiles().values()) {
       GL11.glPushMatrix();
       GL11.glTranslatef(tile.getScreenPos().getX(), tile.getScreenPos().getY(), 0f);
-      drawTile(tile, getTileOverlays(mousePos, tile));
+      drawTile(mousePos, tile);
       GL11.glPopMatrix();
     }
 
@@ -62,9 +59,9 @@ public class BoardScreen extends MainScreen {
     if (selectedTile != null) {
       final Unit selectedUnit = selectedTile.getUnit();
       renderer().drawString(
-          Constants.FONT_SIZE_UI,
+          Constants.FONT_SIZE_TILE,
           String.format("%s\nHealth: %d", selectedUnit.getDisplayName(), selectedUnit.getHealth()),
-          Constants.UNIT_INFO_X, Constants.UNIT_INFO_Y,
+          mousePos.getX(), mousePos.getY(),
           selectedUnit.getOwner().getPrimaryColor(), HorizAlignment.LEFT, VertAlignment.BOTTOM);
     }
 
@@ -81,54 +78,12 @@ public class BoardScreen extends MainScreen {
   }
 
   /**
-   * Get a list of overlays that should be applied to the given tile.
-   *
-   * @param mousePos the position of the mouse
-   * @param tile     the tile to draw overlays for
-   * @return a list of overlays to draw
-   */
-  private List<ColorTexture> getTileOverlays(Point mousePos, Tile tile) {
-    final List<ColorTexture> overlays = new LinkedList<>();
-    final Tile selectedTile = board.getSelectedTile();
-
-    // If the tile is selected, add the selected overlay.
-    // Otherwise, if another tile is selected, do some more logic.
-    if (tile == selectedTile) {
-      overlays.add(ColorTexture.selected);
-    } else if (selectedTile != null) {
-      // If this tile can be moved to by the selected unit, draw the moveable overlay.
-      // Otherwise, if it can be attack by the selected unit, draw the attackable overlay.
-      if (board.canSelectedMoveTo(tile)) {
-        overlays.add(ColorTexture.moveable);
-      } else if (board.canSelectedAttack(tile)) {
-        overlays.add(ColorTexture.attackable);
-      }
-    }
-
-    // If the mouse is over this tile
-    if (tile.contains(mousePos)) {
-      final Unit spawningUnit = board.getSpawningUnit();
-      // If a unit is being spawned, draw the unit-spawning overlay.
-      // Otherwise, draw the normal mouse-over overlay.
-      if (spawningUnit != null) {
-        overlays.add(spawningUnit.getSpawningTexture());
-        overlays.add(tile.isSpawnable(spawningUnit) ? ColorTexture.validSpawning
-                                                    : ColorTexture.invalidSpawning);
-      } else {
-        overlays.add(ColorTexture.mouseOver);
-      }
-    }
-
-    return overlays;
-  }
-
-  /**
    * Draws the given tile.
    *
+   * @param mousePos the position of the mouse
    * @param tile     the tile to draw
-   * @param overlays the overlays to draw on the tile
    */
-  private void drawTile(Tile tile, List<ColorTexture> overlays) {
+  private void drawTile(Point mousePos, Tile tile) {
     final int width = Constants.TILE_WIDTH;
     final int height = Constants.TILE_HEIGHT;
 
@@ -140,9 +95,43 @@ public class BoardScreen extends MainScreen {
 
     drawUnit(tile.getUnit()); // Draw the unit on top
     drawFlag(tile.getFlag()); // Draw the flag on top of that
+    drawTileOverlays(mousePos, tile); // Draw the tile overlays on top of everything else
+  }
 
-    // Draw tile overlays
-    overlays.forEach(overlay -> overlay.draw(0, 0, width, height));
+  /**
+   * Draw the appropriate overlays for the given tile.
+   *
+   * @param mousePos the position of the mouse
+   * @param tile     the tile to draw
+   */
+  private void drawTileOverlays(Point mousePos, Tile tile) {
+    final int width = Constants.TILE_WIDTH;
+    final int height = Constants.TILE_HEIGHT;
+
+    // Draw selection-related overlays
+    if (board.isSelected(tile)) { // If this tile is selected
+      ColorTexture.selected.draw(0, 0, width, height); // Draw the selected overlay
+    } else if (board.getSelectedTile() != null) { // Otherwise, if another tile is selected...
+      if (board.canSelectedMoveTo(tile)) { // If this tile can be moved to...
+        ColorTexture.moveable.draw(0, 0, width, height); // Draw the moveable overlay
+      } else if (board.canSelectedAttack(tile)) { // Else, if this tile can be attacked...
+        ColorTexture.attackable.draw(0, 0, width, height); // Draw the attackable overlay
+      }
+    }
+
+    // Draw mouse-over overlays
+    if (tile.contains(mousePos)) { // If the mouse is over this tile...
+      final Unit spawningUnit = board.getSpawningUnit();
+      // If a unit is being spawned, draw the unit-spawning overlay.
+      // Otherwise, draw the normal mouse-over overlay.
+      if (spawningUnit != null) {
+        spawningUnit.getSpawningTexture().draw(0, 0, width, height);
+        (tile.isSpawnable(spawningUnit) ? ColorTexture.validSpawning
+                                        : ColorTexture.invalidSpawning).draw(0, 0, width, height);
+      } else {
+        ColorTexture.mouseOver.draw(0, 0, width, height);
+      }
+    }
   }
 
   /**
