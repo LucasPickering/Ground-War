@@ -41,39 +41,9 @@ public class BoardScreen extends MainScreen {
 
     // Draw each tile
     for (Tile tile : board.getTiles().values()) {
-      final List<ColorTexture> overlays = new LinkedList<>();
-
-      // If the tile is selected, add the selected overlay.
-      // Otherwise, if another tile is selected, do some more logic.
-      if (tile == selectedTile) {
-        overlays.add(ColorTexture.selected);
-      } else if (selectedTile != null) {
-        // If this tile can be moved to by the selected unit, draw the moveable overlay.
-        // Otherwise, if it can be attack by the selected unit, draw the attackable overlay.
-        if (board.canSelectedMoveTo(tile)) {
-          overlays.add(ColorTexture.moveable);
-        } else if (board.canSelectedAttack(tile)) {
-          overlays.add(ColorTexture.attackable);
-        }
-      }
-
-      // If the mouse is over this tile
-      if (tile.contains(mousePos)) {
-        final Unit spawningUnit = board.getSpawningUnit();
-        // If a unit is being spawned, draw the unit-spawning overlay.
-        // Otherwise, draw the normal mouse-over overlay.
-        if (spawningUnit != null) {
-          overlays.add(spawningUnit.getSpawningTexture());
-          overlays.add(tile.isSpawnable(spawningUnit) ? ColorTexture.validSpawning
-                                                      : ColorTexture.invalidSpawning);
-        } else {
-          overlays.add(ColorTexture.mouseOver);
-        }
-      }
-
       GL11.glPushMatrix();
       GL11.glTranslatef(tile.getScreenPos().getX(), tile.getScreenPos().getY(), 0f);
-      drawTile(tile, overlays);
+      drawTile(tile, getTileOverlays(mousePos, tile));
       GL11.glPopMatrix();
     }
 
@@ -108,6 +78,48 @@ public class BoardScreen extends MainScreen {
       return new VictoryScreen(board);
     }
     return this;
+  }
+
+  /**
+   * Get a list of overlays that should be applied to the given tile.
+   *
+   * @param mousePos the position of the mouse
+   * @param tile     the tile to draw overlays for
+   * @return a list of overlays to draw
+   */
+  private List<ColorTexture> getTileOverlays(Point mousePos, Tile tile) {
+    final List<ColorTexture> overlays = new LinkedList<>();
+    final Tile selectedTile = board.getSelectedTile();
+
+    // If the tile is selected, add the selected overlay.
+    // Otherwise, if another tile is selected, do some more logic.
+    if (tile == selectedTile) {
+      overlays.add(ColorTexture.selected);
+    } else if (selectedTile != null) {
+      // If this tile can be moved to by the selected unit, draw the moveable overlay.
+      // Otherwise, if it can be attack by the selected unit, draw the attackable overlay.
+      if (board.canSelectedMoveTo(tile)) {
+        overlays.add(ColorTexture.moveable);
+      } else if (board.canSelectedAttack(tile)) {
+        overlays.add(ColorTexture.attackable);
+      }
+    }
+
+    // If the mouse is over this tile
+    if (tile.contains(mousePos)) {
+      final Unit spawningUnit = board.getSpawningUnit();
+      // If a unit is being spawned, draw the unit-spawning overlay.
+      // Otherwise, draw the normal mouse-over overlay.
+      if (spawningUnit != null) {
+        overlays.add(spawningUnit.getSpawningTexture());
+        overlays.add(tile.isSpawnable(spawningUnit) ? ColorTexture.validSpawning
+                                                    : ColorTexture.invalidSpawning);
+      } else {
+        overlays.add(ColorTexture.mouseOver);
+      }
+    }
+
+    return overlays;
   }
 
   /**
