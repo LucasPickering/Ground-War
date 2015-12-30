@@ -2,6 +2,7 @@ package groundwar.render.screen;
 
 import org.lwjgl.opengl.GL11;
 
+import groundwar.GroundWar;
 import groundwar.board.Board;
 import groundwar.render.HorizAlignment;
 import groundwar.render.VertAlignment;
@@ -15,12 +16,15 @@ public class VictoryScreen extends MainScreen {
 
   private final Board board;
   private final Button menuButton;
+  private final Button exitButton;
   private boolean backToMenu;
 
   public VictoryScreen(Board board) {
     this.board = board;
-    addGuiElement(menuButton = new Button.Builder().setX(center.getX()).setY(600)
-        .setText("Main Menu").setHorizAlign(HorizAlignment.CENTER).build());
+    addGuiElement(menuButton = new Button.Builder().setText("Main Menu").setX(center.getX())
+        .setY(Constants.VIC_MAIN_MENU_BUTTON).setHorizAlign(HorizAlignment.CENTER).build());
+    addGuiElement(exitButton = new Button.Builder().setText("Exit Game").setX(center.getX())
+        .setY(Constants.VIC_EXIT_BUTTON_Y).setHorizAlign(HorizAlignment.CENTER).build());
   }
 
   @Override
@@ -31,7 +35,7 @@ public class VictoryScreen extends MainScreen {
     renderer().drawString(
         Constants.FONT_SIZE_TITLE,
         String.format("%s wins\nin %d turns!", board.getWinner().getName(), board.getTurnCount()),
-        center.getX(), center.getY(), board.getWinner().getPrimaryColor(),
+        center.getX(), Constants.VIC_MESSAGE_Y, board.getWinner().getPrimaryColor(),
         HorizAlignment.CENTER, VertAlignment.CENTER);
     GL11.glDisable(GL11.GL_TEXTURE_2D);
     GL11.glDisable(GL11.GL_BLEND);
@@ -49,6 +53,8 @@ public class VictoryScreen extends MainScreen {
   public void onElementClicked(MouseButtonEvent event, GuiElement element) {
     if (element == menuButton) {
       backToMenu = true;
+    } else if (element == exitButton) {
+      GroundWar.groundWar.exitGame();
     }
   }
 }

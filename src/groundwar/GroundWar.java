@@ -127,6 +127,11 @@ public class GroundWar {
     renderer.deleteTexturesAndFonts(); // Free up texture memory
   }
 
+  /**
+   * Loads a new board from the default file.
+   *
+   * @return the new {@link Board}
+   */
   public Board loadNewBoard() {
     try {
       board = new Board();
@@ -139,6 +144,13 @@ public class GroundWar {
 
   public Renderer getRenderer() {
     return renderer;
+  }
+
+  /**
+   * Exits the game gracefully.
+   */
+  public void exitGame() {
+    GLFW.glfwSetWindowShouldClose(window, GLFW.GLFW_TRUE);
   }
 
   public static void main(String[] args) {
