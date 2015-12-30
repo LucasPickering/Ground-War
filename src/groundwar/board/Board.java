@@ -215,7 +215,7 @@ public class Board {
       to.getUnit().useMoves(distance);
 
       // After moving the unit, check the moved-to tile for victory
-      if(to.shouldGameEnd()) {
+      if (to.shouldGameEnd()) {
         endGame();
       }
     }
@@ -313,10 +313,11 @@ public class Board {
     cancelSpawning(); // Cancel unit spawning
     unselectTile();
 
-    // Next player
-    ++currentPlayer;
-    currentPlayer %= players.length;
-    turnCount++; // Increment the turn counter
+    // Next player. If this was the last player...
+    if (++currentPlayer >= players.length) {
+      turnCount++; // Increment the turn counter
+      currentPlayer = 0; // Go back to the first player
+    }
   }
 
   private void endGame() {
