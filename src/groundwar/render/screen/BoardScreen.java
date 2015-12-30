@@ -79,7 +79,8 @@ public class BoardScreen extends MainScreen {
 
     // Draw turn counter
     renderer().drawString(Constants.FONT_SIZE_UI, String.format("Turn %d", board.getTurnCount()),
-                          Constants.TURN_COUNT_X, Constants.TURN_COUNT_Y, HorizAlignment.RIGHT);
+                          Constants.TURN_COUNT_X, Constants.TURN_COUNT_Y, 0xffffffff,
+                          HorizAlignment.RIGHT, VertAlignment.BOTTOM);
 
     // Draw the players's information
     drawPlayerInfo(board.getPlayer(PlayerColor.ORANGE), Constants.ORANGE_UI_X, Constants.ORANGE_UI_Y,
@@ -188,9 +189,11 @@ public class BoardScreen extends MainScreen {
    * @param horizAlign the {@link HorizAlignment} to use
    */
   private void drawPlayerInfo(Player player, int x, int y, HorizAlignment horizAlign) {
-    renderer().drawString(Constants.FONT_SIZE_UI,
+    final boolean currentPlayer = player == board.getCurrentPlayer(); // Is is this player's turn?
+    renderer().drawString(currentPlayer ? Constants.FONT_SIZE_UI_LARGE : Constants.FONT_SIZE_UI,
                           String.format("%s\nGold: %d", player.getName(), player.getGold()), x, y,
-                          player.getPrimaryColor(), horizAlign, VertAlignment.TOP);
+                          currentPlayer ? player.getPrimaryColor() : 0xffffffff,
+                          horizAlign, VertAlignment.TOP);
   }
 
   @Override
