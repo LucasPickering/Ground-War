@@ -2,6 +2,9 @@ package groundwar.util;
 
 public class Colors {
 
+  // General
+  public static final int CLEAR = 0x999999;
+
   // Team colors
   public static final int ORANGE = 0xffff7f00;
   public static final int ORANGE2 = 0xff8f7e3b;

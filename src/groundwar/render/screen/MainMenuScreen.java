@@ -1,7 +1,5 @@
 package groundwar.render.screen;
 
-import org.lwjgl.opengl.GL11;
-
 import groundwar.GroundWar;
 import groundwar.render.HorizAlignment;
 import groundwar.render.event.MouseButtonEvent;
@@ -14,7 +12,6 @@ public class MainMenuScreen extends MainScreen {
   private Button newGameButton;
 
   public MainMenuScreen() {
-    GL11.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     addGuiElement(newGameButton = new Button.Builder().setX(center.getX()).setY(1000)
         .setText("New Game").setHorizAlign(HorizAlignment.CENTER).build());
   }

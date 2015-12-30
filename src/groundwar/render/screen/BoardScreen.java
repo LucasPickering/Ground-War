@@ -31,9 +31,6 @@ public class BoardScreen extends MainScreen {
   @Override
   public void draw(Point mousePos) {
     super.draw(mousePos);
-    final int clearColor = board.getCurrentPlayer().getPrimaryColor() & 0xcccccc;
-    GL11.glClearColor((clearColor >> 16 & 0xff) / 255.0f, (clearColor >> 8 & 0xff) / 255.0f,
-                      (clearColor & 0xff) / 255.0f, 1.0f);
 
     GL11.glEnable(GL11.GL_BLEND);
     GL11.glEnable(GL11.GL_TEXTURE_2D);

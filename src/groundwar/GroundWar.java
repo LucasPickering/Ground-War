@@ -19,6 +19,7 @@ import groundwar.render.event.KeyEvent;
 import groundwar.render.event.MouseButtonEvent;
 import groundwar.render.screen.MainMenuScreen;
 import groundwar.render.screen.MainScreen;
+import groundwar.util.Colors;
 import groundwar.util.Constants;
 import groundwar.util.Point;
 
@@ -93,7 +94,8 @@ public class GroundWar {
     GLFW.glfwSwapInterval(1); // Enable v-sync
     GLFW.glfwShowWindow(window); // Make the window visible
     GL.createCapabilities(); // LWJGL needs this
-    GL11.glClearColor(0.0f, 1.0f, 1.0f, 1.0f); // Set clear color
+    GL11.glClearColor((Colors.CLEAR >> 16 & 0xff) / 255.0f, (Colors.CLEAR >> 8 & 0xff) / 255.0f,
+                      (Colors.CLEAR & 0xff) / 255.0f, 1.0f);
     GL11.glOrtho(0, Constants.NATIVE_WINDOW_WIDTH, Constants.NATIVE_WINDOW_HEIGHT, 0, -1, 1);
     GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 

@@ -30,7 +30,7 @@ public class Constants {
   public static final Point BOARD_CENTER = new Point((NATIVE_WINDOW_WIDTH - TILE_WIDTH) / 2,
                                                      (NATIVE_WINDOW_HEIGHT - TILE_HEIGHT) / 2);
   /**
-   * The combat strength factor specified by {@link groundwar.board.unit.Unit#getStrengthVs} is then
+   * The combat strength factor specified by {@link groundwar.board.unit.Unit#getStrengthVs} is
    * randomized to be within this value of it's original. For example, if it original value is x and
    * this value is 0.1, then the randomized value will be in the range [0.9x, 1.1x].
    */
@@ -59,7 +59,7 @@ public class Constants {
   public static final int TURN_COUNT_X = 3830;
   public static final int TURN_COUNT_Y = 2050;
   public static final int ORANGE_UI_X = 10;
-  public static final int ORANGE_UI_Y = 2050;
+  public static final int ORANGE_UI_Y = 10;
   public static final int BLUE_UI_X = 3830;
   public static final int BLUE_UI_Y = 10;
   public static final int UNIT_HEALTH_WIDTH = (int) (Constants.TILE_WIDTH * 0.6f);

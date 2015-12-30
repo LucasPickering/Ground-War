@@ -19,7 +19,6 @@ public class VictoryScreen extends MainScreen {
 
   public VictoryScreen(Board board) {
     this.board = board;
-    GL11.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     addGuiElement(menuButton = new Button.Builder().setX(center.getX()).setY(600)
         .setText("Main Menu").setHorizAlign(HorizAlignment.CENTER).build());
   }
