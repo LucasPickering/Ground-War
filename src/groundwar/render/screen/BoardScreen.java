@@ -167,13 +167,14 @@ public class BoardScreen extends MainScreen {
   }
 
   /**
-   * Draws the given flag at the given location. if {@code flag == null}, nothing happens.
+   * Draws the given flag. if {@code flag == null}, nothing happens.
    *
    * @param flag the flag to be drawn
    */
   private void drawFlag(Flag flag) {
     if (flag != null) {
-      renderer().drawTexture(Constants.FLAG_NAME, 0, 0, Constants.TILE_WIDTH, Constants.TILE_HEIGHT,
+      renderer().drawTexture(Constants.FLAG_NAME, Constants.FLAG_X, Constants.FLAG_Y,
+                             Constants.FLAG_SIZE, Constants.FLAG_SIZE,
                              flag.getOwner().getPrimaryColor());
     }
   }

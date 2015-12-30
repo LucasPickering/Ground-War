@@ -72,4 +72,7 @@ public class Constants {
   public static final int UNIT_INFO_Y = 2150;
   public static final int BUTTON_WIDTH = 600;
   public static final int BUTTON_HEIGHT = 150;
+  public static final int FLAG_X = 150;
+  public static final int FLAG_Y = TILE_HEIGHT - 70;
+  public static final int FLAG_SIZE = 54;
 }
