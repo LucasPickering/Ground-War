@@ -34,8 +34,6 @@ public class BoardScreen extends MainScreen {
     GL11.glEnable(GL11.GL_BLEND);
     GL11.glEnable(GL11.GL_TEXTURE_2D);
 
-    final Tile selectedTile = board.getSelectedTile();
-
     // Draw each tile
     for (Tile tile : board.getTiles().values()) {
       GL11.glPushMatrix();
@@ -54,16 +52,6 @@ public class BoardScreen extends MainScreen {
                    HorizAlignment.LEFT);
     drawPlayerInfo(board.getPlayer(PlayerColor.BLUE), Constants.BLUE_UI_X, Constants.BLUE_UI_Y,
                    HorizAlignment.RIGHT);
-
-    // Draw unit information
-    if (selectedTile != null) {
-      final Unit selectedUnit = selectedTile.getUnit();
-      renderer().drawString(
-          Constants.FONT_SIZE_TILE,
-          String.format("%s\nHealth: %d", selectedUnit.getDisplayName(), selectedUnit.getHealth()),
-          mousePos.getX(), mousePos.getY(),
-          selectedUnit.getOwner().getPrimaryColor(), HorizAlignment.LEFT, VertAlignment.BOTTOM);
-    }
 
     GL11.glDisable(GL11.GL_TEXTURE_2D);
     GL11.glDisable(GL11.GL_BLEND);
@@ -122,16 +110,39 @@ public class BoardScreen extends MainScreen {
     // Draw mouse-over overlays
     if (tile.contains(mousePos)) { // If the mouse is over this tile...
       final Unit spawningUnit = board.getSpawningUnit();
-      // If a unit is being spawned, draw the unit-spawning overlay.
-      // Otherwise, draw the normal mouse-over overlay.
-      if (spawningUnit != null) {
+      if (spawningUnit != null) { // If a unit is being spawned...
+        // Draw the unit-spawning overlay
         spawningUnit.getSpawningTexture().draw(0, 0, width, height);
         (tile.isSpawnable(spawningUnit) ? ColorTexture.validSpawning
                                         : ColorTexture.invalidSpawning).draw(0, 0, width, height);
       } else {
-        ColorTexture.mouseOver.draw(0, 0, width, height);
+        ColorTexture.mouseOver.draw(0, 0, width, height); // Draw the mouse-over overlay
+        final Unit unit = tile.getUnit();
+        if (unit != null) { // If there's a unit on this tile...
+          final Point p = mousePos.minus(tile.getScreenPos());
+          drawUnitInfo(unit, p.getX(), p.getY()); // Draw unit info
+        }
       }
     }
+  }
+
+  /**
+   * Draw the information for the given unit.
+   *
+   * @param unit the unit whose info will be drawn
+   * @param x    the x position to draw at
+   * @param y    the y position to draw at
+   */
+  private void drawUnitInfo(Unit unit, int x, int y) {
+    x += Constants.UNIT_INFO_X;
+    y += Constants.UNIT_INFO_Y;
+    GL11.glDisable(GL11.GL_TEXTURE_2D);
+    renderer().drawRect(x, y, 200, 200, Colors.UNIT_INFO_BG);
+    GL11.glEnable(GL11.GL_TEXTURE_2D);
+    renderer().drawString(Constants.FONT_SIZE_TILE,
+                          String.format("%s\nHealth: %d", unit.getDisplayName(), unit.getHealth()),
+                          x, y, unit.getOwner().getPrimaryColor(),
+                          HorizAlignment.LEFT, VertAlignment.BOTTOM);
   }
 
   /**
@@ -153,8 +164,7 @@ public class BoardScreen extends MainScreen {
       }
 
       // Draw the health bar
-      final int splitPoint =
-          Constants.UNIT_HEALTH_WIDTH * unit.getHealth() / unit.getMaxHealth();
+      final int splitPoint = Constants.UNIT_HEALTH_WIDTH * unit.getHealth() / unit.getMaxHealth();
       GL11.glDisable(GL11.GL_TEXTURE_2D);
       renderer().drawRect(Constants.UNIT_HEALTH_X, Constants.UNIT_HEALTH_Y,
                           splitPoint, Constants.UNIT_HEALTH_HEIGHT,
