@@ -69,7 +69,7 @@ public class Constants {
   public static final int UNIT_MOVES_X = 60;
   public static final int UNIT_MOVES_Y = TILE_HEIGHT - 80;
   public static final int UNIT_INFO_X = 10;
-  public static final int UNIT_INFO_Y = 10;
+  public static final int UNIT_INFO_Y = 2150;
   public static final int BUTTON_WIDTH = 600;
   public static final int BUTTON_HEIGHT = 150;
 }

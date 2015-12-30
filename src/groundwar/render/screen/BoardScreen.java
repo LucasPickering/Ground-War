@@ -8,12 +8,14 @@ import java.util.List;
 
 import groundwar.board.Board;
 import groundwar.board.Flag;
+import groundwar.board.Player;
 import groundwar.board.PlayerColor;
 import groundwar.board.tile.Tile;
 import groundwar.board.unit.Unit;
 import groundwar.board.unit.UnitType;
 import groundwar.render.ColorTexture;
 import groundwar.render.HorizAlignment;
+import groundwar.render.VertAlignment;
 import groundwar.render.event.KeyEvent;
 import groundwar.render.event.MouseButtonEvent;
 import groundwar.util.Colors;
@@ -80,20 +82,19 @@ public class BoardScreen extends MainScreen {
                           Constants.TURN_COUNT_X, Constants.TURN_COUNT_Y, HorizAlignment.RIGHT);
 
     // Draw the players's information
-    renderer().drawString(Constants.FONT_SIZE_UI,
-                          String.format("Gold: %d", board.getPlayer(PlayerColor.ORANGE).getGold()),
-                          Constants.ORANGE_UI_X, Constants.ORANGE_UI_Y);
-    renderer().drawString(Constants.FONT_SIZE_UI,
-                          String.format("Gold: %d", board.getPlayer(PlayerColor.BLUE).getGold()),
-                          Constants.BLUE_UI_X, Constants.BLUE_UI_Y, HorizAlignment.RIGHT);
+    drawPlayerInfo(board.getPlayer(PlayerColor.ORANGE), Constants.ORANGE_UI_X, Constants.ORANGE_UI_Y,
+                   HorizAlignment.LEFT);
+    drawPlayerInfo(board.getPlayer(PlayerColor.BLUE), Constants.BLUE_UI_X, Constants.BLUE_UI_Y,
+                   HorizAlignment.RIGHT);
 
     // Draw unit information
     if (selectedTile != null) {
       final Unit selectedUnit = selectedTile.getUnit();
-      renderer().drawString(Constants.FONT_SIZE_UI, String.format("%s\nHealth: %d",
-                                                                  selectedUnit.getDisplayName(),
-                                                                  selectedUnit.getHealth()),
-                            Constants.UNIT_INFO_X, Constants.UNIT_INFO_Y);
+      renderer().drawString(
+          Constants.FONT_SIZE_UI,
+          String.format("%s\nHealth: %d", selectedUnit.getDisplayName(), selectedUnit.getHealth()),
+          Constants.UNIT_INFO_X, Constants.UNIT_INFO_Y,
+          selectedUnit.getOwner().getPrimaryColor(), HorizAlignment.LEFT, VertAlignment.BOTTOM);
     }
 
     GL11.glDisable(GL11.GL_TEXTURE_2D);
@@ -175,6 +176,20 @@ public class BoardScreen extends MainScreen {
       renderer().drawTexture(Constants.FLAG_NAME, 0, 0, Constants.TILE_WIDTH, Constants.TILE_HEIGHT,
                              flag.getOwner().getPrimaryColor());
     }
+  }
+
+  /**
+   * Draws information for the given player. Information darwn includes the player's name and gold.
+   *
+   * @param player     the player whose info will be drawn
+   * @param x          the x position to draw at
+   * @param y          the y position to draw at
+   * @param horizAlign the {@link HorizAlignment} to use
+   */
+  private void drawPlayerInfo(Player player, int x, int y, HorizAlignment horizAlign) {
+    renderer().drawString(Constants.FONT_SIZE_UI,
+                          String.format("%s\nGold: %d", player.getName(), player.getGold()), x, y,
+                          player.getPrimaryColor(), horizAlign, VertAlignment.TOP);
   }
 
   @Override

@@ -30,7 +30,7 @@ public class VictoryScreen extends MainScreen {
     GL11.glEnable(GL11.GL_TEXTURE_2D);
     renderer().drawString(
         Constants.FONT_SIZE_TITLE,
-        String.format("%s wins\nin %d turns!", board.getWinner(), board.getTurnCount()),
+        String.format("%s wins\nin %d turns!", board.getWinner().getName(), board.getTurnCount()),
         center.getX(), center.getY(), board.getWinner().getPrimaryColor(),
         HorizAlignment.CENTER, VertAlignment.CENTER);
     GL11.glDisable(GL11.GL_TEXTURE_2D);

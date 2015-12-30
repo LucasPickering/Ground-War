@@ -11,6 +11,10 @@ public class Player {
     this.playerColor = playerColor;
   }
 
+  public String getName() {
+    return playerColor.displayName;
+  }
+
   public int getPrimaryColor() {
     return playerColor.primaryColor;
   }
@@ -55,6 +59,6 @@ public class Player {
 
   @Override
   public String toString() {
-    return playerColor.displayName + " Player";
+    return getName() + " Player";
   }
 }
