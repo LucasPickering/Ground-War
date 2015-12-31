@@ -48,7 +48,7 @@ public class Constants {
   public static final String BUTTON_NAME = "button";
 
   // Font names
-  public static final String FONT1 = "know_your_product";
+  public static final String FONT1 = "bombardier";
 
   // Font sizes
   public static final float FONT_SIZE_TILE = 60f;
@@ -71,13 +71,13 @@ public class Constants {
   public static final int BLUE_UI_X = 3830;
   public static final int BLUE_UI_Y = 10;
   public static final int UNIT_HEALTH_WIDTH = (int) (Constants.TILE_WIDTH * 0.6f);
-  public static final int UNIT_HEALTH_HEIGHT = 16;
+  public static final int UNIT_HEALTH_HEIGHT = 24;
   public static final int UNIT_HEALTH_X = (TILE_WIDTH - UNIT_HEALTH_WIDTH) / 2; // Centered
-  public static final int UNIT_HEALTH_Y = 48;
+  public static final int UNIT_HEALTH_Y = 44;
   public static final int UNIT_MOVES_X = 60;
   public static final int UNIT_MOVES_Y = TILE_HEIGHT - 80;
-  public static final int UNIT_INFO_X = 5;
-  public static final int UNIT_INFO_Y = 5;
+  public static final int UNIT_INFO_X = 10;
+  public static final int UNIT_INFO_Y = 2150;
   public static final int BUTTON_WIDTH = 600;
   public static final int BUTTON_HEIGHT = 150;
   public static final int FLAG_X = 150;

@@ -43,7 +43,7 @@ public class BoardScreen extends MainScreen {
     }
 
     // Draw turn counter
-    renderer().drawString(Constants.FONT_SIZE_UI, String.format("Turn %d", board.getTurnCount()),
+    renderer().drawString(Constants.FONT_SIZE_UI, "Turn " + board.getTurnCount(),
                           Constants.TURN_COUNT_X, Constants.TURN_COUNT_Y, 0xffffffff,
                           HorizAlignment.RIGHT, VertAlignment.BOTTOM);
 
@@ -52,6 +52,10 @@ public class BoardScreen extends MainScreen {
                    HorizAlignment.LEFT);
     drawPlayerInfo(board.getPlayer(PlayerColor.BLUE), Constants.BLUE_UI_X, Constants.BLUE_UI_Y,
                    HorizAlignment.RIGHT);
+
+    if (board.getSelectedTile() != null) {
+      drawUnitInfo(board.getSelectedTile().getUnit());
+    }
 
     GL11.glDisable(GL11.GL_TEXTURE_2D);
     GL11.glDisable(GL11.GL_BLEND);
@@ -117,32 +121,8 @@ public class BoardScreen extends MainScreen {
                                         : ColorTexture.invalidSpawning).draw(0, 0, width, height);
       } else {
         ColorTexture.mouseOver.draw(0, 0, width, height); // Draw the mouse-over overlay
-        final Unit unit = tile.getUnit();
-        if (unit != null) { // If there's a unit on this tile...
-          final Point p = mousePos.minus(tile.getScreenPos());
-          drawUnitInfo(unit, p.getX(), p.getY()); // Draw unit info
-        }
       }
     }
-  }
-
-  /**
-   * Draw the information for the given unit.
-   *
-   * @param unit the unit whose info will be drawn
-   * @param x    the x position to draw at
-   * @param y    the y position to draw at
-   */
-  private void drawUnitInfo(Unit unit, int x, int y) {
-    x += Constants.UNIT_INFO_X;
-    y += Constants.UNIT_INFO_Y;
-    GL11.glDisable(GL11.GL_TEXTURE_2D);
-    renderer().drawRect(x, y, 200, 200, Colors.UNIT_INFO_BG);
-    GL11.glEnable(GL11.GL_TEXTURE_2D);
-    renderer().drawString(Constants.FONT_SIZE_TILE,
-                          String.format("%s\nHealth: %d", unit.getDisplayName(), unit.getHealth()),
-                          x, y, unit.getOwner().getPrimaryColor(),
-                          HorizAlignment.LEFT, VertAlignment.BOTTOM);
   }
 
   /**
@@ -192,7 +172,7 @@ public class BoardScreen extends MainScreen {
   }
 
   /**
-   * Draws information for the given player. Information darwn includes the player's name and gold.
+   * Draws information for the given player. Information drawn includes the player's name and gold.
    *
    * @param player     the player whose info will be drawn
    * @param x          the x position to draw at
@@ -205,6 +185,19 @@ public class BoardScreen extends MainScreen {
                           String.format("%s\nGold: %d", player.getName(), player.getGold()), x, y,
                           currentPlayer ? player.getPrimaryColor() : 0xffffffff,
                           horizAlign, VertAlignment.TOP);
+  }
+
+  /**
+   * Draws information for the given unit.
+   *
+   * @param unit the unit whose info will be drawn
+   */
+  private void drawUnitInfo(Unit unit) {
+    final String s = String.format("%s\nHealth: %d/%d\nStrength: %d", unit.getDisplayName(),
+                                   unit.getHealth(), unit.getMaxHealth(), unit.getCombatStrength());
+    renderer().drawString(Constants.FONT_SIZE_UI, s, Constants.UNIT_INFO_X, Constants.UNIT_INFO_Y,
+                          unit.getOwner().getPrimaryColor(),
+                          HorizAlignment.LEFT, VertAlignment.BOTTOM);
   }
 
   @Override
