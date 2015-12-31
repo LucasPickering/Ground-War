@@ -22,11 +22,9 @@ public class MainMenuScreen extends MainScreen {
   private Button exitButton;
 
   public MainMenuScreen() {
-    addGuiElement(newGameButton = new Button("New Game", new Point(center.getX(),
-                                                                   NEW_GAME_BUTTON_Y),
+    addGuiElement(newGameButton = new Button("New Game", new Point(center.getX(), NEW_GAME_BUTTON_Y),
                                              HorizAlignment.CENTER, VertAlignment.TOP));
-    addGuiElement(exitButton = new Button("Exit Game", new Point(center.getX(),
-                                                                 EXIT_BUTTON_Y),
+    addGuiElement(exitButton = new Button("Exit Game", new Point(center.getX(), EXIT_BUTTON_Y),
                                           HorizAlignment.CENTER, VertAlignment.TOP));
   }
 

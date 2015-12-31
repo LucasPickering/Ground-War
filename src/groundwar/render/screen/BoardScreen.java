@@ -220,7 +220,7 @@ public class BoardScreen extends MainScreen {
   private void drawPlayerInfo(Player player, int x, int y, HorizAlignment horizAlign) {
     final boolean currentPlayer = player == board.getCurrentPlayer(); // Is is this player's turn?
     renderer().drawString(currentPlayer ? Constants.FONT_SIZE_UI_LARGE : Constants.FONT_SIZE_UI,
-                          String.format("%s\nGold: %d", player.getName(), player.getGold()), x, y,
+                          player.getInfoString(), x, y,
                           currentPlayer ? player.getPrimaryColor() : 0xffffffff,
                           horizAlign, VertAlignment.TOP);
   }

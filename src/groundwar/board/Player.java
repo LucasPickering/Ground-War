@@ -57,6 +57,16 @@ public class Player {
     gold -= amt;
   }
 
+  /**
+   * Gets a String containing information about this player, meant to be displayed on the screen. This
+   * info includes name and gold, with each value separated by a newline character.
+   *
+   * @return the String of information
+   */
+  public String getInfoString() {
+    return String.format("%s\nGold: %d", getName(), getGold());
+  }
+
   @Override
   public String toString() {
     return getName() + " Player";
