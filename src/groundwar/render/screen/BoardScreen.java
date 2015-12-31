@@ -59,7 +59,7 @@ public class BoardScreen extends MainScreen {
       if (tile.contains(mousePos) && tile.hasUnit()) {
         final Unit unit = tile.getUnit();
         unitInfo.setText(unit.getInfoString());
-        unitInfo.setPos(mousePos.plus(0, 0));
+        unitInfo.setPos(mousePos.plus(Constants.UNIT_INFO_X, Constants.UNIT_INFO_Y));
         unitInfo.setWidth(Constants.UNIT_INFO_WIDTH);
         unitInfo.setHeight(Constants.UNIT_INFO_HEIGHT);
         unitInfo.setTextColor(unit.getOwner().getPrimaryColor());

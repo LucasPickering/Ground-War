@@ -53,8 +53,8 @@ public class TextDisplay extends GuiElement {
   @Override
   public void draw(Point mousePos) {
     GL11.glDisable(GL11.GL_TEXTURE_2D);
-    renderer().drawRect(getX(), getY(), getWidth(), getHeight(), Colors.UNIT_INFO_BG);
+    renderer().drawRect(0, 0, getWidth(), getHeight(), Colors.UNIT_INFO_BG);
     GL11.glEnable(GL11.GL_TEXTURE_2D);
-    renderer().drawString(fontSize, text, getPos().getX(), getPos().getY(), textColor);
+    renderer().drawString(fontSize, text, 0, 0, textColor);
   }
 }
