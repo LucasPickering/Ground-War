@@ -10,6 +10,8 @@ import groundwar.util.Point;
 
 public class TextDisplay extends GuiElement {
 
+  private static final int TEXT_OFFSET_X = 8;
+
   private String text;
   private int textColor = 0xffffffff;
 
@@ -45,6 +47,6 @@ public class TextDisplay extends GuiElement {
     GL11.glDisable(GL11.GL_TEXTURE_2D);
     renderer().drawRect(0, 0, getWidth(), getHeight(), Colors.UNIT_INFO_BG);
     GL11.glEnable(GL11.GL_TEXTURE_2D);
-    renderer().drawString(Constants.FONT_SIZE_TILE, text, 8, 0, textColor);
+    renderer().drawString(Constants.FONT_SIZE_TILE, text, TEXT_OFFSET_X, 0, textColor);
   }
 }
