@@ -30,7 +30,7 @@ public class BoardScreen extends MainScreen {
   private static final int BLUE_UI_X = 3830;
   private static final int BLUE_UI_Y = 10;
   private static final int UNIT_HEALTH_WIDTH = (int) (Constants.TILE_WIDTH * 0.6f);
-  private static final int UNIT_HEALTH_HEIGHT = 20;
+  private static final int UNIT_HEALTH_HEIGHT = 18;
   private static final int UNIT_HEALTH_X = (Constants.TILE_WIDTH - UNIT_HEALTH_WIDTH) / 2; // Centered
   private static final int UNIT_HEALTH_Y = 46;
   private static final int UNIT_MOVES_X = 60;
@@ -39,9 +39,9 @@ public class BoardScreen extends MainScreen {
   private static final int UNIT_INFO_Y = -10;
   private static final int UNIT_INFO_WIDTH = 370;
   private static final int UNIT_INFO_HEIGHT = 200;
-  private static final int FLAG_X = 150;
+  private static final int FLAG_X = 140;
   private static final int FLAG_Y = Constants.TILE_HEIGHT - 70;
-  private static final int FLAG_SIZE = 54;
+  private static final int FLAG_SIZE = 48;
 
   private final Board board;
   private final TextDisplay unitInfo;
