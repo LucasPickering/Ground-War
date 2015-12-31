@@ -52,9 +52,9 @@ public class Constants {
 
   // Font sizes
   public static final float FONT_SIZE_TILE = 60f;
-  public static final float FONT_SIZE_UI = 80f;
-  public static final float FONT_SIZE_UI_LARGE = 120f;
-  public static final float FONT_SIZE_TITLE = 200f;
+  public static final float FONT_SIZE_UI = 100f;
+  public static final float FONT_SIZE_UI_LARGE = 150f;
+  public static final float FONT_SIZE_TITLE = 250f;
 
   // UI sizes/positions
 
@@ -71,9 +71,9 @@ public class Constants {
   public static final int BLUE_UI_X = 3830;
   public static final int BLUE_UI_Y = 10;
   public static final int UNIT_HEALTH_WIDTH = (int) (Constants.TILE_WIDTH * 0.6f);
-  public static final int UNIT_HEALTH_HEIGHT = 24;
+  public static final int UNIT_HEALTH_HEIGHT = 20;
   public static final int UNIT_HEALTH_X = (TILE_WIDTH - UNIT_HEALTH_WIDTH) / 2; // Centered
-  public static final int UNIT_HEALTH_Y = 44;
+  public static final int UNIT_HEALTH_Y = 46;
   public static final int UNIT_MOVES_X = 60;
   public static final int UNIT_MOVES_Y = TILE_HEIGHT - 80;
   public static final int UNIT_INFO_X = 10;
