@@ -3,6 +3,8 @@ package groundwar.render.screen;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
+import java.util.Collection;
+
 import groundwar.board.Board;
 import groundwar.board.Flag;
 import groundwar.board.Player;
@@ -34,13 +36,9 @@ public class BoardScreen extends MainScreen {
     GL11.glEnable(GL11.GL_BLEND);
     GL11.glEnable(GL11.GL_TEXTURE_2D);
 
-    // Draw each tile
-    for (Tile tile : board.getTiles().values()) {
-      GL11.glPushMatrix();
-      GL11.glTranslatef(tile.getScreenPos().getX(), tile.getScreenPos().getY(), 0f);
-      drawTile(mousePos, tile);
-      GL11.glPopMatrix();
-    }
+    final Collection<Tile> tiles = board.getTiles().values();
+
+    tiles.forEach(tile -> drawTile(tile, mousePos)); // Draw each tile
 
     // Draw turn counter
     renderer().drawString(Constants.FONT_SIZE_UI, "Turn " + board.getTurnCount(),
@@ -53,8 +51,12 @@ public class BoardScreen extends MainScreen {
     drawPlayerInfo(board.getPlayer(PlayerColor.BLUE), Constants.BLUE_UI_X, Constants.BLUE_UI_Y,
                    HorizAlignment.RIGHT);
 
-    if (board.getSelectedTile() != null) {
-      drawUnitInfo(board.getSelectedTile().getUnit());
+    // Draw unit info, if the mouse is currently over a tile
+    for (Tile tile : tiles) {
+      if (tile.contains(mousePos)) {
+        drawUnitInfo(tile.getUnit(), mousePos);
+        break;
+      }
     }
 
     GL11.glDisable(GL11.GL_TEXTURE_2D);
@@ -72,10 +74,13 @@ public class BoardScreen extends MainScreen {
   /**
    * Draws the given tile.
    *
-   * @param mousePos the position of the mouse
    * @param tile     the tile to draw
+   * @param mousePos the position of the mouse
    */
-  private void drawTile(Point mousePos, Tile tile) {
+  private void drawTile(Tile tile, Point mousePos) {
+    GL11.glPushMatrix();
+    GL11.glTranslatef(tile.getScreenPos().getX(), tile.getScreenPos().getY(), 0f);
+
     final int width = Constants.TILE_WIDTH;
     final int height = Constants.TILE_HEIGHT;
 
@@ -87,23 +92,25 @@ public class BoardScreen extends MainScreen {
 
     drawUnit(tile.getUnit()); // Draw the unit on top
     drawFlag(tile.getFlag()); // Draw the flag on top of that
-    drawTileOverlays(mousePos, tile); // Draw the tile overlays on top of everything else
+    drawTileOverlays(tile, mousePos); // Draw the tile overlays on top of everything else
+
+    GL11.glPopMatrix();
   }
 
   /**
    * Draw the appropriate overlays for the given tile.
    *
-   * @param mousePos the position of the mouse
    * @param tile     the tile to draw
+   * @param mousePos the position of the mouse
    */
-  private void drawTileOverlays(Point mousePos, Tile tile) {
+  private void drawTileOverlays(Tile tile, Point mousePos) {
     final int width = Constants.TILE_WIDTH;
     final int height = Constants.TILE_HEIGHT;
 
     // Draw selection-related overlays
     if (board.isSelected(tile)) { // If this tile is selected
       ColorTexture.selected.draw(0, 0, width, height); // Draw the selected overlay
-    } else if (board.getSelectedTile() != null) { // Otherwise, if another tile is selected...
+    } else if (board.hasSelectedTile()) { // Otherwise, if another tile is selected...
       if (board.canSelectedMoveTo(tile)) { // If this tile can be moved to...
         ColorTexture.moveable.draw(0, 0, width, height); // Draw the moveable overlay
       } else if (board.canSelectedAttack(tile)) { // Else, if this tile can be attacked...
@@ -159,7 +166,7 @@ public class BoardScreen extends MainScreen {
   }
 
   /**
-   * Draws the given flag. if {@code flag == null}, nothing happens.
+   * Draws the given flag. If {@code flag == null}, nothing happens.
    *
    * @param flag the flag to be drawn
    */
@@ -188,16 +195,23 @@ public class BoardScreen extends MainScreen {
   }
 
   /**
-   * Draws information for the given unit.
+   * Draws information for the given unit. If {@code unit == null, nothing happens}.
    *
    * @param unit the unit whose info will be drawn
    */
-  private void drawUnitInfo(Unit unit) {
-    final String s = String.format("%s\nHealth: %d/%d\nStrength: %d", unit.getDisplayName(),
-                                   unit.getHealth(), unit.getMaxHealth(), unit.getCombatStrength());
-    renderer().drawString(Constants.FONT_SIZE_UI, s, Constants.UNIT_INFO_X, Constants.UNIT_INFO_Y,
-                          unit.getOwner().getPrimaryColor(),
-                          HorizAlignment.LEFT, VertAlignment.BOTTOM);
+  private void drawUnitInfo(Unit unit, Point mousePos) {
+    if (unit != null) {
+      final Point p = mousePos.plus(Constants.UNIT_INFO_X, Constants.UNIT_INFO_Y);
+      final int width = Constants.UNIT_INFO_WIDTH;
+      final int height = Constants.UNIT_INFO_HEIGHT;
+
+      GL11.glDisable(GL11.GL_TEXTURE_2D);
+      renderer().drawRect(p.getX(), p.getY() - height, width, height, Colors.UNIT_INFO_BG);
+      GL11.glEnable(GL11.GL_TEXTURE_2D);
+      renderer().drawString(Constants.FONT_SIZE_TILE, unit.getInfoString(), p.getX(), p.getY(),
+                            unit.getOwner().getPrimaryColor(),
+                            HorizAlignment.LEFT, VertAlignment.BOTTOM);
+    }
   }
 
   @Override

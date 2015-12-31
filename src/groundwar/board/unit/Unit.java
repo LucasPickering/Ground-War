@@ -191,6 +191,18 @@ public abstract class Unit {
     throw new IllegalStateException("This unit cannot carry flags!");
   }
 
+  /**
+   * Gets a String containing information about this unit, meant to be displayed on the screen. This
+   * info includes name, health, and combat strength, with each value separated by a newline
+   * character.
+   *
+   * @return the String of information
+   */
+  public String getInfoString() {
+    return String.format("%s\nHealth: %d/%d\nStrength: %d", getDisplayName(), getHealth(),
+                         getMaxHealth(), getCombatStrength());
+  }
+
   // Events
   public void onKilled() {
   }

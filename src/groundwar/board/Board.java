@@ -84,6 +84,10 @@ public class Board {
     return selectedTile;
   }
 
+  public boolean hasSelectedTile() {
+    return selectedTile != null;
+  }
+
   public boolean isSelected(Tile tile) {
     return tile == selectedTile;
   }
