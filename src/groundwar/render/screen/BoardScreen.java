@@ -25,22 +25,17 @@ import groundwar.util.Point;
 public class BoardScreen extends MainScreen {
 
   private static final int TURN_COUNT_Y = 10;
-  private static final int ORANGE_UI_X = 10;
-  private static final int ORANGE_UI_Y = 10;
-  private static final int BLUE_UI_X = 3830;
-  private static final int BLUE_UI_Y = 10;
+  private static final Point ORANGE_UI_POS = new Point(10, 10);
+  private static final Point BLUE_UI_POS = new Point(3830, 10);
   private static final int UNIT_HEALTH_WIDTH = (int) (Constants.TILE_WIDTH * 0.6f);
   private static final int UNIT_HEALTH_HEIGHT = 18;
-  private static final int UNIT_HEALTH_X = (Constants.TILE_WIDTH - UNIT_HEALTH_WIDTH) / 2; // Centered
-  private static final int UNIT_HEALTH_Y = 46;
-  private static final int UNIT_MOVES_X = 60;
-  private static final int UNIT_MOVES_Y = Constants.TILE_HEIGHT - 80;
-  private static final int UNIT_INFO_X = 20;
-  private static final int UNIT_INFO_Y = -10;
+  private static final Point UNIT_HEALTH_POS =
+      new Point((Constants.TILE_WIDTH - UNIT_HEALTH_WIDTH) / 2, 46);
+  private static final Point UNIT_MOVES_POS = new Point(60, Constants.TILE_HEIGHT - 80);
+  private static final Point UNIT_INFO_POS = new Point(20, -10);
   private static final int UNIT_INFO_WIDTH = 370;
   private static final int UNIT_INFO_HEIGHT = 200;
-  private static final int FLAG_X = 140;
-  private static final int FLAG_Y = Constants.TILE_HEIGHT - 70;
+  private static final Point FLAG_POS = new Point(140, Constants.TILE_HEIGHT - 70);
   private static final int FLAG_SIZE = 48;
 
   private final Board board;
@@ -66,18 +61,16 @@ public class BoardScreen extends MainScreen {
     renderer().drawString(Constants.FONT_SIZE_UI, "Turn " + board.getTurnCount(),
                           center.getX(), TURN_COUNT_Y, HorizAlignment.CENTER);
 
-    // Draw the players's information
-    drawPlayerInfo(board.getPlayer(PlayerColor.ORANGE), ORANGE_UI_X, ORANGE_UI_Y,
-                   HorizAlignment.LEFT);
-    drawPlayerInfo(board.getPlayer(PlayerColor.BLUE), BLUE_UI_X, BLUE_UI_Y,
-                   HorizAlignment.RIGHT);
+    // Draw the players' information
+    drawPlayerInfo(board.getPlayer(PlayerColor.ORANGE), ORANGE_UI_POS, HorizAlignment.LEFT);
+    drawPlayerInfo(board.getPlayer(PlayerColor.BLUE), BLUE_UI_POS, HorizAlignment.RIGHT);
 
     // Update unitInfo for the unit that the mouse is over
     for (Tile tile : tiles) {
       if (tile.contains(mousePos) && tile.hasUnit()) {
         final Unit unit = tile.getUnit();
         unitInfo.setText(unit.getInfoString());
-        unitInfo.setPos(mousePos.plus(UNIT_INFO_X, UNIT_INFO_Y));
+        unitInfo.setPos(mousePos.plus(UNIT_INFO_POS));
         unitInfo.setWidth(UNIT_INFO_WIDTH);
         unitInfo.setHeight(UNIT_INFO_HEIGHT);
         unitInfo.setTextColor(unit.getOwner().getPrimaryColor());
@@ -177,15 +170,15 @@ public class BoardScreen extends MainScreen {
       // If the unit belongs to the current player, draw the amount of moves remaining
       if (unit.getOwner() == board.getCurrentPlayer()) {
         renderer().drawString(Constants.FONT_SIZE_TILE, Integer.toString(unit.getMovesRemaining()),
-                              UNIT_MOVES_X, UNIT_MOVES_Y);
+                              UNIT_MOVES_POS.getX(), UNIT_MOVES_POS.getY());
       }
 
       // Draw the health bar
       final int splitPoint = UNIT_HEALTH_WIDTH * unit.getHealth() / unit.getMaxHealth();
       GL11.glDisable(GL11.GL_TEXTURE_2D);
-      renderer().drawRect(UNIT_HEALTH_X, UNIT_HEALTH_Y, splitPoint, UNIT_HEALTH_HEIGHT,
-                          Colors.HEALTH_BAR_POS);
-      renderer().drawRect(UNIT_HEALTH_X + splitPoint, UNIT_HEALTH_Y,
+      renderer().drawRect(UNIT_HEALTH_POS.getX(), UNIT_HEALTH_POS.getY(),
+                          splitPoint, UNIT_HEALTH_HEIGHT, Colors.HEALTH_BAR_POS);
+      renderer().drawRect(UNIT_HEALTH_POS.getX() + splitPoint, UNIT_HEALTH_POS.getY(),
                           UNIT_HEALTH_WIDTH - splitPoint, UNIT_HEALTH_HEIGHT, Colors.HEALTH_BAR_NEG);
       GL11.glEnable(GL11.GL_TEXTURE_2D);
 
@@ -200,7 +193,7 @@ public class BoardScreen extends MainScreen {
    */
   private void drawFlag(Flag flag) {
     if (flag != null) {
-      renderer().drawTexture(Constants.FLAG_NAME, FLAG_X, FLAG_Y,
+      renderer().drawTexture(Constants.FLAG_NAME, FLAG_POS.getX(), FLAG_POS.getY(),
                              FLAG_SIZE, FLAG_SIZE,
                              flag.getOwner().getPrimaryColor());
     }
@@ -210,14 +203,13 @@ public class BoardScreen extends MainScreen {
    * Draws information for the given player. Information drawn includes the player's name and gold.
    *
    * @param player     the player whose info will be drawn
-   * @param x          the x position to draw at
-   * @param y          the y position to draw at
+   * @param pos        the position to draw at
    * @param horizAlign the {@link HorizAlignment} to use
    */
-  private void drawPlayerInfo(Player player, int x, int y, HorizAlignment horizAlign) {
+  private void drawPlayerInfo(Player player, Point pos, HorizAlignment horizAlign) {
     final boolean currentPlayer = player == board.getCurrentPlayer(); // Is is this player's turn?
     renderer().drawString(currentPlayer ? Constants.FONT_SIZE_UI_LARGE : Constants.FONT_SIZE_UI,
-                          player.getInfoString(), x, y,
+                          player.getInfoString(), pos.getX(), pos.getY(),
                           currentPlayer ? player.getPrimaryColor() : 0xffffffff,
                           horizAlign, VertAlignment.TOP);
   }
