@@ -17,6 +17,7 @@ import groundwar.render.HorizAlignment;
 import groundwar.render.VertAlignment;
 import groundwar.render.event.KeyEvent;
 import groundwar.render.event.MouseButtonEvent;
+import groundwar.render.screen.gui.TextDisplay;
 import groundwar.util.Colors;
 import groundwar.util.Constants;
 import groundwar.util.Point;
@@ -24,15 +25,17 @@ import groundwar.util.Point;
 public class BoardScreen extends MainScreen {
 
   private final Board board;
+  private final TextDisplay unitInfo;
 
   public BoardScreen(Board board) {
     this.board = board;
+    addGuiElement(unitInfo = new TextDisplay(null, Constants.FONT_SIZE_TILE, new Point(), 0, 0,
+                                             HorizAlignment.LEFT, VertAlignment.BOTTOM));
+    unitInfo.setVisible(false);
   }
 
   @Override
   public void draw(Point mousePos) {
-    super.draw(mousePos);
-
     GL11.glEnable(GL11.GL_BLEND);
     GL11.glEnable(GL11.GL_TEXTURE_2D);
 
@@ -51,16 +54,25 @@ public class BoardScreen extends MainScreen {
     drawPlayerInfo(board.getPlayer(PlayerColor.BLUE), Constants.BLUE_UI_X, Constants.BLUE_UI_Y,
                    HorizAlignment.RIGHT);
 
-    // Draw unit info, if the mouse is currently over a tile
+    // Update unitInfo for the unit that the mouse is over
     for (Tile tile : tiles) {
-      if (tile.contains(mousePos)) {
-        drawUnitInfo(tile.getUnit(), mousePos);
+      if (tile.contains(mousePos) && tile.hasUnit()) {
+        final Unit unit = tile.getUnit();
+        unitInfo.setText(unit.getInfoString());
+        unitInfo.setPos(mousePos.plus(0, 0));
+        unitInfo.setWidth(Constants.UNIT_INFO_WIDTH);
+        unitInfo.setHeight(Constants.UNIT_INFO_HEIGHT);
+        unitInfo.setTextColor(unit.getOwner().getPrimaryColor());
+        unitInfo.setVisible(true);
         break;
       }
     }
 
     GL11.glDisable(GL11.GL_TEXTURE_2D);
     GL11.glDisable(GL11.GL_BLEND);
+
+    super.draw(mousePos); // Draw GUI elements
+    unitInfo.setVisible(false);
   }
 
   @Override
@@ -192,26 +204,6 @@ public class BoardScreen extends MainScreen {
                           String.format("%s\nGold: %d", player.getName(), player.getGold()), x, y,
                           currentPlayer ? player.getPrimaryColor() : 0xffffffff,
                           horizAlign, VertAlignment.TOP);
-  }
-
-  /**
-   * Draws information for the given unit. If {@code unit == null, nothing happens}.
-   *
-   * @param unit the unit whose info will be drawn
-   */
-  private void drawUnitInfo(Unit unit, Point mousePos) {
-    if (unit != null) {
-      final Point p = mousePos.plus(Constants.UNIT_INFO_X, Constants.UNIT_INFO_Y);
-      final int width = Constants.UNIT_INFO_WIDTH;
-      final int height = Constants.UNIT_INFO_HEIGHT;
-
-      GL11.glDisable(GL11.GL_TEXTURE_2D);
-      renderer().drawRect(p.getX(), p.getY() - height, width, height, Colors.UNIT_INFO_BG);
-      GL11.glEnable(GL11.GL_TEXTURE_2D);
-      renderer().drawString(Constants.FONT_SIZE_TILE, unit.getInfoString(), p.getX(), p.getY(),
-                            unit.getOwner().getPrimaryColor(),
-                            HorizAlignment.LEFT, VertAlignment.BOTTOM);
-    }
   }
 
   @Override

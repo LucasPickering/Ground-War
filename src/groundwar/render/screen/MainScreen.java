@@ -28,12 +28,12 @@ public abstract class MainScreen implements ScreenElement {
     // Draw all the GUI elements
     GL11.glEnable(GL11.GL_BLEND);
     GL11.glEnable(GL11.GL_TEXTURE_2D);
-    for (GuiElement element : guiElements) {
+    guiElements.stream().filter(GuiElement::isVisible).forEach(element -> {
       GL11.glPushMatrix();
       GL11.glTranslatef(element.getX(), element.getY(), 0f);
       element.draw(mousePos);
       GL11.glPopMatrix();
-    }
+    });
     GL11.glDisable(GL11.GL_TEXTURE_2D);
     GL11.glDisable(GL11.GL_BLEND);
   }

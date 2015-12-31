@@ -74,14 +74,14 @@ public class Button extends GuiElement {
           break;
       }
 
-      return new Button(x, y, width, height, text);
+      return new Button(new Point(x, y), width, height, text);
     }
   }
 
   private String text;
 
-  private Button(int x, int y, int width, int height, String text) {
-    super(x, y, width, height);
+  private Button(Point pos, int width, int height, String text) {
+    super(pos, width, height);
     this.text = text;
   }
 
