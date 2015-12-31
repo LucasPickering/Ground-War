@@ -19,8 +19,8 @@ import groundwar.render.screen.gui.GuiElement;
  */
 public abstract class MainScreen implements ScreenElement {
 
-  protected final Point center = new Point(Constants.NATIVE_WINDOW_WIDTH / 2,
-                                           Constants.NATIVE_WINDOW_HEIGHT / 2);
+  protected final Point center = new Point(Constants.RES_WIDTH / 2,
+                                           Constants.RES_HEIGHT / 2);
   private List<GuiElement> guiElements = new LinkedList<>();
 
   @Override

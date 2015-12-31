@@ -10,7 +10,7 @@ public class Constants {
    * The distance between the center point of the hexagon and the center-point of one side of the
    * hexagon.
    */
-  public static final int TILE_RADIUS = 108;
+  public static final int TILE_RADIUS = 100;
   public static final int TILE_WIDTH = (int) (TILE_RADIUS * 4 / Math.sqrt(3));
   public static final int TILE_HEIGHT = TILE_RADIUS * 2;
   public static final int NUM_SIDES = Direction.values().length;
@@ -20,15 +20,15 @@ public class Constants {
    * The width of the window that will be assumed when all textures, words, etc. are drawn to the
    * screen. Everything will be rendered to this resolution, then scaled to the actual resolution.
    */
-  public static final int NATIVE_WINDOW_WIDTH = 3840;
+  public static final int RES_WIDTH = 3840;
   /**
-   * @see {@link #NATIVE_WINDOW_WIDTH}
+   * @see {@link #RES_WIDTH}
    */
-  public static final int NATIVE_WINDOW_HEIGHT = 2160;
+  public static final int RES_HEIGHT = 2160;
 
   // Board constants
-  public static final Point BOARD_CENTER = new Point((NATIVE_WINDOW_WIDTH - TILE_WIDTH) / 2,
-                                                     (NATIVE_WINDOW_HEIGHT - TILE_HEIGHT) / 2);
+  public static final Point BOARD_CENTER = new Point((RES_WIDTH - TILE_WIDTH) / 2,
+                                                     (RES_HEIGHT - TILE_HEIGHT) / 2 + 75);
   /**
    * The combat strength factor specified by {@link groundwar.board.unit.Unit#getStrengthVs} is
    * randomized to be within this value of it's original. For example, if it original value is x and

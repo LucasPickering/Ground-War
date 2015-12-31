@@ -96,7 +96,7 @@ public class GroundWar {
     GL.createCapabilities(); // LWJGL needs this
     GL11.glClearColor((Colors.CLEAR >> 16 & 0xff) / 255.0f, (Colors.CLEAR >> 8 & 0xff) / 255.0f,
                       (Colors.CLEAR & 0xff) / 255.0f, 1.0f);
-    GL11.glOrtho(0, Constants.NATIVE_WINDOW_WIDTH, Constants.NATIVE_WINDOW_HEIGHT, 0, -1, 1);
+    GL11.glOrtho(0, Constants.RES_WIDTH, Constants.RES_HEIGHT, 0, -1, 1);
     GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
     // Initialize input handlers
@@ -181,8 +181,8 @@ public class GroundWar {
       @Override
       public void invoke(long window, double xPos, double yPos) {
         // Scale the cursor coordinates to fit the coords that everything is drawn at.
-        mousePos = new Point((int) (xPos * Constants.NATIVE_WINDOW_WIDTH / windowWidth),
-                             (int) (yPos * Constants.NATIVE_WINDOW_HEIGHT / windowHeight));
+        mousePos = new Point((int) (xPos * Constants.RES_WIDTH / windowWidth),
+                             (int) (yPos * Constants.RES_HEIGHT / windowHeight));
       }
     };
 

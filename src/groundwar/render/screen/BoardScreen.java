@@ -24,9 +24,7 @@ import groundwar.util.Point;
 
 public class BoardScreen extends MainScreen {
 
-
-  private static final int TURN_COUNT_X = 3830;
-  private static final int TURN_COUNT_Y = 2150;
+  private static final int TURN_COUNT_Y = 10;
   private static final int ORANGE_UI_X = 10;
   private static final int ORANGE_UI_Y = 10;
   private static final int BLUE_UI_X = 3830;
@@ -66,8 +64,7 @@ public class BoardScreen extends MainScreen {
 
     // Draw turn counter
     renderer().drawString(Constants.FONT_SIZE_UI, "Turn " + board.getTurnCount(),
-                          TURN_COUNT_X, TURN_COUNT_Y, 0xffffffff,
-                          HorizAlignment.RIGHT, VertAlignment.BOTTOM);
+                          center.getX(), TURN_COUNT_Y, HorizAlignment.CENTER);
 
     // Draw the players's information
     drawPlayerInfo(board.getPlayer(PlayerColor.ORANGE), ORANGE_UI_X, ORANGE_UI_Y,
