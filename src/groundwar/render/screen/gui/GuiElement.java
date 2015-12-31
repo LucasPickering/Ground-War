@@ -9,6 +9,7 @@ public abstract class GuiElement implements ScreenElement {
   private int y;
   private int width;
   private int height;
+  private boolean enabled = true;
 
   /**
    * Constructs a new {@code GuiElement} with the given coordinates and size.
@@ -59,6 +60,14 @@ public abstract class GuiElement implements ScreenElement {
 
   public void setHeight(int height) {
     this.height = height;
+  }
+
+  public boolean isEnabled() {
+    return enabled;
+  }
+
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
   }
 
   @Override

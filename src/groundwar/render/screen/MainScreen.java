@@ -73,7 +73,7 @@ public abstract class MainScreen implements ScreenElement {
    */
   public void onClick(MouseButtonEvent event) {
     // Call onElementClicked for all GUI elements that contain the cursor
-    guiElements.stream().filter(element -> element.contains(event.mousePos))
+    guiElements.stream().filter(element -> element.isEnabled() && element.contains(event.mousePos))
         .forEach(element -> onElementClicked(event, element));
   }
 
