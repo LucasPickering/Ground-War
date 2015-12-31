@@ -13,16 +13,20 @@ import groundwar.util.Point;
 
 public class MainMenuScreen extends MainScreen {
 
+  private static final int TITLE_Y = 350;
+  private static final int NEW_GAME_BUTTON_Y = 1000;
+  private static final int EXIT_BUTTON_Y = 1200;
+
   private MainScreen nextScreen;
   private Button newGameButton;
   private Button exitButton;
 
   public MainMenuScreen() {
     addGuiElement(newGameButton = new Button("New Game", new Point(center.getX(),
-                                                                   Constants.MAIN_NEW_GAME_BUTTON_Y),
+                                                                   NEW_GAME_BUTTON_Y),
                                              HorizAlignment.CENTER, VertAlignment.TOP));
     addGuiElement(exitButton = new Button("Exit Game", new Point(center.getX(),
-                                                                 Constants.MAIN_EXIT_BUTTON_Y),
+                                                                 EXIT_BUTTON_Y),
                                           HorizAlignment.CENTER, VertAlignment.TOP));
   }
 
@@ -32,7 +36,7 @@ public class MainMenuScreen extends MainScreen {
     GL11.glEnable(GL11.GL_BLEND);
     GL11.glEnable(GL11.GL_TEXTURE_2D);
     renderer().drawString(Constants.FONT_SIZE_TITLE, "Ground War",
-                          center.getX(), Constants.MAIN_TITLE_Y, HorizAlignment.CENTER);
+                          center.getX(), TITLE_Y, HorizAlignment.CENTER);
     GL11.glDisable(GL11.GL_TEXTURE_2D);
     GL11.glDisable(GL11.GL_BLEND);
   }

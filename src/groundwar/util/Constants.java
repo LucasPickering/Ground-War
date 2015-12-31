@@ -56,38 +56,4 @@ public class Constants {
   public static final float FONT_SIZE_UI_LARGE = 150f;
   public static final float FONT_SIZE_TITLE = 250f;
 
-  // UI sizes/positions
-
-  // Main menu
-  public static final int MAIN_TITLE_Y = 350;
-  public static final int MAIN_NEW_GAME_BUTTON_Y = 1000;
-  public static final int MAIN_EXIT_BUTTON_Y = 1200;
-
-  // In-game
-  public static final int TURN_COUNT_X = 3830;
-  public static final int TURN_COUNT_Y = 2150;
-  public static final int ORANGE_UI_X = 10;
-  public static final int ORANGE_UI_Y = 10;
-  public static final int BLUE_UI_X = 3830;
-  public static final int BLUE_UI_Y = 10;
-  public static final int UNIT_HEALTH_WIDTH = (int) (Constants.TILE_WIDTH * 0.6f);
-  public static final int UNIT_HEALTH_HEIGHT = 20;
-  public static final int UNIT_HEALTH_X = (TILE_WIDTH - UNIT_HEALTH_WIDTH) / 2; // Centered
-  public static final int UNIT_HEALTH_Y = 46;
-  public static final int UNIT_MOVES_X = 60;
-  public static final int UNIT_MOVES_Y = TILE_HEIGHT - 80;
-  public static final int UNIT_INFO_X = 20;
-  public static final int UNIT_INFO_Y = -10;
-  public static final int UNIT_INFO_WIDTH = 370;
-  public static final int UNIT_INFO_HEIGHT = 200;
-  public static final int BUTTON_WIDTH = 600;
-  public static final int BUTTON_HEIGHT = 150;
-  public static final int FLAG_X = 150;
-  public static final int FLAG_Y = TILE_HEIGHT - 70;
-  public static final int FLAG_SIZE = 54;
-
-  // Victory screen
-  public static final int VIC_MESSAGE_Y = 350;
-  public static final int VIC_MAIN_MENU_BUTTON_Y = 1000;
-  public static final int VIC_EXIT_BUTTON_Y = 1200;
 }

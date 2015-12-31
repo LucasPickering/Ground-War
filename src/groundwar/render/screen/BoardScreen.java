@@ -24,6 +24,27 @@ import groundwar.util.Point;
 
 public class BoardScreen extends MainScreen {
 
+
+  private static final int TURN_COUNT_X = 3830;
+  private static final int TURN_COUNT_Y = 2150;
+  private static final int ORANGE_UI_X = 10;
+  private static final int ORANGE_UI_Y = 10;
+  private static final int BLUE_UI_X = 3830;
+  private static final int BLUE_UI_Y = 10;
+  private static final int UNIT_HEALTH_WIDTH = (int) (Constants.TILE_WIDTH * 0.6f);
+  private static final int UNIT_HEALTH_HEIGHT = 20;
+  private static final int UNIT_HEALTH_X = (Constants.TILE_WIDTH - UNIT_HEALTH_WIDTH) / 2; // Centered
+  private static final int UNIT_HEALTH_Y = 46;
+  private static final int UNIT_MOVES_X = 60;
+  private static final int UNIT_MOVES_Y = Constants.TILE_HEIGHT - 80;
+  private static final int UNIT_INFO_X = 20;
+  private static final int UNIT_INFO_Y = -10;
+  private static final int UNIT_INFO_WIDTH = 370;
+  private static final int UNIT_INFO_HEIGHT = 200;
+  private static final int FLAG_X = 150;
+  private static final int FLAG_Y = Constants.TILE_HEIGHT - 70;
+  private static final int FLAG_SIZE = 54;
+
   private final Board board;
   private final TextDisplay unitInfo;
 
@@ -45,13 +66,13 @@ public class BoardScreen extends MainScreen {
 
     // Draw turn counter
     renderer().drawString(Constants.FONT_SIZE_UI, "Turn " + board.getTurnCount(),
-                          Constants.TURN_COUNT_X, Constants.TURN_COUNT_Y, 0xffffffff,
+                          TURN_COUNT_X, TURN_COUNT_Y, 0xffffffff,
                           HorizAlignment.RIGHT, VertAlignment.BOTTOM);
 
     // Draw the players's information
-    drawPlayerInfo(board.getPlayer(PlayerColor.ORANGE), Constants.ORANGE_UI_X, Constants.ORANGE_UI_Y,
+    drawPlayerInfo(board.getPlayer(PlayerColor.ORANGE), ORANGE_UI_X, ORANGE_UI_Y,
                    HorizAlignment.LEFT);
-    drawPlayerInfo(board.getPlayer(PlayerColor.BLUE), Constants.BLUE_UI_X, Constants.BLUE_UI_Y,
+    drawPlayerInfo(board.getPlayer(PlayerColor.BLUE), BLUE_UI_X, BLUE_UI_Y,
                    HorizAlignment.RIGHT);
 
     // Update unitInfo for the unit that the mouse is over
@@ -59,9 +80,9 @@ public class BoardScreen extends MainScreen {
       if (tile.contains(mousePos) && tile.hasUnit()) {
         final Unit unit = tile.getUnit();
         unitInfo.setText(unit.getInfoString());
-        unitInfo.setPos(mousePos.plus(Constants.UNIT_INFO_X, Constants.UNIT_INFO_Y));
-        unitInfo.setWidth(Constants.UNIT_INFO_WIDTH);
-        unitInfo.setHeight(Constants.UNIT_INFO_HEIGHT);
+        unitInfo.setPos(mousePos.plus(UNIT_INFO_X, UNIT_INFO_Y));
+        unitInfo.setWidth(UNIT_INFO_WIDTH);
+        unitInfo.setHeight(UNIT_INFO_HEIGHT);
         unitInfo.setTextColor(unit.getOwner().getPrimaryColor());
         unitInfo.setVisible(true);
         break;
@@ -159,18 +180,16 @@ public class BoardScreen extends MainScreen {
       // If the unit belongs to the current player, draw the amount of moves remaining
       if (unit.getOwner() == board.getCurrentPlayer()) {
         renderer().drawString(Constants.FONT_SIZE_TILE, Integer.toString(unit.getMovesRemaining()),
-                              Constants.UNIT_MOVES_X, Constants.UNIT_MOVES_Y);
+                              UNIT_MOVES_X, UNIT_MOVES_Y);
       }
 
       // Draw the health bar
-      final int splitPoint = Constants.UNIT_HEALTH_WIDTH * unit.getHealth() / unit.getMaxHealth();
+      final int splitPoint = UNIT_HEALTH_WIDTH * unit.getHealth() / unit.getMaxHealth();
       GL11.glDisable(GL11.GL_TEXTURE_2D);
-      renderer().drawRect(Constants.UNIT_HEALTH_X, Constants.UNIT_HEALTH_Y,
-                          splitPoint, Constants.UNIT_HEALTH_HEIGHT,
-                          Colors.HEALTH_BAR_POS); // Green part
-      renderer().drawRect(Constants.UNIT_HEALTH_X + splitPoint, Constants.UNIT_HEALTH_Y,
-                          Constants.UNIT_HEALTH_WIDTH - splitPoint, Constants.UNIT_HEALTH_HEIGHT,
-                          Colors.HEALTH_BAR_NEG); // Red part
+      renderer().drawRect(UNIT_HEALTH_X, UNIT_HEALTH_Y, splitPoint, UNIT_HEALTH_HEIGHT,
+                          Colors.HEALTH_BAR_POS);
+      renderer().drawRect(UNIT_HEALTH_X + splitPoint, UNIT_HEALTH_Y,
+                          UNIT_HEALTH_WIDTH - splitPoint, UNIT_HEALTH_HEIGHT, Colors.HEALTH_BAR_NEG);
       GL11.glEnable(GL11.GL_TEXTURE_2D);
 
       drawFlag(unit.getFlag()); // Draw the flag, if the unit has one
@@ -184,8 +203,8 @@ public class BoardScreen extends MainScreen {
    */
   private void drawFlag(Flag flag) {
     if (flag != null) {
-      renderer().drawTexture(Constants.FLAG_NAME, Constants.FLAG_X, Constants.FLAG_Y,
-                             Constants.FLAG_SIZE, Constants.FLAG_SIZE,
+      renderer().drawTexture(Constants.FLAG_NAME, FLAG_X, FLAG_Y,
+                             FLAG_SIZE, FLAG_SIZE,
                              flag.getOwner().getPrimaryColor());
     }
   }

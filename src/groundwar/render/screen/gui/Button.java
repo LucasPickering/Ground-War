@@ -8,15 +8,18 @@ import groundwar.util.Point;
 
 public class Button extends GuiElement {
 
+  private static final int WIDTH = 600;
+  private static final int HEIGHT = 150;
+
   private String text;
 
   public Button(String text, Point pos) {
-    super(pos, Constants.BUTTON_WIDTH, Constants.BUTTON_HEIGHT);
+    super(pos, WIDTH, HEIGHT);
     this.text = text;
   }
 
   public Button(String text, Point pos, HorizAlignment horizAlign, VertAlignment vertAlign) {
-    super(pos, Constants.BUTTON_WIDTH, Constants.BUTTON_HEIGHT, horizAlign, vertAlign);
+    super(pos, WIDTH, HEIGHT, horizAlign, vertAlign);
     this.text = text;
   }
 
