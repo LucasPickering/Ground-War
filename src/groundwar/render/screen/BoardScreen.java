@@ -29,7 +29,7 @@ public class BoardScreen extends MainScreen {
 
   public BoardScreen(Board board) {
     this.board = board;
-    addGuiElement(unitInfo = new TextDisplay(null, Constants.FONT_SIZE_TILE, new Point(), 0, 0,
+    addGuiElement(unitInfo = new TextDisplay(null, new Point(), 0, 0,
                                              HorizAlignment.LEFT, VertAlignment.BOTTOM));
     unitInfo.setVisible(false);
   }

@@ -21,10 +21,12 @@ public class VictoryScreen extends MainScreen {
 
   public VictoryScreen(Board board) {
     this.board = board;
-    addGuiElement(menuButton = new Button.Builder().setText("Main Menu").setX(center.getX())
-        .setY(Constants.VIC_MAIN_MENU_BUTTON).setHorizAlign(HorizAlignment.CENTER).build());
-    addGuiElement(exitButton = new Button.Builder().setText("Exit Game").setX(center.getX())
-        .setY(Constants.VIC_EXIT_BUTTON_Y).setHorizAlign(HorizAlignment.CENTER).build());
+    addGuiElement(menuButton = new Button("Main Menu", new Point(center.getX(),
+                                                                 Constants.VIC_MAIN_MENU_BUTTON_Y),
+                                          HorizAlignment.CENTER, VertAlignment.TOP));
+    addGuiElement(exitButton = new Button("Exit Game", new Point(center.getX(),
+                                                                 Constants.VIC_EXIT_BUTTON_Y),
+                                          HorizAlignment.CENTER, VertAlignment.TOP));
   }
 
   @Override

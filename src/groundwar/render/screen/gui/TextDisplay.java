@@ -5,25 +5,23 @@ import org.lwjgl.opengl.GL11;
 import groundwar.render.HorizAlignment;
 import groundwar.render.VertAlignment;
 import groundwar.util.Colors;
+import groundwar.util.Constants;
 import groundwar.util.Point;
 
 public class TextDisplay extends GuiElement {
 
   private String text;
-  private float fontSize;
   private int textColor = 0xffffffff;
 
-  public TextDisplay(String text, float fontSize, Point pos, int width, int height) {
+  public TextDisplay(String text, Point pos, int width, int height) {
     super(pos, width, height);
     this.text = text;
-    this.fontSize = fontSize;
   }
 
-  public TextDisplay(String text, float fontSize, Point pos, int width, int height,
+  public TextDisplay(String text, Point pos, int width, int height,
                      HorizAlignment horizAlign, VertAlignment vertAlign) {
     super(pos, width, height, horizAlign, vertAlign);
     this.text = text;
-    this.fontSize = fontSize;
   }
 
   public String getText() {
@@ -32,14 +30,6 @@ public class TextDisplay extends GuiElement {
 
   public void setText(String text) {
     this.text = text;
-  }
-
-  public float getFontSize() {
-    return fontSize;
-  }
-
-  public void setFontSize(float fontSize) {
-    this.fontSize = fontSize;
   }
 
   public int getTextColor() {
@@ -55,6 +45,6 @@ public class TextDisplay extends GuiElement {
     GL11.glDisable(GL11.GL_TEXTURE_2D);
     renderer().drawRect(0, 0, getWidth(), getHeight(), Colors.UNIT_INFO_BG);
     GL11.glEnable(GL11.GL_TEXTURE_2D);
-    renderer().drawString(fontSize, text, 8, 0, textColor);
+    renderer().drawString(Constants.FONT_SIZE_TILE, text, 8, 0, textColor);
   }
 }

@@ -88,6 +88,6 @@ public class Constants {
 
   // Victory screen
   public static final int VIC_MESSAGE_Y = 350;
-  public static final int VIC_MAIN_MENU_BUTTON = 1000;
+  public static final int VIC_MAIN_MENU_BUTTON_Y = 1000;
   public static final int VIC_EXIT_BUTTON_Y = 1200;
 }

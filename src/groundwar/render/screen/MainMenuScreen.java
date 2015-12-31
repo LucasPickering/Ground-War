@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import groundwar.GroundWar;
 import groundwar.render.HorizAlignment;
+import groundwar.render.VertAlignment;
 import groundwar.render.event.MouseButtonEvent;
 import groundwar.render.screen.gui.Button;
 import groundwar.render.screen.gui.GuiElement;
@@ -17,10 +18,12 @@ public class MainMenuScreen extends MainScreen {
   private Button exitButton;
 
   public MainMenuScreen() {
-    addGuiElement(newGameButton = new Button.Builder().setText("New Game").setX(center.getX())
-        .setY(Constants.MAIN_NEW_GAME_BUTTON_Y).setHorizAlign(HorizAlignment.CENTER).build());
-    addGuiElement(exitButton = new Button.Builder().setText("Exit Game").setX(center.getX())
-        .setY(Constants.MAIN_EXIT_BUTTON_Y).setHorizAlign(HorizAlignment.CENTER).build());
+    addGuiElement(newGameButton = new Button("New Game", new Point(center.getX(),
+                                                                   Constants.MAIN_NEW_GAME_BUTTON_Y),
+                                             HorizAlignment.CENTER, VertAlignment.TOP));
+    addGuiElement(exitButton = new Button("Exit Game", new Point(center.getX(),
+                                                                 Constants.MAIN_EXIT_BUTTON_Y),
+                                          HorizAlignment.CENTER, VertAlignment.TOP));
   }
 
   @Override
