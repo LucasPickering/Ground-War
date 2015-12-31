@@ -72,7 +72,7 @@ public class BoardScreen extends MainScreen {
     GL11.glDisable(GL11.GL_BLEND);
 
     super.draw(mousePos); // Draw GUI elements
-    unitInfo.setVisible(false);
+    unitInfo.setVisible(false); // Hide the unit info, to be updated on the next frame
   }
 
   @Override

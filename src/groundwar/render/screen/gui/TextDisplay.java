@@ -55,6 +55,6 @@ public class TextDisplay extends GuiElement {
     GL11.glDisable(GL11.GL_TEXTURE_2D);
     renderer().drawRect(0, 0, getWidth(), getHeight(), Colors.UNIT_INFO_BG);
     GL11.glEnable(GL11.GL_TEXTURE_2D);
-    renderer().drawString(fontSize, text, 0, 0, textColor);
+    renderer().drawString(fontSize, text, 8, 0, textColor);
   }
 }
