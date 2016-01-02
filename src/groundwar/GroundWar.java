@@ -119,6 +119,11 @@ public class GroundWar {
 
       // Change to the next screen (usually nextScreen() returns the same screen)
       currentScreen = currentScreen.nextScreen();
+
+      // If the current screen is null, exit the game
+      if(currentScreen == null) {
+        exitGame();
+      }
     }
     tearDown();
   }
@@ -149,7 +154,7 @@ public class GroundWar {
   /**
    * Exits the game gracefully.
    */
-  public void exitGame() {
+  private void exitGame() {
     GLFW.glfwSetWindowShouldClose(window, GLFW.GLFW_TRUE);
   }
 

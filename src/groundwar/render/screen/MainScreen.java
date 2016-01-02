@@ -46,9 +46,10 @@ public abstract class MainScreen implements ScreenElement {
   /**
    * Called each frame by the main game loop, after {@link #draw}. To keep this screen as the current
    * screen, return {@code null}. To change to another screen, return that screen. To keep this
-   * screen, return {@code this}.
+   * screen, return {@code this}. To exit the game, return {@code null}
    *
-   * @return the screen to change to, or {@code this} to keep this screen
+   * @return the screen to change to, {@code this} to keep this screen, or {@code null} to exit the
+   * game
    */
   public final MainScreen nextScreen() {
     return nextScreen;

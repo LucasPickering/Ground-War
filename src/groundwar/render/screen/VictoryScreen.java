@@ -2,7 +2,6 @@ package groundwar.render.screen;
 
 import org.lwjgl.opengl.GL11;
 
-import groundwar.GroundWar;
 import groundwar.board.Board;
 import groundwar.render.HorizAlignment;
 import groundwar.render.VertAlignment;
@@ -51,7 +50,7 @@ public class VictoryScreen extends MainScreen {
     if (element == menuButton) {
       setNextScreen(new MainMenuScreen());
     } else if (element == exitButton) {
-      GroundWar.groundWar.exitGame();
+      setNextScreen(null);
     }
   }
 }

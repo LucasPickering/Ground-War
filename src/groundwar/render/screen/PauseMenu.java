@@ -1,6 +1,5 @@
 package groundwar.render.screen;
 
-import groundwar.GroundWar;
 import groundwar.board.Board;
 import groundwar.render.HorizAlignment;
 import groundwar.render.VertAlignment;
@@ -48,7 +47,7 @@ public class PauseMenu extends MainScreen {
     } else if (element == mainMenuButton) {
       setNextScreen(new MainMenuScreen());
     } else if (element == desktopButton) {
-      GroundWar.groundWar.exitGame();
+      setNextScreen(null);
     }
   }
 }

@@ -43,7 +43,7 @@ public class MainMenuScreen extends MainScreen {
     if (element == newGameButton) {
       setNextScreen(new BoardScreen(GroundWar.groundWar.loadNewBoard()));
     } else if (element == exitButton) {
-      GroundWar.groundWar.exitGame();
+      setNextScreen(null);
     }
   }
 }
