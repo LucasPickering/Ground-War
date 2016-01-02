@@ -8,7 +8,7 @@ import groundwar.util.Point;
 
 public class Button extends GuiElement {
 
-  private static final int WIDTH = 600;
+  private static final int WIDTH = 650;
   private static final int HEIGHT = 150;
 
   private String text;
