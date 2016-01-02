@@ -4,6 +4,7 @@ public class Colors {
 
   // General
   public static final int CLEAR = 0x777777;
+  public static final int MENU_SHADER = 0xcc101010;
 
   // Team colors
   public static final int ORANGE = 0xffff7f00;

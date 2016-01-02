@@ -39,7 +39,6 @@ public class BoardScreen extends MainScreen {
   private static final int UNIT_INFO_HEIGHT = 200;
 
   private final Board board;
-  private MainScreen nextScreen;
   private final TextDisplay unitInfo;
 
   public BoardScreen(Board board) {
@@ -229,7 +228,7 @@ public class BoardScreen extends MainScreen {
           board.cancelSpawning();
           board.unselectTile();
         } else {
-          setNextScreen(new PauseMenu(board));
+          setNextScreen(new PauseMenu(this));
         }
         break;
       case GLFW.GLFW_KEY_SPACE:
