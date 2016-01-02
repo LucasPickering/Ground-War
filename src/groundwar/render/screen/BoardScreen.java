@@ -17,6 +17,7 @@ import groundwar.render.HorizAlignment;
 import groundwar.render.VertAlignment;
 import groundwar.render.event.KeyEvent;
 import groundwar.render.event.MouseButtonEvent;
+import groundwar.render.screen.gui.Button;
 import groundwar.render.screen.gui.TextDisplay;
 import groundwar.util.Colors;
 import groundwar.util.Constants;
@@ -32,11 +33,11 @@ public class BoardScreen extends MainScreen {
   private static final Point UNIT_HEALTH_POS =
       new Point((Constants.TILE_WIDTH - UNIT_HEALTH_WIDTH) / 2, 46);
   private static final Point UNIT_MOVES_POS = new Point(60, Constants.TILE_HEIGHT - 80);
+  private static final Point FLAG_POS = new Point(140, Constants.TILE_HEIGHT - 70);
+  private static final int FLAG_SIZE = 48;
   private static final Point UNIT_INFO_POS = new Point(20, -10);
   private static final int UNIT_INFO_WIDTH = 370;
   private static final int UNIT_INFO_HEIGHT = 200;
-  private static final Point FLAG_POS = new Point(140, Constants.TILE_HEIGHT - 70);
-  private static final int FLAG_SIZE = 48;
 
   private final Board board;
   private final TextDisplay unitInfo;
