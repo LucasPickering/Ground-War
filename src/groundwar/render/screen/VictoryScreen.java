@@ -21,7 +21,6 @@ public class VictoryScreen extends MainScreen {
   private final Board board;
   private final Button menuButton;
   private final Button exitButton;
-  private boolean backToMenu;
 
   public VictoryScreen(Board board) {
     this.board = board;
@@ -48,17 +47,9 @@ public class VictoryScreen extends MainScreen {
   }
 
   @Override
-  public MainScreen nextScreen() {
-    if (backToMenu) {
-      return new MainMenuScreen();
-    }
-    return this;
-  }
-
-  @Override
   public void onElementClicked(MouseButtonEvent event, GuiElement element) {
     if (element == menuButton) {
-      backToMenu = true;
+      setNextScreen(new MainMenuScreen());
     } else if (element == exitButton) {
       GroundWar.groundWar.exitGame();
     }

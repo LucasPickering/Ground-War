@@ -22,6 +22,7 @@ public abstract class MainScreen implements ScreenElement {
   protected final Point center = new Point(Constants.RES_WIDTH / 2,
                                            Constants.RES_HEIGHT / 2);
   private List<GuiElement> guiElements = new LinkedList<>();
+  private MainScreen nextScreen = this;
 
   @Override
   public void draw(Point mousePos) {
@@ -38,6 +39,10 @@ public abstract class MainScreen implements ScreenElement {
     GL11.glDisable(GL11.GL_BLEND);
   }
 
+  protected final void setNextScreen(MainScreen nextScreen) {
+    this.nextScreen = nextScreen;
+  }
+
   /**
    * Called each frame by the main game loop, after {@link #draw}. To keep this screen as the current
    * screen, return {@code null}. To change to another screen, return that screen. To keep this
@@ -45,7 +50,9 @@ public abstract class MainScreen implements ScreenElement {
    *
    * @return the screen to change to, or {@code this} to keep this screen
    */
-  public abstract MainScreen nextScreen();
+  public final MainScreen nextScreen() {
+    return nextScreen;
+  }
 
   @Override
   public boolean contains(Point p) {
@@ -53,7 +60,7 @@ public abstract class MainScreen implements ScreenElement {
   }
 
 
-  protected void addGuiElement(GuiElement element) {
+  protected final void addGuiElement(GuiElement element) {
     guiElements.add(element);
   }
 

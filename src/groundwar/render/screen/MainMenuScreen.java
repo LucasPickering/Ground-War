@@ -17,7 +17,6 @@ public class MainMenuScreen extends MainScreen {
   private static final int NEW_GAME_BUTTON_Y = 1000;
   private static final int EXIT_BUTTON_Y = 1200;
 
-  private MainScreen nextScreen;
   private Button newGameButton;
   private Button exitButton;
 
@@ -40,17 +39,9 @@ public class MainMenuScreen extends MainScreen {
   }
 
   @Override
-  public MainScreen nextScreen() {
-    if (nextScreen == null) {
-      return this;
-    }
-    return nextScreen;
-  }
-
-  @Override
   public void onElementClicked(MouseButtonEvent event, GuiElement element) {
     if (element == newGameButton) {
-      nextScreen = new BoardScreen(GroundWar.groundWar.loadNewBoard());
+      setNextScreen(new BoardScreen(GroundWar.groundWar.loadNewBoard()));
     } else if (element == exitButton) {
       GroundWar.groundWar.exitGame();
     }

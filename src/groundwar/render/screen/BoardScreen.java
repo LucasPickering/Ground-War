@@ -17,7 +17,6 @@ import groundwar.render.HorizAlignment;
 import groundwar.render.VertAlignment;
 import groundwar.render.event.KeyEvent;
 import groundwar.render.event.MouseButtonEvent;
-import groundwar.render.screen.gui.Button;
 import groundwar.render.screen.gui.TextDisplay;
 import groundwar.util.Colors;
 import groundwar.util.Constants;
@@ -40,6 +39,7 @@ public class BoardScreen extends MainScreen {
   private static final int UNIT_INFO_HEIGHT = 200;
 
   private final Board board;
+  private MainScreen nextScreen;
   private final TextDisplay unitInfo;
 
   public BoardScreen(Board board) {
@@ -85,14 +85,11 @@ public class BoardScreen extends MainScreen {
 
     super.draw(mousePos); // Draw GUI elements
     unitInfo.setVisible(false); // Hide the unit info, to be updated on the next frame
-  }
 
-  @Override
-  public MainScreen nextScreen() {
+    // If the game is over, go to the victory screen
     if (board.isGameOver()) {
-      return new VictoryScreen(board);
+      setNextScreen(new VictoryScreen(board));
     }
-    return this;
   }
 
   /**
@@ -228,8 +225,12 @@ public class BoardScreen extends MainScreen {
         board.prepareToSpawn(UnitType.TANK);
         break;
       case GLFW.GLFW_KEY_ESCAPE:
-        board.cancelSpawning();
-        board.unselectTile();
+        if (board.getSpawningUnit() != null || board.hasSelectedTile()) {
+          board.cancelSpawning();
+          board.unselectTile();
+        } else {
+          setNextScreen(new PauseMenu(board));
+        }
         break;
       case GLFW.GLFW_KEY_SPACE:
         board.nextTurn();
