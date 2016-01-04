@@ -82,7 +82,7 @@ public class PauseMenu extends MainScreen {
   }
 
   private void returnToGame() {
-    setNextScreen(boardScreen);
     boardScreen.setNextScreen(boardScreen);
+    setNextScreen(boardScreen);
   }
 }
