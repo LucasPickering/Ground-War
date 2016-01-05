@@ -33,7 +33,7 @@ public class Renderer {
   public void loadTexture(String name) {
     try {
       BufferedImage image =
-          ImageIO.read(GroundWar.getResource(String.format(Constants.TEXTURE_PATH, name)));
+          ImageIO.read(GroundWar.getResource(Constants.TEXTURE_PATH, name));
       textures.put(name, new Texture(loadTextureFromImage(image)));
     } catch (IOException e) {
       System.err.println("Error loading texture: " + name);

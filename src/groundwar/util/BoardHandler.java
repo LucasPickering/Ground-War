@@ -1,7 +1,10 @@
 package groundwar.util;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,18 +19,18 @@ import groundwar.board.tile.GoldTile;
 import groundwar.board.tile.MountainTile;
 import groundwar.board.tile.Tile;
 
-public class BoardLoader {
+public class BoardHandler {
 
   private final Map<Point, Tile> tiles = new HashMap<>();
   private Board board;
 
-  public BoardLoader(Board board) {
+  public BoardHandler(Board board) {
     this.board = board;
   }
 
   public Map<Point, Tile> loadBoard() throws IOException {
     // Load tiles from the file
-    loadTilesFromFile(Constants.BOARD_FILE);
+    loadTilesFromFile("board");
 
     // For each tile, tell it which tiles are adjacent to it
     tiles.values().forEach(tile -> tile.setAdjacentTiles(getAdjacentTiles(tile)));
@@ -39,7 +42,9 @@ public class BoardLoader {
     BufferedReader reader = null;
     String line;
     try {
-      reader = new BufferedReader(new FileReader(GroundWar.getResource(fileName).getFile()));
+      reader = new BufferedReader(new FileReader(GroundWar.getResource(Constants.BOARD_PATH,
+                                                                       fileName).getFile
+          ()));
       while ((line = reader.readLine()) != null) { // Read each line from the file
         line = line.replaceAll(" ", ""); // Strip spaces out
         if (line.length() > 0 && line.charAt(0) != '#') { // If the line isn't blank or commented-out
@@ -128,4 +133,29 @@ public class BoardLoader {
     return adjTiles;
   }
 
+  public void saveBoard(Board board) {
+    File saveFile = null;
+    for (int i = 1; saveFile == null || saveFile.exists(); i++) {
+      saveFile = new File(GroundWar.getResource(Constants.SAVE_PATH, "save" + i).getPath());
+    }
+
+    try {
+      saveFile.mkdirs();
+      saveFile.createNewFile();
+      BufferedWriter writer = new BufferedWriter(new FileWriter(saveFile));
+
+      for(Tile tile:board.getTiles().values()){
+        writer.write(getLineForTile(tile));
+      }
+
+      writer.close();
+    } catch (IOException e) {
+      System.err.println("Error saving game!");
+      e.printStackTrace();
+    }
+  }
+
+  private String getLineForTile(Tile tile) {
+    return String.format("%d,%d,%s\n", tile.getPos().getX(),tile.getPos().getY());
+  }
 }

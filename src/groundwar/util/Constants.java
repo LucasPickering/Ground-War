@@ -37,9 +37,10 @@ public class Constants {
   public static final float DAMAGE_MARGIN = 0.1f;
 
   // File paths
-  public static final String BOARD_FILE = "/boards/board.csv";
-  public static final String TEXTURE_PATH = "/textures/%s.png";
-  public static final String FONT_PATH = "/fonts/%s.ttf";
+  public static final String BOARD_PATH = "/res/boards/%s.csv";
+  public static final String TEXTURE_PATH = "/res/textures/%s.png";
+  public static final String FONT_PATH = "/res/fonts/%s.ttf";
+  public static final String SAVE_PATH = "/saves/%s.csv";
 
   // Texture names
   public static final String TILE_BG_NAME = "tile_background";

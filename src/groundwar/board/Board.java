@@ -10,7 +10,7 @@ import java.util.Set;
 import groundwar.board.tile.Tile;
 import groundwar.board.unit.Unit;
 import groundwar.board.unit.UnitType;
-import groundwar.util.BoardLoader;
+import groundwar.util.BoardHandler;
 import groundwar.util.Constants;
 import groundwar.util.Direction;
 import groundwar.util.Funcs;
@@ -61,7 +61,7 @@ public class Board {
     }
 
     // Load tiles from the file
-    tiles = new BoardLoader(this).loadBoard();
+    tiles = new BoardHandler(this).loadBoard();
   }
 
   public Player getCurrentPlayer() {

@@ -35,7 +35,7 @@ public class TrueTypeFont {
   public TrueTypeFont(String name, float size) throws IOException, FontFormatException {
     // Load the font from the file
     font = Font.createFont(Font.TRUETYPE_FONT, new File(GroundWar.getResource(
-        String.format(Constants.FONT_PATH, name)).getPath())).deriveFont(size);
+        Constants.FONT_PATH, name).getPath())).deriveFont(size);
 
     // Generate buffered image
     GraphicsConfiguration gc = GraphicsEnvironment.getLocalGraphicsEnvironment()

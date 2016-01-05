@@ -142,7 +142,7 @@ public class GroundWar {
     try {
       board = new Board();
     } catch (IOException e) {
-      System.err.printf("Error loading board \"%s\"\n", Constants.BOARD_FILE);
+      System.err.printf("Error loading board");
       e.printStackTrace();
     }
     return board;
@@ -163,8 +163,8 @@ public class GroundWar {
     groundWar.run();
   }
 
-  public static URL getResource(String path) {
-    return GroundWar.class.getResource(path);
+  public static URL getResource(String path, String fileName) {
+    return GroundWar.class.getResource(String.format(path, fileName));
   }
 
   // Event handlers
