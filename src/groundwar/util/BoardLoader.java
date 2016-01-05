@@ -39,7 +39,7 @@ public class BoardLoader {
     BufferedReader reader = null;
     String line;
     try {
-      reader = new BufferedReader(new FileReader(GroundWar.class.getResource(fileName).getFile()));
+      reader = new BufferedReader(new FileReader(GroundWar.getResource(fileName).getFile()));
       while ((line = reader.readLine()) != null) { // Read each line from the file
         line = line.replaceAll(" ", ""); // Strip spaces out
         if (line.length() > 0 && line.charAt(0) != '#') { // If the line isn't blank or commented-out

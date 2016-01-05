@@ -12,6 +12,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.system.MemoryUtil;
 
 import java.io.IOException;
+import java.net.URL;
 
 import groundwar.board.Board;
 import groundwar.render.Renderer;
@@ -160,6 +161,10 @@ public class GroundWar {
 
   public static void main(String[] args) {
     groundWar.run();
+  }
+
+  public static URL getResource(String path) {
+    return GroundWar.class.getResource(path);
   }
 
   // Event handlers
