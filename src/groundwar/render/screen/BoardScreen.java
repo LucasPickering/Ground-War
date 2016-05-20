@@ -67,7 +67,7 @@ public class BoardScreen extends MainScreen {
 
     // Draw info for the currently-selected unit
     if (board.hasSelectedTile() && board.getSelectedTile().getUnit() != null) {
-      drawUnitInfo(board.getSelectedTile().getUnit());
+      drawUnitInfoSidebar(board.getSelectedTile().getUnit());
     }
 
     // Update mouseOverUnitInfo for the unit that the mouse is over
@@ -217,13 +217,14 @@ public class BoardScreen extends MainScreen {
   }
 
   /**
-   * Draws information for the given unit. Typically this is done for the currently-selecetd unit.
+   * Draws information for the given unitin the sidebar. Typically this is done for the
+   * currently-selecetd unit.
    *
-   * @param unit       the unit whose info will be drawn
+   * @param unit the unit whose info will be drawn
    */
-  private void drawUnitInfo(Unit unit) {
+  private void drawUnitInfoSidebar(Unit unit) {
     PlayerInfo playerInfo = unit.getOwner().getInfo();
-    renderer().drawString(Constants.FONT_SIZE_UI, unit.getDisplayName(),
+    renderer().drawString(Constants.FONT_SIZE_UI, unit.getInfoString(),
                           playerInfo.infoPos.getX(), playerInfo.infoPos.getY(),
                           0xffffffff, playerInfo.textHorizAlign, VertAlignment.TOP);
   }

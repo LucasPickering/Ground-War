@@ -323,9 +323,9 @@ public class Board {
 
     // Next player. If this was the last player...
     if (++currentPlayer >= players.length) {
-      turnCount++; // Increment the turn counter
       currentPlayer = 0; // Go back to the first player
     }
+    turnCount++;
   }
 
   private void endGame() {
