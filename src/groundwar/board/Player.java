@@ -4,23 +4,27 @@ import groundwar.util.Constants;
 
 public class Player {
 
-  private final PlayerColor playerColor;
+  private final PlayerInfo playerInfo;
   private int gold = Constants.STARTING_GOLD;
 
-  public Player(PlayerColor playerColor) {
-    this.playerColor = playerColor;
+  public Player(PlayerInfo playerInfo) {
+    this.playerInfo = playerInfo;
+  }
+
+  public PlayerInfo getInfo() {
+    return playerInfo;
   }
 
   public String getName() {
-    return playerColor.displayName;
+    return playerInfo.displayName;
   }
 
   public int getPrimaryColor() {
-    return playerColor.primaryColor;
+    return playerInfo.primaryColor;
   }
 
   public int getSecondaryColor() {
-    return playerColor.secondaryColor;
+    return playerInfo.secondaryColor;
   }
 
   public int getGold() {

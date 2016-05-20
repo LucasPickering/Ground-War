@@ -8,7 +8,7 @@ import java.util.Collection;
 import groundwar.board.Board;
 import groundwar.board.Flag;
 import groundwar.board.Player;
-import groundwar.board.PlayerColor;
+import groundwar.board.PlayerInfo;
 import groundwar.board.tile.Tile;
 import groundwar.board.unit.Unit;
 import groundwar.board.unit.UnitType;
@@ -39,13 +39,13 @@ public class BoardScreen extends MainScreen {
   private static final int UNIT_INFO_HEIGHT = 200;
 
   private final Board board;
-  private final TextDisplay unitInfo;
+  private final TextDisplay mouseOverUnitInfo;
 
   public BoardScreen(Board board) {
     this.board = board;
-    addGuiElement(unitInfo = new TextDisplay(null, new Point(), 0, 0,
-                                             HorizAlignment.LEFT, VertAlignment.BOTTOM));
-    unitInfo.setVisible(false);
+    addGuiElement(mouseOverUnitInfo = new TextDisplay(null, new Point(), 0, 0,
+                                                      HorizAlignment.LEFT, VertAlignment.BOTTOM));
+    mouseOverUnitInfo.setVisible(false);
   }
 
   @Override
@@ -62,19 +62,24 @@ public class BoardScreen extends MainScreen {
                           center.getX(), TURN_COUNT_Y, HorizAlignment.CENTER);
 
     // Draw the players' information
-    drawPlayerInfo(board.getPlayer(PlayerColor.ORANGE), ORANGE_UI_POS, HorizAlignment.LEFT);
-    drawPlayerInfo(board.getPlayer(PlayerColor.BLUE), BLUE_UI_POS, HorizAlignment.RIGHT);
+    drawPlayerInfo(board.getPlayer(PlayerInfo.ORANGE), ORANGE_UI_POS, HorizAlignment.LEFT);
+    drawPlayerInfo(board.getPlayer(PlayerInfo.BLUE), BLUE_UI_POS, HorizAlignment.RIGHT);
 
-    // Update unitInfo for the unit that the mouse is over
+    // Draw info for the currently-selected unit
+    if (board.hasSelectedTile() && board.getSelectedTile().getUnit() != null) {
+      drawUnitInfo(board.getSelectedTile().getUnit());
+    }
+
+    // Update mouseOverUnitInfo for the unit that the mouse is over
     for (Tile tile : tiles) {
       if (tile.contains(mousePos) && tile.hasUnit()) {
         final Unit unit = tile.getUnit();
-        unitInfo.setText(unit.getInfoString());
-        unitInfo.setPos(mousePos.plus(UNIT_INFO_POS));
-        unitInfo.setWidth(UNIT_INFO_WIDTH);
-        unitInfo.setHeight(UNIT_INFO_HEIGHT);
-        unitInfo.setTextColor(unit.getOwner().getPrimaryColor());
-        unitInfo.setVisible(true);
+        mouseOverUnitInfo.setText(unit.getInfoString());
+        mouseOverUnitInfo.setPos(mousePos.plus(UNIT_INFO_POS));
+        mouseOverUnitInfo.setWidth(UNIT_INFO_WIDTH);
+        mouseOverUnitInfo.setHeight(UNIT_INFO_HEIGHT);
+        mouseOverUnitInfo.setTextColor(unit.getOwner().getPrimaryColor());
+        mouseOverUnitInfo.setVisible(true);
         break;
       }
     }
@@ -83,7 +88,7 @@ public class BoardScreen extends MainScreen {
     GL11.glDisable(GL11.GL_BLEND);
 
     super.draw(mousePos); // Draw GUI elements
-    unitInfo.setVisible(false); // Hide the unit info, to be updated on the next frame
+    mouseOverUnitInfo.setVisible(false); // Hide the unit info, to be updated on the next frame
 
     // If the game is over, go to the victory screen
     if (board.isGameOver()) {
@@ -204,11 +209,23 @@ public class BoardScreen extends MainScreen {
    * @param horizAlign the {@link HorizAlignment} to use
    */
   private void drawPlayerInfo(Player player, Point pos, HorizAlignment horizAlign) {
-    final boolean currentPlayer = player == board.getCurrentPlayer(); // Is is this player's turn?
+    final boolean currentPlayer = player == board.getCurrentPlayer(); // Is it this player's turn?
     renderer().drawString(currentPlayer ? Constants.FONT_SIZE_UI_LARGE : Constants.FONT_SIZE_UI,
                           player.getInfoString(), pos.getX(), pos.getY(),
                           currentPlayer ? player.getPrimaryColor() : 0xffffffff,
                           horizAlign, VertAlignment.TOP);
+  }
+
+  /**
+   * Draws information for the given unit. Typically this is done for the currently-selecetd unit.
+   *
+   * @param unit       the unit whose info will be drawn
+   */
+  private void drawUnitInfo(Unit unit) {
+    PlayerInfo playerInfo = unit.getOwner().getInfo();
+    renderer().drawString(Constants.FONT_SIZE_UI, unit.getDisplayName(),
+                          playerInfo.infoPos.getX(), playerInfo.infoPos.getY(),
+                          0xffffffff, playerInfo.textHorizAlign, VertAlignment.TOP);
   }
 
   @Override

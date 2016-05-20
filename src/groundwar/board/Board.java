@@ -19,7 +19,7 @@ import groundwar.util.Point;
 
 public class Board {
 
-  private final Player[] players = new Player[PlayerColor.values().length];
+  private final Player[] players = new Player[PlayerInfo.values().length];
   private int currentPlayer;
   private int turnCount = 1;
   private final Map<Point, Tile> tiles;
@@ -56,7 +56,7 @@ public class Board {
 
   public Board() throws IOException {
     // Initialize players
-    for (PlayerColor color : PlayerColor.values()) {
+    for (PlayerInfo color : PlayerInfo.values()) {
       players[color.ordinal()] = new Player(color);
     }
 
@@ -68,7 +68,7 @@ public class Board {
     return players[currentPlayer];
   }
 
-  public Player getPlayer(PlayerColor color) {
+  public Player getPlayer(PlayerInfo color) {
     return players[color.ordinal()];
   }
 

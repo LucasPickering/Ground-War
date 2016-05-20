@@ -12,7 +12,7 @@ import java.util.Map;
 import groundwar.GroundWar;
 import groundwar.board.Board;
 import groundwar.board.Flag;
-import groundwar.board.PlayerColor;
+import groundwar.board.PlayerInfo;
 import groundwar.board.tile.FortTile;
 import groundwar.board.tile.ForwardFortTile;
 import groundwar.board.tile.GoldTile;
@@ -79,10 +79,10 @@ public class BoardHandler {
           toReturn = new MountainTile(p);
           break;
         case 'O':
-          toReturn = new FortTile(p, board.getPlayer(PlayerColor.ORANGE));
+          toReturn = new FortTile(p, board.getPlayer(PlayerInfo.ORANGE));
           break;
         case 'B':
-          toReturn = new FortTile(p, board.getPlayer(PlayerColor.BLUE));
+          toReturn = new FortTile(p, board.getPlayer(PlayerInfo.BLUE));
           break;
         case 'G':
           toReturn = new GoldTile(p);
@@ -98,10 +98,10 @@ public class BoardHandler {
       for (char c : tileData.substring(1).toCharArray()) {
         switch (c) {
           case 'o':
-            toReturn.setFlag(new Flag(board.getPlayer(PlayerColor.ORANGE)));
+            toReturn.setFlag(new Flag(board.getPlayer(PlayerInfo.ORANGE)));
             break;
           case 'b':
-            toReturn.setFlag(new Flag(board.getPlayer(PlayerColor.BLUE)));
+            toReturn.setFlag(new Flag(board.getPlayer(PlayerInfo.BLUE)));
             break;
         }
       }
