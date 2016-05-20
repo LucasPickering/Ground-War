@@ -3,6 +3,7 @@ package groundwar.render.screen;
 import org.lwjgl.opengl.GL11;
 
 import groundwar.board.Board;
+import groundwar.board.PlayerInfo;
 import groundwar.render.HorizAlignment;
 import groundwar.render.VertAlignment;
 import groundwar.render.event.MouseButtonEvent;
@@ -36,10 +37,11 @@ public class VictoryScreen extends MainScreen {
     super.draw(mousePos);
     GL11.glEnable(GL11.GL_BLEND);
     GL11.glEnable(GL11.GL_TEXTURE_2D);
+    PlayerInfo winnerInfo = board.getWinner().getInfo();
     renderer().drawString(
         Constants.FONT_SIZE_TITLE,
-        String.format("%s wins\nin %d turns!", board.getWinner().getName(), board.getTurnCount()),
-        center.getX(), MESSAGE_Y, board.getWinner().getPrimaryColor(),
+        String.format("%s wins\nin %d turns!", winnerInfo.displayName, board.getTurnCount()),
+        center.getX(), MESSAGE_Y, winnerInfo.primaryColor,
         HorizAlignment.CENTER, VertAlignment.CENTER);
     GL11.glDisable(GL11.GL_TEXTURE_2D);
     GL11.glDisable(GL11.GL_BLEND);

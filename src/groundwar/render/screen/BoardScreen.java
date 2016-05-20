@@ -78,7 +78,7 @@ public class BoardScreen extends MainScreen {
         mouseOverUnitInfo.setPos(mousePos.plus(UNIT_INFO_POS));
         mouseOverUnitInfo.setWidth(UNIT_INFO_WIDTH);
         mouseOverUnitInfo.setHeight(UNIT_INFO_HEIGHT);
-        mouseOverUnitInfo.setTextColor(unit.getOwner().getPrimaryColor());
+        mouseOverUnitInfo.setTextColor(unit.getOwner().getInfo().primaryColor);
         mouseOverUnitInfo.setVisible(true);
         break;
       }
@@ -197,7 +197,7 @@ public class BoardScreen extends MainScreen {
     if (flag != null) {
       renderer().drawTexture(Constants.FLAG_NAME, FLAG_POS.getX(), FLAG_POS.getY(),
                              FLAG_SIZE, FLAG_SIZE,
-                             flag.getOwner().getPrimaryColor());
+                             flag.getOwner().getInfo().primaryColor);
     }
   }
 
@@ -212,7 +212,7 @@ public class BoardScreen extends MainScreen {
     final boolean currentPlayer = player == board.getCurrentPlayer(); // Is it this player's turn?
     renderer().drawString(currentPlayer ? Constants.FONT_SIZE_UI_LARGE : Constants.FONT_SIZE_UI,
                           player.getInfoString(), pos.getX(), pos.getY(),
-                          currentPlayer ? player.getPrimaryColor() : 0xffffffff,
+                          currentPlayer ? player.getInfo().primaryColor : 0xffffffff,
                           horizAlign, VertAlignment.TOP);
   }
 

@@ -15,18 +15,6 @@ public class Player {
     return playerInfo;
   }
 
-  public String getName() {
-    return playerInfo.displayName;
-  }
-
-  public int getPrimaryColor() {
-    return playerInfo.primaryColor;
-  }
-
-  public int getSecondaryColor() {
-    return playerInfo.secondaryColor;
-  }
-
   public int getGold() {
     return gold;
   }
@@ -68,11 +56,11 @@ public class Player {
    * @return the String of information
    */
   public String getInfoString() {
-    return String.format("%s\nGold: %d", getName(), getGold());
+    return String.format("%s\nGold: %d", playerInfo.displayName, getGold());
   }
 
   @Override
   public String toString() {
-    return getName() + " Player";
+    return playerInfo.displayName + " Player";
   }
 }

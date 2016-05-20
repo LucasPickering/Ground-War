@@ -28,7 +28,7 @@ public abstract class Unit {
 
     this.type = type;
     this.owner = owner;
-    texture = new ColorTexture(type.textureName, owner.getPrimaryColor());
+    texture = new ColorTexture(type.textureName, owner.getInfo().primaryColor);
     health = type.maxHealth;
     GroundWar.groundWar.getRenderer().loadTexture(type.textureName);
   }
