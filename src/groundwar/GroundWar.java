@@ -45,11 +45,12 @@ public class GroundWar {
 
     private Board board;
 
-    public void run() {
+    private void run() {
         try {
             initGame(); // Initialize
             gameLoop(); // Run the game
         } catch (Exception e) {
+            System.err.println("Error in Ground War:");
             e.printStackTrace();
         } finally {
             tearDown(); // Shutdown
@@ -61,7 +62,7 @@ public class GroundWar {
         GLFW.glfwSetErrorCallback(errorCallback = GLFWErrorCallback.createPrint(System.err));
 
         // Initialize GLFW. Most GLFW functions will not work before doing this.
-        if (GLFW.glfwInit()) {
+        if (!GLFW.glfwInit()) {
             throw new IllegalStateException("Failed to initialize GLFW");
         }
 
@@ -69,8 +70,8 @@ public class GroundWar {
         GLFW.glfwWindowHint(GLFW.GLFW_VISIBLE, GLFW.GLFW_FALSE);
         GLFW.glfwWindowHint(GLFW.GLFW_RESIZABLE, GLFW.GLFW_TRUE);
 
-        // Set default size to half the monitor
-        GLFWVidMode vidmode = GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor()); // Get resolution
+        // Set default size to half the monitor resolution
+        final GLFWVidMode vidmode = GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor());
         windowWidth = vidmode.width() / 2;
         windowHeight = vidmode.height() / 2;
 
@@ -105,7 +106,7 @@ public class GroundWar {
     }
 
     private void gameLoop() {
-        while (GLFW.glfwWindowShouldClose(window)) {
+        while (!GLFW.glfwWindowShouldClose(window)) {
             GLFW.glfwPollEvents(); // Poll for events (key, mouse, etc.)
             GL11.glClear(
                 GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT); // Clear the framebuffer
@@ -123,15 +124,21 @@ public class GroundWar {
     }
 
     private void tearDown() {
-        renderer.deleteTexturesAndFonts(); // Free up texture memory
-        GLFW.glfwDestroyWindow(window); // Destroy the window
+        // Renderer teardown
+        if (renderer != null) {
+            renderer.deleteTexturesAndFonts(); // Free up texture memory
+        }
+
         // Release callbacks
-//        keyHandler.release();
-//        mouseButtonHandler.release();
-//        cursorPosHandler.release();
-//        windowResizeHandler.release();
-//        errorCallback.release();
+        keyHandler.free();
+        mouseButtonHandler.free();
+        cursorPosHandler.free();
+        windowResizeHandler.free();
+        errorCallback.free();
+
         GLFW.glfwTerminate(); // Terminate GLFW
+        GLFW.glfwDestroyWindow(window); // Destroy the window
+        GLFW.glfwSetErrorCallback(null); // Need to wipe this out
     }
 
     /**

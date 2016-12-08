@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,9 +43,9 @@ public class BoardHandler {
         BufferedReader reader = null;
         String line;
         try {
-            reader = new BufferedReader(new FileReader(GroundWar.getResource(Constants.BOARD_PATH,
-                                                                             fileName).getFile
-                ()));
+            // Get a reader for the file
+            final URL resourceUrl = GroundWar.getResource(Constants.BOARD_PATH, fileName);
+            reader = new BufferedReader(new FileReader(resourceUrl.getFile()));
             while ((line = reader.readLine()) != null) { // Read each line from the file
                 line = line.replaceAll(" ", ""); // Strip spaces out
                 if (line.length() > 0
