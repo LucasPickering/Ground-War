@@ -4,9 +4,11 @@ A Java implementation of Ground War, a board game I made in the spring of 2015. 
 For the original C++ implementation, [see here](https://github.com/LucasPickering/Ground-War-Cpp).
   
 Uses the Lightweight Java Game Library.  
-### Installation instructions:
+### Installation instructions for Development:
+#### IntelliJ
 1. Clone the repo
-2. Download [LWJGL 3](http://lwjgl.org)
-3. Open the repo in your IDE
-4. Link LWJGL to your project (IDE specific)
-5. In the VM launch options, add "-Djava.library.path=/path/to/lwjgl/native" (the native folder should be in the LWJGL installation you extracted)
+2. Import the project from pom.xml
+3. Run the class GroundWar
+
+### Extra Info
+You can run the game with LWJGL debugging enabled by putting -Dorg.lwjgl.util.Debug=true in the VM options.
