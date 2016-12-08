@@ -160,6 +160,7 @@ public class BoardHandler {
     }
 
     private String getLineForTile(Tile tile) {
-        return String.format("%d,%d,%s\n", tile.getPos().getX(), tile.getPos().getY());
+        final Point pos = tile.getPos();
+        return String.format("%d,%d,%s\n", pos.getX(), pos.getY());
     }
 }
